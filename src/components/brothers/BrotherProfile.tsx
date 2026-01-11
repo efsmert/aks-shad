@@ -87,11 +87,19 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 <Badge className="bg-gradient-to-r from-green-secondary to-green-accent text-white border-0 font-medium">
                                     {formatPledgeClass(brother.pledgeClass)}
                                 </Badge>
+                                {brother.positions && brother.positions.map((position, idx) => (
+                                    <Badge
+                                        key={idx}
+                                        className="bg-amber-500/90 text-black border-0 font-semibold"
+                                    >
+                                        {position}
+                                    </Badge>
+                                ))}
                                 {brother.status !== 'Active' && (
                                     <Badge
                                         className={`font-medium ${brother.status === 'Inactive'
-                                                ? 'bg-red-500/80 text-white border-0'
-                                                : 'bg-yellow-500/80 text-black border-0'
+                                            ? 'bg-red-500/80 text-white border-0'
+                                            : 'bg-yellow-500/80 text-black border-0'
                                             }`}
                                     >
                                         {brother.status}

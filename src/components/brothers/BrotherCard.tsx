@@ -63,13 +63,27 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-green-dark-bg via-transparent to-transparent opacity-60" />
 
-                    {/* Status badges */}
+                    {/* Position badges (top-left) */}
+                    {brother.positions && brother.positions.length > 0 && (
+                        <div className="absolute top-3 left-3 flex flex-col gap-1.5 max-w-[60%]">
+                            {brother.positions.map((position, idx) => (
+                                <Badge
+                                    key={idx}
+                                    className="bg-amber-500/90 text-black border-0 text-xs font-semibold px-2 py-0.5 shadow-md"
+                                >
+                                    {position}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Status badges (top-right) */}
                     <div className="absolute top-3 right-3 flex flex-col gap-1.5">
                         {brother.status !== 'Active' && (
                             <Badge
                                 className={`text-xs font-medium px-2 py-0.5 ${brother.status === 'Inactive'
-                                        ? 'bg-red-500/80 text-white border-0'
-                                        : 'bg-yellow-500/80 text-black border-0'
+                                    ? 'bg-red-500/80 text-white border-0'
+                                    : 'bg-yellow-500/80 text-black border-0'
                                     }`}
                             >
                                 {brother.status}

@@ -11,6 +11,7 @@ export interface Brother {
     graduationYear: number | null;
     hometown: string | null;
     pledgeClass: string; // e.g., "F24", "S25"
+    positions?: string[]; // Executive/committee positions (e.g., "President", "SEC Chair")
 }
 
 export interface RushEvent {
