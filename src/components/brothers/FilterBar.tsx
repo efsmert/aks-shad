@@ -4,15 +4,16 @@ import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PLEDGE_CLASSES } from '@/lib/constants';
+import { getPledgeClasses } from '@/data/brothers';
+import { formatPledgeClass } from '@/types';
 
 interface FilterBarProps {
     searchQuery: string;
     onSearchChange: (value: string) => void;
     pledgeClass: string;
     onPledgeClassChange: (value: string) => void;
-    roleFilter: string;
-    onRoleFilterChange: (value: string) => void;
+    statusFilter: string;
+    onStatusFilterChange: (value: string) => void;
 }
 
 export function FilterBar({
@@ -20,9 +21,11 @@ export function FilterBar({
     onSearchChange,
     pledgeClass,
     onPledgeClassChange,
-    roleFilter,
-    onRoleFilterChange,
+    statusFilter,
+    onStatusFilterChange,
 }: FilterBarProps) {
+    const pledgeClasses = getPledgeClasses();
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -35,7 +38,7 @@ export function FilterBar({
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-light/50" />
                 <Input
                     type="text"
-                    placeholder="Search brothers..."
+                    placeholder="Search by name, major, or hometown..."
                     value={searchQuery}
                     onChange={(e) => onSearchChange(e.target.value)}
                     className="pl-10 bg-green-dark-bg/50 border-green-accent/20 text-white placeholder:text-green-light/40 focus:border-green-accent/50 focus:ring-green-accent/20"
@@ -51,35 +54,35 @@ export function FilterBar({
                     <SelectItem value="all" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
                         All Classes
                     </SelectItem>
-                    {PLEDGE_CLASSES.map((pc) => (
+                    {pledgeClasses.map((pc) => (
                         <SelectItem
                             key={pc}
                             value={pc}
                             className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white"
                         >
-                            {pc} Class
+                            {formatPledgeClass(pc)}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
 
-            {/* Role filter */}
-            <Select value={roleFilter} onValueChange={onRoleFilterChange}>
+            {/* Status filter */}
+            <Select value={statusFilter} onValueChange={onStatusFilterChange}>
                 <SelectTrigger className="w-full sm:w-48 bg-green-dark-bg/50 border-green-accent/20 text-white focus:ring-green-accent/20">
-                    <SelectValue placeholder="Role" />
+                    <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent className="bg-green-card border-green-accent/20">
                     <SelectItem value="all" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
-                        All Roles
+                        All Brothers
                     </SelectItem>
-                    <SelectItem value="executive" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
-                        Executive Board
+                    <SelectItem value="active" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
+                        Active
                     </SelectItem>
-                    <SelectItem value="member" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
-                        General Members
+                    <SelectItem value="inactive" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
+                        Inactive
                     </SelectItem>
-                    <SelectItem value="alumni" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
-                        Alumni
+                    <SelectItem value="coop" className="text-white hover:bg-green-accent/10 focus:bg-green-accent/10 focus:text-white">
+                        On Co-op
                     </SelectItem>
                 </SelectContent>
             </Select>

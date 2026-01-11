@@ -1,353 +1,143 @@
-import { Brother } from '@/types';
+import { Brother, createSlug } from '@/types';
+
+// Helper to create brother entries
+function createBrother(
+    id: number,
+    name: string,
+    coopStatus: 'Classes' | 'Co-op',
+    status: 'Active' | 'Inactive' | 'Maybe',
+    major: string,
+    graduationYear: number | null,
+    hometown: string | null,
+    pledgeClass: string
+): Brother {
+    return {
+        id: String(id),
+        name,
+        slug: createSlug(name),
+        coopStatus,
+        status,
+        major,
+        graduationYear,
+        hometown,
+        pledgeClass,
+    };
+}
 
 export const brothers: Brother[] = [
-    {
-        id: '1',
-        firstName: 'Marcus',
-        lastName: 'Chen',
-        compositePhoto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-        role: 'president',
-        pledgeClass: 'Theta',
-        initiationYear: 2023,
-        graduationYear: 2025,
-        major: 'Business Administration',
-        hometown: 'San Francisco, CA',
-        quote: 'Leadership is not about being in charge, but taking care of those in your charge.',
-        linkedIn: 'https://linkedin.com/in/marcuschen',
-        instagram: '@marcus.chen',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '2',
-        firstName: 'James',
-        lastName: 'Williams',
-        compositePhoto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face',
-        role: 'vice_president',
-        pledgeClass: 'Theta',
-        initiationYear: 2023,
-        graduationYear: 2025,
-        major: 'Computer Science',
-        hometown: 'Austin, TX',
-        quote: 'The best way to predict the future is to create it.',
-        linkedIn: 'https://linkedin.com/in/jameswilliams',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '3',
-        firstName: 'David',
-        lastName: 'Rodriguez',
-        compositePhoto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
-        role: 'treasurer',
-        pledgeClass: 'Eta',
-        initiationYear: 2022,
-        graduationYear: 2025,
-        major: 'Finance',
-        hometown: 'Miami, FL',
-        quote: 'Numbers tell stories that words cannot.',
-        linkedIn: 'https://linkedin.com/in/davidrodriguez',
-        instagram: '@david_r',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '4',
-        firstName: 'Michael',
-        lastName: 'Thompson',
-        compositePhoto: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=face',
-        role: 'secretary',
-        pledgeClass: 'Iota',
-        initiationYear: 2024,
-        graduationYear: 2026,
-        major: 'Communications',
-        hometown: 'Chicago, IL',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '5',
-        firstName: 'Brandon',
-        lastName: 'Lee',
-        compositePhoto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face',
-        role: 'rush_chair',
-        pledgeClass: 'Iota',
-        initiationYear: 2024,
-        graduationYear: 2026,
-        major: 'Marketing',
-        hometown: 'Seattle, WA',
-        quote: 'Every brother has a story worth hearing.',
-        instagram: '@brandonlee',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '6',
-        firstName: 'Tyler',
-        lastName: 'Johnson',
-        compositePhoto: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&h=400&fit=crop&crop=face',
-        role: 'social_chair',
-        pledgeClass: 'Theta',
-        initiationYear: 2023,
-        graduationYear: 2025,
-        major: 'Hospitality Management',
-        hometown: 'Las Vegas, NV',
-        quote: 'Life is what you make of it, so make it legendary.',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '7',
-        firstName: 'Christopher',
-        lastName: 'Davis',
-        compositePhoto: 'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?w=400&h=400&fit=crop&crop=face',
-        role: 'philanthropy_chair',
-        pledgeClass: 'Eta',
-        initiationYear: 2022,
-        graduationYear: 2025,
-        major: 'Social Work',
-        hometown: 'Philadelphia, PA',
-        quote: 'Service to others is the rent you pay for your room here on earth.',
-        linkedIn: 'https://linkedin.com/in/chrisdavis',
-        isAlumni: false,
-        isExecutiveBoard: true,
-    },
-    {
-        id: '8',
-        firstName: 'Ryan',
-        lastName: 'Martinez',
-        compositePhoto: 'https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Iota',
-        initiationYear: 2024,
-        graduationYear: 2026,
-        major: 'Mechanical Engineering',
-        hometown: 'Denver, CO',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '9',
-        firstName: 'Derek',
-        lastName: 'Anderson',
-        compositePhoto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Iota',
-        initiationYear: 2024,
-        graduationYear: 2027,
-        major: 'Psychology',
-        hometown: 'Portland, OR',
-        quote: 'The mind is everything. What you think you become.',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '10',
-        firstName: 'Justin',
-        lastName: 'Taylor',
-        compositePhoto: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Theta',
-        initiationYear: 2023,
-        graduationYear: 2025,
-        major: 'Economics',
-        hometown: 'Boston, MA',
-        linkedIn: 'https://linkedin.com/in/justintaylor',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '11',
-        firstName: 'Kevin',
-        lastName: 'Moore',
-        compositePhoto: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Eta',
-        initiationYear: 2022,
-        graduationYear: 2025,
-        major: 'Political Science',
-        hometown: 'Washington, DC',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '12',
-        firstName: 'Andrew',
-        lastName: 'Jackson',
-        compositePhoto: 'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Kappa',
-        initiationYear: 2024,
-        graduationYear: 2027,
-        major: 'Biology',
-        hometown: 'Atlanta, GA',
-        quote: 'Science is not only a discipline of reason but, also, one of romance and passion.',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '13',
-        firstName: 'Nathan',
-        lastName: 'White',
-        compositePhoto: 'https://images.unsplash.com/photo-1499996860823-5f82763f6114?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Kappa',
-        initiationYear: 2024,
-        graduationYear: 2027,
-        major: 'Chemistry',
-        hometown: 'Houston, TX',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '14',
-        firstName: 'Jordan',
-        lastName: 'Harris',
-        compositePhoto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Iota',
-        initiationYear: 2024,
-        graduationYear: 2026,
-        major: 'Graphic Design',
-        hometown: 'Nashville, TN',
-        instagram: '@jordanharris_design',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '15',
-        firstName: 'Ethan',
-        lastName: 'Clark',
-        compositePhoto: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Theta',
-        initiationYear: 2023,
-        graduationYear: 2025,
-        major: 'Architecture',
-        hometown: 'Phoenix, AZ',
-        quote: 'Design is not just what it looks like, design is how it works.',
-        linkedIn: 'https://linkedin.com/in/ethanclark',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '16',
-        firstName: 'Alexander',
-        lastName: 'Lewis',
-        compositePhoto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Kappa',
-        initiationYear: 2024,
-        graduationYear: 2027,
-        major: 'Data Science',
-        hometown: 'San Diego, CA',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '17',
-        firstName: 'Benjamin',
-        lastName: 'Walker',
-        compositePhoto: 'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=400&fit=crop&crop=face',
-        role: 'member',
-        pledgeClass: 'Eta',
-        initiationYear: 2022,
-        graduationYear: 2025,
-        major: 'History',
-        hometown: 'Columbus, OH',
-        isAlumni: false,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '18',
-        firstName: 'William',
-        lastName: 'Hall',
-        compositePhoto: 'https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400&h=400&fit=crop&crop=face',
-        role: 'alumni',
-        pledgeClass: 'Zeta',
-        initiationYear: 2021,
-        graduationYear: 2024,
-        major: 'Finance',
-        hometown: 'New York, NY',
-        quote: 'The fraternity prepared me for everything life has thrown my way.',
-        linkedIn: 'https://linkedin.com/in/williamhall',
-        isAlumni: true,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '19',
-        firstName: 'Daniel',
-        lastName: 'Young',
-        compositePhoto: 'https://images.unsplash.com/photo-1548372290-8d01b6c8e78c?w=400&h=400&fit=crop&crop=face',
-        role: 'alumni',
-        pledgeClass: 'Epsilon',
-        initiationYear: 2020,
-        graduationYear: 2023,
-        major: 'Computer Engineering',
-        hometown: 'Detroit, MI',
-        linkedIn: 'https://linkedin.com/in/danielyoung',
-        isAlumni: true,
-        isExecutiveBoard: false,
-    },
-    {
-        id: '20',
-        firstName: 'Matthew',
-        lastName: 'King',
-        compositePhoto: 'https://images.unsplash.com/photo-1557862921-37829c790f19?w=400&h=400&fit=crop&crop=face',
-        role: 'alumni',
-        pledgeClass: 'Delta',
-        initiationYear: 2019,
-        graduationYear: 2022,
-        major: 'Law Pre-Law',
-        hometown: 'Minneapolis, MN',
-        quote: 'The bonds we formed will last a lifetime.',
-        isAlumni: true,
-        isExecutiveBoard: false,
-    },
+    // Active Brothers
+    createBrother(1, 'Adrian Patel', 'Classes', 'Active', 'Mechanical Engineering and Physics', 2029, 'Boston, MA', 'S25'),
+    createBrother(2, 'Aidan Gowadia', 'Co-op', 'Active', 'International Business and Finance', 2028, 'Berwyn, PA', 'F25'),
+    createBrother(3, 'Alexander Heyman', 'Classes', 'Active', 'Data Science and Business: SCM', 2028, 'San Francisco, CA', 'F25'),
+    createBrother(4, 'Anthony Min', 'Classes', 'Active', 'Economics', 2026, 'Seoul', 'S23'),
+    createBrother(5, 'Anukrit Sharma', 'Classes', 'Active', 'Computer Engineering and Computer Science', 2028, 'Aldie, VA', 'F25'),
+    createBrother(6, 'Arya Venkat', 'Classes', 'Active', 'Computer Science', 2028, null, 'S25'),
+    createBrother(7, 'Blake Curl', 'Classes', 'Active', 'Business Administration', 2029, 'Boulder, CO', 'F25'),
+    createBrother(8, 'Carter Horiye', 'Classes', 'Active', 'Business Administration', 2026, 'San Diego', 'F22'),
+    createBrother(9, 'Chase Myers', 'Classes', 'Active', 'Computer Engineering', 2029, 'Broomfield, CO', 'F25'),
+    createBrother(10, 'Conor Brennan', 'Classes', 'Active', 'BA: Finance and Accounting with DS Minor', 2027, 'Winchester, MA', 'S24'),
+    createBrother(11, 'Daschel Knuff', 'Classes', 'Active', 'Music Technology', 2027, null, 'S25'),
+    createBrother(12, 'David Fridman', 'Classes', 'Active', 'Business Administration: BAC', 2028, 'Weston, CT', 'F25'),
+    createBrother(13, 'Diego Froehner', 'Classes', 'Active', 'Health Science', 2028, 'Potomac, MD', 'F25'),
+    createBrother(14, 'Finnian Groshek', 'Classes', 'Active', 'Business Administration (Finance)', 2029, 'Bethlehem, NH', 'F25'),
+    createBrother(15, 'Gavin Sarno', 'Classes', 'Active', 'Mechanical Engineering', 2027, 'Whippany, NJ', 'F24'),
+    createBrother(16, 'Gencay Padir', 'Classes', 'Active', 'Business Administration, Supply Chain Management', 2026, 'Westborough, MA', 'F22'),
+    createBrother(17, 'Griffin Fromm', 'Classes', 'Active', 'Business Administration (Finance) and Psychology', 2029, 'Bethesda, MD', 'F25'),
+    createBrother(18, 'Henrik Zahl-Batlle', 'Classes', 'Active', 'Mechanical Engineering', 2026, 'Bethlehem', 'S22'),
+    createBrother(19, 'Jack Edwards', 'Classes', 'Active', 'Business', 2027, null, 'S25'),
+    createBrother(20, 'Jaesuh Lee', 'Classes', 'Active', 'Mechanical Engineering', 2028, 'Newton, MA', 'F24'),
+    createBrother(21, 'Jake Wade', 'Classes', 'Active', 'Biology', 2027, 'Glen Mills, PA', 'F23'),
+    createBrother(22, 'James Hughes', 'Co-op', 'Active', 'Civil Engineering', 2027, 'Oradell, NJ', 'F24'),
+    createBrother(23, 'John Rotondo', 'Classes', 'Active', 'Computer Science and Business', 2026, 'Arlington, VA', 'F22'),
+    createBrother(24, 'Karan Doshi', 'Classes', 'Active', 'Economics and Business', 2027, 'Mumbai', 'F24'),
+    createBrother(25, 'Kareem Fawaz', 'Classes', 'Active', 'Computer Science (AI)', 2027, 'Agoura Hills, CA', 'F25'),
+    createBrother(26, 'Liam Collins', 'Classes', 'Active', 'Biology', 2028, null, 'S25'),
+    createBrother(27, 'Luca Bastide-Weissman', 'Classes', 'Active', 'Business Administration', 2028, null, 'S25'),
+    createBrother(28, 'Max Klayman', 'Classes', 'Active', 'International Business, Finance, Journalism', 2027, 'Mendham, NJ', 'S24'),
+    createBrother(29, 'Mohammad Yaseen', 'Classes', 'Active', 'International Business Management', 2028, 'New Hyde Park, NY', 'F25'),
+    createBrother(30, 'Oscar Chen', 'Classes', 'Active', 'Business Administration', 2027, 'Winchester, MA', 'F24'),
+    createBrother(31, 'Perry Yung', 'Co-op', 'Active', 'Finance and Accounting', 2027, 'West Greenwich, RI', 'F24'),
+    createBrother(32, 'Peter Lin', 'Classes', 'Active', 'Business Administration', 2028, 'Los Angeles', 'F24'),
+    createBrother(33, 'Philippe Jansen-Kollerie', 'Classes', 'Active', 'Mechanical Engineering', 2028, 'Coppet', 'F24'),
+    createBrother(34, 'Ryan Marshall', 'Classes', 'Active', 'Computer Science', 2029, 'Scarborough, ME', 'F25'),
+    createBrother(35, 'Sami Areski', 'Classes', 'Active', 'Computer Science', 2028, 'Kingston, MA', 'F24'),
+    createBrother(36, 'Sawyer Carlson', 'Co-op', 'Active', 'Mechanical Engineering', 2028, 'Monroe, CT', 'F25'),
+    createBrother(37, 'Sebastian de la Torre', 'Classes', 'Active', 'Economics and Business Administration', 2027, 'Mexico City, Mexico', 'S24'),
+    createBrother(38, 'Sebastian Kalus', 'Classes', 'Active', 'Politics, Philosophy & Economics', 2027, 'Shanghai, China', 'S24'),
+    createBrother(39, 'Simon Fleischer', 'Co-op', 'Active', 'Business Administration', 2027, 'Ossining, NY', 'F22'),
+    createBrother(40, 'Stephen Huang', 'Co-op', 'Active', 'Industrial Engineering and Business Administration', 2028, 'Woodcliff Lake, NJ', 'F24'),
+    createBrother(41, 'Thaddeus (Teddy) Curry', 'Classes', 'Active', 'Explore', 2029, 'San Francisco, CA', 'F25'),
+    createBrother(42, 'Walter Goodenough', 'Classes', 'Active', 'Mechanical Engineering', 2026, 'Southington, CT', 'F21'),
+    createBrother(43, 'Xavier Galanes', 'Classes', 'Active', 'Computer Science', 2026, 'Kirkland', 'S23'),
+    createBrother(44, 'Zac Meyer', 'Classes', 'Active', 'Business', 2026, 'Seattle', 'F23'),
+    createBrother(45, 'Zachary Banin', 'Classes', 'Active', 'Business Administration: Marketing', 2028, 'Miami', 'F24'),
+    createBrother(46, 'Zachary Cohen', 'Classes', 'Active', 'Business Administration & Political Science', 2027, 'New York City', 'S24'),
+
+    // Inactive Brothers
+    createBrother(47, 'Aiden Benson-Armer', 'Co-op', 'Inactive', 'International Business', 2026, 'New York City', 'S23'),
+    createBrother(48, 'Andrew Murphy', 'Co-op', 'Inactive', 'Business Admin: Finance', 2027, 'Falls Church, VA', 'S23'),
+    createBrother(49, 'Daniyal Khalid', 'Classes', 'Inactive', 'Undeclared', null, null, 'S23'),
+    createBrother(50, 'Étienne Griffon', 'Co-op', 'Inactive', 'Finance', 2027, 'Upland, CA', 'S24'),
+    createBrother(51, 'Tj Kalapatapu', 'Classes', 'Inactive', 'Data Science', 2027, 'Fremont, CA', 'S24'),
+    createBrother(52, 'Cameron Lee', 'Classes', 'Inactive', 'Economics', 2026, 'Larchmont', 'S23'),
+    createBrother(53, 'Jason Lo', 'Co-op', 'Inactive', 'Undeclared', 2026, null, 'S23'),
+
+    // Maybe Status
+    createBrother(54, 'Charlie Rubin', 'Classes', 'Maybe', 'Computer Science and Business Administration', 2028, 'Cedar Rapids, IA', 'F24'),
+    createBrother(55, 'Willis Donaghy', 'Classes', 'Maybe', 'Business and Economics', 2027, 'Lake Oswego, OR', 'F24'),
 ];
 
+// Get unique pledge classes for filtering
 export const getPledgeClasses = (): string[] => {
     const classes = [...new Set(brothers.map(b => b.pledgeClass))];
-    return classes.sort();
+    return classes.sort((a, b) => {
+        // Sort by year then season (F before S in same year)
+        const yearA = parseInt(a.slice(1));
+        const yearB = parseInt(b.slice(1));
+        if (yearA !== yearB) return yearA - yearB;
+        return a.charAt(0) === 'F' ? -1 : 1;
+    });
 };
 
-export const getYears = (): number[] => {
-    const years = [...new Set(brothers.map(b => b.initiationYear))];
-    return years.sort((a, b) => b - a);
+// Get active brothers only
+export const getActiveBrothers = (): Brother[] => {
+    return brothers.filter(b => b.status === 'Active');
 };
 
-export const getExecutiveBoard = (): Brother[] => {
-    return brothers.filter(b => b.isExecutiveBoard && !b.isAlumni);
+// Get inactive brothers
+export const getInactiveBrothers = (): Brother[] => {
+    return brothers.filter(b => b.status === 'Inactive' || b.status === 'Maybe');
 };
 
-export const getActiveMembers = (): Brother[] => {
-    return brothers.filter(b => !b.isAlumni);
-};
-
-export const getAlumni = (): Brother[] => {
-    return brothers.filter(b => b.isAlumni);
-};
-
+// Get brother by ID
 export const getBrotherById = (id: string): Brother | undefined => {
     return brothers.find(b => b.id === id);
 };
 
+// Filter brothers
 export const filterBrothers = (
     searchQuery: string,
     pledgeClass: string,
-    roleFilter: string
+    statusFilter: string
 ): Brother[] => {
     return brothers.filter(brother => {
         const matchesSearch = searchQuery === '' ||
-            `${brother.firstName} ${brother.lastName}`.toLowerCase().includes(searchQuery.toLowerCase());
+            brother.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            brother.major.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (brother.hometown?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
 
         const matchesPledgeClass = pledgeClass === 'all' || brother.pledgeClass === pledgeClass;
 
-        const matchesRole = roleFilter === 'all' ||
-            (roleFilter === 'executive' && brother.isExecutiveBoard) ||
-            (roleFilter === 'alumni' && brother.isAlumni) ||
-            (roleFilter === 'member' && !brother.isExecutiveBoard && !brother.isAlumni);
+        const matchesStatus = statusFilter === 'all' ||
+            (statusFilter === 'active' && brother.status === 'Active') ||
+            (statusFilter === 'inactive' && (brother.status === 'Inactive' || brother.status === 'Maybe')) ||
+            (statusFilter === 'coop' && brother.coopStatus === 'Co-op');
 
-        return matchesSearch && matchesPledgeClass && matchesRole;
+        return matchesSearch && matchesPledgeClass && matchesStatus;
     });
+};
+
+// Get photo path for a brother (returns placeholder if not found)
+export const getBrotherPhotoPath = (slug: string): string => {
+    return `/brothers/${slug}.png`;
 };

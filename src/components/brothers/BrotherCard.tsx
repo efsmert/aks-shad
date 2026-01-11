@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Brother } from '@/types';
-import { ROLE_LABELS, ROLE_COLORS } from '@/lib/constants';
+import { useState } from 'react';
+import { User } from 'lucide-react';
+import { Brother, formatPledgeClass } from '@/types';
+import { getBrotherPhotoPath } from '@/data/brothers';
 import { Badge } from '@/components/ui/badge';
 import { cardHover, imageZoom } from '@/lib/animations';
 
@@ -14,6 +16,9 @@ interface BrotherCardProps {
 }
 
 export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
+    const [imageError, setImageError] = useState(false);
+    const photoPath = getBrotherPhotoPath(brother.slug);
+
     return (
         <motion.div
             layout
@@ -22,11 +27,10 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{
                 duration: 0.4,
-                delay: index * 0.05,
+                delay: index * 0.03,
                 ease: [0.22, 1, 0.36, 1]
             }}
             whileHover="hover"
-            initial-state="rest"
             onClick={onClick}
             className="cursor-pointer group"
         >
@@ -35,28 +39,48 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                 className="relative rounded-2xl bg-green-card border border-green-accent/10 overflow-hidden transition-colors duration-300 hover:border-green-accent/30"
             >
                 {/* Image container */}
-                <div className="relative aspect-square overflow-hidden">
-                    <motion.div variants={imageZoom} className="w-full h-full">
-                        <Image
-                            src={brother.compositePhoto}
-                            alt={`${brother.firstName} ${brother.lastName}`}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
-                    </motion.div>
+                <div className="relative aspect-square overflow-hidden bg-green-dark-bg">
+                    {!imageError ? (
+                        <motion.div variants={imageZoom} className="w-full h-full">
+                            <Image
+                                src={photoPath}
+                                alt={brother.name}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                onError={() => setImageError(true)}
+                            />
+                        </motion.div>
+                    ) : (
+                        // Placeholder when no image
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-card to-green-dark-bg">
+                            <div className="w-24 h-24 rounded-full bg-green-accent/10 flex items-center justify-center">
+                                <User className="w-12 h-12 text-green-accent/40" />
+                            </div>
+                        </div>
+                    )}
 
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-green-dark-bg via-transparent to-transparent opacity-60" />
 
-                    {/* Role badge */}
-                    {brother.isExecutiveBoard && (
-                        <div className="absolute top-3 right-3">
-                            <Badge className={`${ROLE_COLORS[brother.role]} text-white border-0 text-xs font-medium px-2.5 py-1`}>
-                                {ROLE_LABELS[brother.role]}
+                    {/* Status badges */}
+                    <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+                        {brother.status !== 'Active' && (
+                            <Badge
+                                className={`text-xs font-medium px-2 py-0.5 ${brother.status === 'Inactive'
+                                        ? 'bg-red-500/80 text-white border-0'
+                                        : 'bg-yellow-500/80 text-black border-0'
+                                    }`}
+                            >
+                                {brother.status}
                             </Badge>
-                        </div>
-                    )}
+                        )}
+                        {brother.coopStatus === 'Co-op' && (
+                            <Badge className="bg-blue-500/80 text-white border-0 text-xs font-medium px-2 py-0.5">
+                                Co-op
+                            </Badge>
+                        )}
+                    </div>
 
                     {/* Hover overlay */}
                     <motion.div
@@ -78,21 +102,25 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                 {/* Content */}
                 <div className="p-4">
                     <motion.h3
-                        initial={{ opacity: 0.9 }}
-                        whileHover={{ opacity: 1 }}
-                        className="font-display text-lg font-semibold text-white mb-1 group-hover:text-green-light transition-colors duration-300"
+                        className="font-display text-lg font-semibold text-white mb-1 group-hover:text-green-light transition-colors duration-300 truncate"
                     >
-                        {brother.firstName} {brother.lastName}
+                        {brother.name}
                     </motion.h3>
 
                     <div className="flex items-center justify-between">
-                        <p className="text-green-light/60 text-sm">
-                            {brother.pledgeClass} Class
+                        <p className="text-green-accent text-sm font-medium">
+                            {formatPledgeClass(brother.pledgeClass)}
                         </p>
-                        <p className="text-green-light/60 text-sm">
-                            &apos;{String(brother.graduationYear || brother.initiationYear).slice(-2)}
-                        </p>
+                        {brother.graduationYear && (
+                            <p className="text-green-light/60 text-sm">
+                                &apos;{String(brother.graduationYear).slice(-2)}
+                            </p>
+                        )}
                     </div>
+
+                    <p className="text-green-light/50 text-xs mt-1 truncate">
+                        {brother.major}
+                    </p>
                 </div>
             </motion.div>
         </motion.div>

@@ -15,12 +15,12 @@ interface BrotherGridProps {
 export function BrotherGrid({ brothers }: BrotherGridProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [pledgeClass, setPledgeClass] = useState('all');
-    const [roleFilter, setRoleFilter] = useState('all');
+    const [statusFilter, setStatusFilter] = useState('active'); // Default to showing active only
     const [selectedBrother, setSelectedBrother] = useState<Brother | null>(null);
 
     const filteredBrothers = useMemo(() => {
-        return filterBrothers(searchQuery, pledgeClass, roleFilter);
-    }, [searchQuery, pledgeClass, roleFilter]);
+        return filterBrothers(searchQuery, pledgeClass, statusFilter);
+    }, [searchQuery, pledgeClass, statusFilter]);
 
     return (
         <div className="space-y-8">
@@ -29,8 +29,8 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
                 onSearchChange={setSearchQuery}
                 pledgeClass={pledgeClass}
                 onPledgeClassChange={setPledgeClass}
-                roleFilter={roleFilter}
-                onRoleFilterChange={setRoleFilter}
+                statusFilter={statusFilter}
+                onStatusFilterChange={setStatusFilter}
             />
 
             {/* Results count */}

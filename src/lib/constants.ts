@@ -25,7 +25,7 @@ export const CHAPTER_INFO = {
 };
 
 export const CHAPTER_STATS = {
-    activeBrothers: 85,
+    activeBrothers: 46,
     totalChapters: 150,
     foundingYear: 1892,
     alumni: 5000,
@@ -147,41 +147,4 @@ export const PHILANTHROPY_PARTNER = {
         scholarshipsAwarded: 500,
         mentorshipHours: 25000,
     },
-};
-
-export const PLEDGE_CLASSES = [
-    'Alpha',
-    'Beta',
-    'Gamma',
-    'Delta',
-    'Epsilon',
-    'Zeta',
-    'Eta',
-    'Theta',
-    'Iota',
-    'Kappa',
-];
-
-export const ROLE_LABELS: Record<string, string> = {
-    president: 'President',
-    vice_president: 'Vice President',
-    treasurer: 'Treasurer',
-    secretary: 'Secretary',
-    rush_chair: 'Rush Chair',
-    social_chair: 'Social Chair',
-    philanthropy_chair: 'Philanthropy Chair',
-    member: 'Member',
-    alumni: 'Alumni',
-};
-
-export const ROLE_COLORS: Record<string, string> = {
-    president: 'bg-gradient-to-r from-amber-500 to-yellow-500',
-    vice_president: 'bg-gradient-to-r from-purple-500 to-violet-500',
-    treasurer: 'bg-gradient-to-r from-emerald-500 to-green-500',
-    secretary: 'bg-gradient-to-r from-blue-500 to-cyan-500',
-    rush_chair: 'bg-gradient-to-r from-rose-500 to-pink-500',
-    social_chair: 'bg-gradient-to-r from-orange-500 to-amber-500',
-    philanthropy_chair: 'bg-gradient-to-r from-teal-500 to-emerald-500',
-    member: 'bg-gradient-to-r from-slate-500 to-gray-500',
-    alumni: 'bg-gradient-to-r from-indigo-500 to-purple-500',
 };
