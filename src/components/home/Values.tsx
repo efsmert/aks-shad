@@ -26,7 +26,7 @@ export function Values() {
             <div className="max-w-7xl mx-auto relative z-10">
                 <SectionHeading
                     title="Our Values"
-                    subtitle="The four pillars that define our brotherhood and guide every decision we make."
+                    subtitle="The four pillars that define our brotherhood and commitment to excellence."
                 />
 
                 <motion.div

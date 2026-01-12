@@ -5,8 +5,8 @@ import { PhilanthropyPartner } from '@/components/giving-back/PhilanthropyPartne
 import { EventsCarousel } from '@/components/giving-back/EventsCarousel';
 
 export const metadata: Metadata = {
-    title: 'Giving Back | Alpha Kappa Sigma',
-    description: 'Alpha Kappa Sigma is committed to serving our community. Learn about our philanthropy efforts, volunteer work, and the impact we make.',
+    title: 'Giving Back | Alpha Kappa Sigma at Northeastern University',
+    description: 'Alpha Kappa Sigma at Northeastern University is committed to serving our community. Learn about our philanthropy efforts, volunteer work, and the impact we make.',
 };
 
 export default function GivingBackPage() {

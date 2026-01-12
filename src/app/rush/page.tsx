@@ -7,7 +7,7 @@ import { InterestForm } from '@/components/rush/InterestForm';
 
 export const metadata: Metadata = {
     title: 'Rush ΑΚΣ | Alpha Kappa Sigma',
-    description: 'Ready to join Alpha Kappa Sigma? Learn about our rush process, upcoming events, and register your interest to become part of our brotherhood.',
+    description: 'Ready to join Alpha Kappa Sigma at Northeastern University? Learn about our rush process, upcoming events, and register your interest to become part of our brotherhood.',
 };
 
 export default function RushPage() {

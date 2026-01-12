@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -30,8 +31,8 @@ export function Header() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-                    ? 'glass py-3'
-                    : 'bg-transparent py-5'
+                ? 'glass py-3'
+                : 'bg-transparent py-5'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,9 +44,13 @@ export function Header() {
                             whileTap={{ scale: 0.95 }}
                             className="relative"
                         >
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-accent to-green-secondary flex items-center justify-center shadow-lg shadow-green-accent/20">
-                                <span className="text-xl font-bold text-white font-display">ΑΚΣ</span>
-                            </div>
+                            <Image
+                                src="/logo.jpg"
+                                alt="Alpha Kappa Sigma Logo"
+                                width={48}
+                                height={48}
+                                className="rounded-full shadow-lg shadow-green-accent/20"
+                            />
                             <div className="absolute inset-0 rounded-full bg-green-accent/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </motion.div>
                         <div className="hidden sm:block">
@@ -78,9 +83,13 @@ export function Header() {
                         <SheetContent side="right" className="w-80 bg-green-dark-bg border-l border-green-accent/20">
                             <div className="flex flex-col h-full py-8">
                                 <div className="flex items-center gap-3 mb-12">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-accent to-green-secondary flex items-center justify-center">
-                                        <span className="text-lg font-bold text-white font-display">ΑΚΣ</span>
-                                    </div>
+                                    <Image
+                                        src="/logo.jpg"
+                                        alt="Alpha Kappa Sigma Logo"
+                                        width={40}
+                                        height={40}
+                                        className="rounded-full"
+                                    />
                                     <div>
                                         <p className="font-display font-bold text-white">Alpha Kappa Sigma</p>
                                     </div>
@@ -97,8 +106,8 @@ export function Header() {
                                                 href={link.href}
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                 className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all duration-300 ${pathname === link.href
-                                                        ? 'bg-green-accent/20 text-green-accent'
-                                                        : 'text-white hover:bg-white/5 hover:text-green-light'
+                                                    ? 'bg-green-accent/20 text-green-accent'
+                                                    : 'text-white hover:bg-white/5 hover:text-green-light'
                                                     }`}
                                             >
                                                 {link.label}

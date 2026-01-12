@@ -5,7 +5,7 @@ import { brothers } from '@/data/brothers';
 
 export const metadata: Metadata = {
     title: 'Our Brothers | Alpha Kappa Sigma',
-    description: 'Meet the brothers of Alpha Kappa Sigma. Our diverse membership represents the best and brightest, united by brotherhood.',
+    description: 'Get to know the brothers of Alpha Kappa Sigma at Northeastern University. Our members come from diverse backgrounds, united by shared values and lifelong bonds.',
 };
 
 export default function BrothersPage() {
@@ -14,7 +14,7 @@ export default function BrothersPage() {
             <div className="max-w-7xl mx-auto">
                 <SectionHeading
                     title="Our Brothers"
-                    subtitle="Meet the men who make Alpha Kappa Sigma exceptional. From leaders to scholars, each brother brings something unique to our chapter."
+                    subtitle="Get to know the brothers who make AKΣ what it is today. Our members come from diverse backgrounds, united by shared values and a commitment to excellence."
                 />
 
                 <div className="mt-12">

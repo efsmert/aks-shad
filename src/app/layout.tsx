@@ -16,20 +16,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alpha Kappa Sigma | ΑΚΣ Fraternity",
-  description: "Alpha Kappa Sigma fraternity - Brotherhood. Leadership. Excellence. Join a legacy of leaders, scholars, and brothers making a difference since 1892.",
-  keywords: ["fraternity", "Alpha Kappa Sigma", "AKS", "Greek life", "brotherhood", "leadership", "college"],
+  title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
+  description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
+  keywords: ["fraternity", "Alpha Kappa Sigma", "AKS", "Greek life", "brotherhood", "leadership", "Northeastern University", "Boston"],
   authors: [{ name: "Alpha Kappa Sigma" }],
   openGraph: {
-    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity",
-    description: "Alpha Kappa Sigma fraternity - Brotherhood. Leadership. Excellence.",
+    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
+    description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections.",
     type: "website",
     siteName: "Alpha Kappa Sigma",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity",
-    description: "Alpha Kappa Sigma fraternity - Brotherhood. Leadership. Excellence.",
+    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
+    description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections.",
   },
 };
 

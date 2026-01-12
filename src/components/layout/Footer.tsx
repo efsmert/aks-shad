@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Instagram, Twitter, Linkedin, Facebook, Mail, MapPin, Phone } from 'lucide-react';
 import { CHAPTER_INFO, NAV_LINKS } from '@/lib/constants';
@@ -30,9 +31,13 @@ export function Footer() {
                     {/* Chapter Info */}
                     <motion.div variants={fadeInUp} className="lg:col-span-1">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-accent to-green-secondary flex items-center justify-center shadow-lg shadow-green-accent/20">
-                                <span className="text-xl font-bold text-white font-display">ΑΚΣ</span>
-                            </div>
+                            <Image
+                                src="/logo.jpg"
+                                alt="Alpha Kappa Sigma Logo"
+                                width={48}
+                                height={48}
+                                className="rounded-full shadow-lg shadow-green-accent/20"
+                            />
                             <div>
                                 <h3 className="font-display font-bold text-white text-lg">{CHAPTER_INFO.name}</h3>
                                 <p className="text-xs text-green-light/70">{CHAPTER_INFO.greekLetters}</p>

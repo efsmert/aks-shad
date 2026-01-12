@@ -12,7 +12,7 @@ export function About() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     const stats = [
-        { value: CHAPTER_STATS.foundingYear, label: 'Year Founded', prefix: '' },
+        { value: CHAPTER_STATS.foundingYear, label: 'Year Founded', prefix: '', formatNumber: false },
         { value: CHAPTER_STATS.activeBrothers, label: 'Active Brothers', suffix: '+' },
         { value: CHAPTER_STATS.totalChapters, label: 'Chapters Nationwide', suffix: '+' },
         { value: CHAPTER_STATS.alumni, label: 'Alumni Worldwide', suffix: '+' },
@@ -23,7 +23,7 @@ export function About() {
             <div className="max-w-7xl mx-auto">
                 <SectionHeading
                     title="Our Legacy"
-                    subtitle="For over a century, Alpha Kappa Sigma has been shaping leaders, building lifelong friendships, and making a difference in our communities."
+                    subtitle="Founded in 1919 at Northeastern University, Alpha Kappa Sigma has been building brotherhood, developing leaders, and creating lifelong connections for over a century."
                 />
 
                 <motion.div
@@ -35,18 +35,16 @@ export function About() {
                     {/* Text content */}
                     <motion.div variants={fadeInUp} className="space-y-6">
                         <p className="text-green-light/80 text-lg leading-relaxed">
-                            Since our founding in 1892, Alpha Kappa Sigma has stood as a beacon of excellence in fraternal life.
-                            Our brotherhood is built on the pillars of leadership, scholarship, and service - values that have
-                            guided generations of brothers to success.
+                            Since our founding in 1919 at Northeastern University, Alpha Kappa Sigma has been more than just
+                            a fraternity—we&apos;re a brotherhood built on camaraderie, leadership, and lifelong connections.
                         </p>
                         <p className="text-green-light/80 text-lg leading-relaxed">
-                            Today, we continue to uphold these traditions while embracing the challenges of the modern world.
-                            Our diverse membership represents the best and brightest, united by a common bond and a shared
-                            commitment to making a positive impact.
+                            Our members come from diverse backgrounds, united by shared values and a commitment to excellence
+                            in academics, service, personal growth, as well as the advancement of kindred sympathy.
                         </p>
                         <p className="text-green-light/80 text-lg leading-relaxed">
-                            When you join Alpha Kappa Sigma, you&apos;re not just joining a fraternity - you&apos;re becoming part of a
-                            legacy that spans continents and generations.
+                            Whether we&apos;re organizing campus events, giving back to the community, or just enjoying time
+                            together, the bonds we forge here last a lifetime. Get to know the brothers who make AKΣ what it is today.
                         </p>
                     </motion.div>
 
@@ -63,6 +61,7 @@ export function About() {
                                         end={stat.value}
                                         prefix={stat.prefix}
                                         suffix={stat.suffix}
+                                        formatNumber={stat.formatNumber}
                                     />
                                 </div>
                                 <p className="text-green-light/70 text-sm">{stat.label}</p>

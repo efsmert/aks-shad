@@ -10,10 +10,10 @@ export const NAV_LINKS: NavLink[] = [
 export const CHAPTER_INFO = {
     name: 'Alpha Kappa Sigma',
     greekLetters: 'ΑΚΣ',
-    tagline: 'Brotherhood. Leadership. Excellence.',
-    foundingYear: 1892,
-    university: 'State University',
-    address: '123 Greek Row, University City, ST 12345',
+    tagline: 'Camaraderie. Leadership. Lifelong Connections.',
+    foundingYear: 1919,
+    university: 'Northeastern University',
+    address: '360 Huntington Ave, Boston, MA 02115',
     email: 'contact@alphakappasigma.org',
     phone: '(555) 123-4567',
     socialMedia: {
@@ -27,7 +27,7 @@ export const CHAPTER_INFO = {
 export const CHAPTER_STATS = {
     activeBrothers: 46,
     totalChapters: 150,
-    foundingYear: 1892,
+    foundingYear: 1919,
     alumni: 5000,
     philanthropyHours: 2500,
     moneyRaised: 50000,
@@ -36,23 +36,23 @@ export const CHAPTER_STATS = {
 export const VALUES: ValueCard[] = [
     {
         icon: 'Users',
-        title: 'Brotherhood',
-        description: 'Forge lifelong bonds with brothers who will support you through every challenge and celebrate every success.',
-    },
-    {
-        icon: 'GraduationCap',
-        title: 'Scholarship',
-        description: 'Excel academically with peer tutoring, study groups, and a chapter GPA that consistently ranks among the top.',
-    },
-    {
-        icon: 'Heart',
-        title: 'Service',
-        description: 'Give back to our community through meaningful philanthropy and volunteer work that makes a lasting impact.',
+        title: 'Camaraderie',
+        description: 'Build lasting friendships with brothers from diverse backgrounds who share your values and commitment to excellence.',
     },
     {
         icon: 'Trophy',
         title: 'Leadership',
         description: 'Develop essential leadership skills through chapter positions, campus involvement, and professional development.',
+    },
+    {
+        icon: 'GraduationCap',
+        title: 'Excellence',
+        description: 'Strive for excellence in academics, service, and personal growth while supporting each other along the way.',
+    },
+    {
+        icon: 'Heart',
+        title: 'Kindred Sympathy',
+        description: 'Embrace the advancement of kindred sympathy—genuine care and understanding that strengthens our lifelong connections.',
     },
 ];
 
