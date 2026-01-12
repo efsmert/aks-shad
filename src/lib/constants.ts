@@ -2,9 +2,10 @@ import { NavLink, ValueCard, FAQ, RushEvent } from '@/types';
 
 export const NAV_LINKS: NavLink[] = [
     { label: 'Home', href: '/' },
+    { label: 'Rush', href: '/rush' },
     { label: 'Brothers', href: '/brothers' },
     { label: 'Giving Back', href: '/giving-back' },
-    { label: 'Rush', href: '/rush' },
+    { label: 'History', href: '/history' },
 ];
 
 export const CHAPTER_INFO = {
