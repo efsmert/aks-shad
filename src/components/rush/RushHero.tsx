@@ -85,8 +85,8 @@ export function RushHero() {
                             key={index}
                             variants={letterAnimation}
                             className={`inline-block ${letter === ' ' ? 'mx-2' : ''} ${letter === 'Α' || letter === 'Κ' || letter === 'Σ'
-                                    ? 'text-gradient'
-                                    : 'text-white'
+                                ? 'text-gradient'
+                                : 'text-white'
                                 }`}
                         >
                             {letter}
@@ -103,7 +103,7 @@ export function RushHero() {
                 >
                     <p className="text-green-light/60 text-sm uppercase tracking-wider mb-4 flex items-center justify-center gap-2">
                         <Clock className="w-4 h-4" />
-                        Rush Week Starts In
+                        Rush Starts In
                     </p>
                     <div className="flex justify-center gap-4 md:gap-8">
                         {[
