@@ -3,8 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { CHAPTER_INFO } from '@/lib/constants';
-import { fadeInUp, staggerContainer, letterStagger, letterAnimation, bounceAnimation } from '@/lib/animations';
+import { letterStagger, letterAnimation, bounceAnimation } from '@/lib/animations';
 import Link from 'next/link';
 
 export function Hero() {
@@ -19,7 +18,6 @@ export function Hero() {
     const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
     const greekLetters = 'ΑΚΣ'.split('');
-    const taglineWords = CHAPTER_INFO.tagline.split(' ');
 
     return (
         <section
@@ -60,46 +58,34 @@ export function Hero() {
                     variants={letterStagger}
                     initial="hidden"
                     animate="visible"
-                    className="flex justify-center gap-4 md:gap-8 mb-8"
+                    className="flex justify-center gap-4 md:gap-8 mb-8 relative"
                 >
+                    {/* Subtle glow backdrop */}
+                    <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-green-accent/10 via-green-secondary/15 to-green-accent/10 scale-125 opacity-60" />
+
                     {greekLetters.map((letter, index) => (
                         <motion.span
                             key={letter}
                             variants={letterAnimation}
-                            className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-display font-black text-gradient leading-none"
+                            animate={{
+                                textShadow: [
+                                    '0 0 20px rgba(46, 204, 113, 0.3), 0 0 40px rgba(46, 204, 113, 0.1)',
+                                    '0 0 30px rgba(46, 204, 113, 0.4), 0 0 60px rgba(46, 204, 113, 0.15)',
+                                    '0 0 20px rgba(46, 204, 113, 0.3), 0 0 40px rgba(46, 204, 113, 0.1)',
+                                ],
+                            }}
+                            transition={{
+                                duration: 4,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                                delay: index * 0.3,
+                            }}
+                            className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-display font-black text-gradient leading-none relative"
                             style={{
-                                textShadow: '0 0 60px rgba(46, 204, 113, 0.3)',
+                                filter: 'drop-shadow(0 0 8px rgba(46, 204, 113, 0.3))',
                             }}
                         >
                             {letter}
-                        </motion.span>
-                    ))}
-                </motion.div>
-
-                {/* Chapter Name */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
-                >
-                    {CHAPTER_INFO.name}
-                </motion.h1>
-
-                {/* Tagline with word animation */}
-                <motion.div
-                    variants={staggerContainer}
-                    initial="initial"
-                    animate="animate"
-                    className="flex flex-wrap justify-center gap-3 mb-12"
-                >
-                    {taglineWords.map((word, index) => (
-                        <motion.span
-                            key={index}
-                            variants={fadeInUp}
-                            className="text-xl md:text-2xl text-green-light font-medium"
-                        >
-                            {word}
                         </motion.span>
                     ))}
                 </motion.div>
