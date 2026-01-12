@@ -10,7 +10,7 @@ export const NAV_LINKS: NavLink[] = [
 export const CHAPTER_INFO = {
     name: 'Alpha Kappa Sigma',
     greekLetters: 'ΑΚΣ',
-    tagline: 'Camaraderie. Leadership. Lifelong Connections.',
+    tagline: 'Advancing Kindred Sympathy',
     foundingYear: 1919,
     university: 'Northeastern University',
     address: '360 Huntington Ave, Boston, MA 02115',

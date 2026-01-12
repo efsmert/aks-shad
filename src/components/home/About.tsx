@@ -15,7 +15,7 @@ export function About() {
         { value: CHAPTER_STATS.foundingYear, label: 'Year Founded', prefix: '', formatNumber: false },
         { value: CHAPTER_STATS.activeBrothers, label: 'Active Brothers', suffix: '+' },
         { value: CHAPTER_STATS.totalChapters, label: 'Chapters Nationwide', suffix: '+' },
-        { value: CHAPTER_STATS.alumni, label: 'Alumni Worldwide', suffix: '+' },
+        { value: CHAPTER_STATS.alumni, label: 'Alumni', suffix: '+' },
     ];
 
     return (
