@@ -26,9 +26,9 @@ export const CHAPTER_INFO = {
 
 export const CHAPTER_STATS = {
     activeBrothers: 46,
-    totalChapters: 150,
+    totalChapters: 1,
     foundingYear: 1919,
-    alumni: 5000,
+    alumni: 500,
     philanthropyHours: 2500,
     moneyRaised: 50000,
 };

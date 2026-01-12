@@ -17,19 +17,19 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-  description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
+  description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
   keywords: ["fraternity", "Alpha Kappa Sigma", "AKS", "Greek life", "brotherhood", "leadership", "Northeastern University", "Boston"],
   authors: [{ name: "Alpha Kappa Sigma" }],
   openGraph: {
     title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-    description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections.",
+    description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
     type: "website",
     siteName: "Alpha Kappa Sigma",
   },
   twitter: {
     card: "summary_large_image",
     title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-    description: "Alpha Kappa Sigma fraternity at Northeastern University - Camaraderie. Leadership. Lifelong Connections.",
+    description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
   },
 };
 
