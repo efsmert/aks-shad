@@ -26,7 +26,7 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-2xl bg-green-card border-green-accent/20 p-0 overflow-hidden">
+            <DialogContent className="max-w-2xl bg-green-card border-green-accent/20 p-0 overflow-hidden" showCloseButton={false}>
                 <VisuallyHidden>
                     <DialogTitle>{brother.name} Profile</DialogTitle>
                 </VisuallyHidden>
