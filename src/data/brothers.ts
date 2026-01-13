@@ -116,13 +116,50 @@ export const getBrotherById = (id: string): Brother | undefined => {
     return brothers.find(b => b.id === id);
 };
 
-// Filter brothers
+// Role priority map - lower number = higher priority
+const ROLE_PRIORITY: Record<string, number> = {
+    'President': 1,
+    'Vice President': 2,
+    'SVP & Wellness Chair': 3,
+    'Secretary': 4,
+    'Treasurer': 5,
+    'Pledgemaster': 6,
+    'Risk Manager': 7,
+    'Grand Marshall': 8,
+    'Ritual Chair': 9,
+    'Brotherhood Engagement Chair': 10,
+    'Philanthropy Chair': 11,
+    'Community Service Chair': 12,
+    'Social Programming Chair': 13,
+    'Social Programming': 14,
+    'Alumni Outreach Chair': 15,
+    'SEC Chair': 16,
+    'Formal Chair': 17,
+    'Social Media Chair': 18,
+    'Social Media': 19,
+    'Webmaster': 20,
+    'Merch Chair': 21,
+    'Dance': 22,
+    'French Chair (Head of Heads)': 23,
+};
+
+// Get the highest priority role for a brother (lowest number)
+const getBrotherRolePriority = (brother: Brother): number => {
+    if (!brother.positions || brother.positions.length === 0) {
+        return 999; // No role = lowest priority
+    }
+
+    const priorities = brother.positions.map(pos => ROLE_PRIORITY[pos] ?? 100);
+    return Math.min(...priorities);
+};
+
+// Filter and sort brothers
 export const filterBrothers = (
     searchQuery: string,
     pledgeClass: string,
     statusFilter: string
 ): Brother[] => {
-    return brothers.filter(brother => {
+    const filtered = brothers.filter(brother => {
         const matchesSearch = searchQuery === '' ||
             brother.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             brother.major.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -136,6 +173,27 @@ export const filterBrothers = (
             (statusFilter === 'coop' && brother.coopStatus === 'Co-op');
 
         return matchesSearch && matchesPledgeClass && matchesStatus;
+    });
+
+    // Sort by: 1) Active status, 2) Role priority, 3) Alphabetical name
+    return filtered.sort((a, b) => {
+        // Inactive/Maybe members always come last
+        const aInactive = a.status === 'Inactive' || a.status === 'Maybe';
+        const bInactive = b.status === 'Inactive' || b.status === 'Maybe';
+
+        if (aInactive && !bInactive) return 1;
+        if (!aInactive && bInactive) return -1;
+
+        // Sort by role priority
+        const aPriority = getBrotherRolePriority(a);
+        const bPriority = getBrotherRolePriority(b);
+
+        if (aPriority !== bPriority) {
+            return aPriority - bPriority;
+        }
+
+        // Same role priority, sort alphabetically by name
+        return a.name.localeCompare(b.name);
     });
 };
 
