@@ -12,7 +12,7 @@ export function Timeline() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 px-4 relative">
+        <section id="rush-events" ref={ref} className="py-24 px-4 relative">
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-primary/5 to-transparent" />
 
@@ -51,8 +51,8 @@ export function Timeline() {
                                         <motion.div
                                             whileHover={{ scale: 1.2 }}
                                             className={`w-4 h-4 rounded-full border-4 ${event.isPast
-                                                    ? 'bg-green-accent border-green-accent'
-                                                    : 'bg-green-dark-bg border-green-accent'
+                                                ? 'bg-green-accent border-green-accent'
+                                                : 'bg-green-dark-bg border-green-accent'
                                                 }`}
                                         />
                                     </div>

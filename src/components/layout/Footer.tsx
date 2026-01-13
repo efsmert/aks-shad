@@ -3,15 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Instagram, Twitter, Linkedin, Facebook, Mail, MapPin, Phone } from 'lucide-react';
+import { Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { CHAPTER_INFO, NAV_LINKS } from '@/lib/constants';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 const socialLinks = [
     { icon: Instagram, href: CHAPTER_INFO.socialMedia.instagram, label: 'Instagram' },
-    { icon: Twitter, href: CHAPTER_INFO.socialMedia.twitter, label: 'Twitter' },
     { icon: Linkedin, href: CHAPTER_INFO.socialMedia.linkedin, label: 'LinkedIn' },
-    { icon: Facebook, href: CHAPTER_INFO.socialMedia.facebook, label: 'Facebook' },
 ];
 
 export function Footer() {

@@ -66,11 +66,17 @@ export function Header() {
                         animate="animate"
                         className="hidden md:flex items-center gap-8"
                     >
-                        {NAV_LINKS.map((link, index) => (
-                            <motion.div key={link.href} variants={fadeInDown}>
-                                <NavLink href={link.href} label={link.label} isActive={pathname === link.href} />
-                            </motion.div>
-                        ))}
+                        {NAV_LINKS.map((link, index) => {
+                            // Home is exact match, other pages match if pathname starts with the link
+                            const isActive = link.href === '/'
+                                ? pathname === '/'
+                                : pathname.startsWith(link.href);
+                            return (
+                                <motion.div key={link.href} variants={fadeInDown}>
+                                    <NavLink href={link.href} label={link.label} isActive={isActive} />
+                                </motion.div>
+                            );
+                        })}
                     </motion.nav>
 
                     {/* Mobile Menu Button */}
@@ -105,7 +111,9 @@ export function Header() {
                                             <Link
                                                 href={link.href}
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all duration-300 ${pathname === link.href
+                                                className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all duration-300 ${(
+                                                    link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
+                                                )
                                                     ? 'bg-green-accent/20 text-green-accent'
                                                     : 'text-white hover:bg-white/5 hover:text-green-light'
                                                     }`}
@@ -150,7 +158,8 @@ function NavLink({ href, label, isActive }: NavLinkProps) {
             </span>
             <motion.div
                 className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-green-accent to-green-light"
-                initial={{ scaleX: isActive ? 1 : 0, originX: 0 }}
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: isActive ? 1 : 0 }}
                 whileHover={{ scaleX: 1 }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             />

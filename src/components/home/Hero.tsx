@@ -1,13 +1,41 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { letterStagger, letterAnimation, bounceAnimation } from '@/lib/animations';
 import Link from 'next/link';
 
+// Generate consistent particle data to avoid hydration mismatch
+const generateParticles = () => {
+    // Use seeded positions instead of random to be consistent
+    // Avoid corners (especially top-left) by keeping values between 15-85%
+    const positions = [
+        { x: 18, y: 25 }, { x: 28, y: 40 }, { x: 38, y: 55 }, { x: 48, y: 30 },
+        { x: 58, y: 70 }, { x: 68, y: 45 }, { x: 78, y: 60 }, { x: 22, y: 75 },
+        { x: 32, y: 50 }, { x: 42, y: 35 }, { x: 52, y: 65 }, { x: 62, y: 80 },
+        { x: 72, y: 28 }, { x: 82, y: 55 }, { x: 25, y: 42 }, { x: 35, y: 68 },
+        { x: 45, y: 22 }, { x: 55, y: 85 }, { x: 65, y: 38 }, { x: 75, y: 72 },
+    ];
+    return positions.map((pos, i) => ({
+        id: i,
+        x: pos.x,
+        y: pos.y,
+        duration: 10 + (i % 10),
+        delay: (i % 5),
+    }));
+};
+
+const particles = generateParticles();
+
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ['start start', 'end start'],
@@ -24,29 +52,7 @@ export function Hero() {
             ref={containerRef}
             className="relative min-h-screen flex items-center justify-center overflow-hidden"
         >
-            {/* Animated background particles */}
-            <div className="absolute inset-0">
-                {[...Array(20)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-1 h-1 rounded-full bg-green-accent/30"
-                        initial={{
-                            x: Math.random() * 100 + '%',
-                            y: Math.random() * 100 + '%',
-                        }}
-                        animate={{
-                            y: [null, '-100%'],
-                            opacity: [0, 1, 0],
-                        }}
-                        transition={{
-                            duration: Math.random() * 10 + 10,
-                            repeat: Infinity,
-                            delay: Math.random() * 5,
-                            ease: 'linear',
-                        }}
-                    />
-                ))}
-            </div>
+            {/* Particles removed - were causing visual artifacts */}
 
             {/* Hero content */}
             <motion.div

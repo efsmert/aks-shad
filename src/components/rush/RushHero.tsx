@@ -32,10 +32,12 @@ function getRushPeriod(now: Date): RushPeriod {
     const day = now.getDate();
 
     // Define key dates for current and next year
+    // Spring Rush: Jan 8 - Jan 30 (Bid Acceptance Day)
+    // Fall Rush: Sept 12 - Oct 9 (approximate, adjust as needed)
     const springRushStart = new Date(year, 0, 8); // Jan 8
-    const springRushEnd = new Date(year, 1, 7, 23, 59, 59); // Feb 7 end of day
+    const springRushEnd = new Date(year, 0, 30, 23, 59, 59); // Jan 30 end of day (Bid Acceptance)
     const fallRushStart = new Date(year, 8, 12); // Sept 12
-    const fallRushEnd = new Date(year, 9, 12, 23, 59, 59); // Oct 12 end of day
+    const fallRushEnd = new Date(year, 9, 9, 23, 59, 59); // Oct 9 end of day
 
     // Next year's spring rush
     const nextSpringRushStart = new Date(year + 1, 0, 8); // Jan 8 next year
@@ -185,8 +187,8 @@ export function RushHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium mb-8 ${rushPeriod.isActive
-                            ? 'bg-green-accent/20 border-green-accent/50 text-green-accent'
-                            : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                        ? 'bg-green-accent/20 border-green-accent/50 text-green-accent'
+                        : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
                         }`}
                 >
                     {rushPeriod.isActive ? (
@@ -266,8 +268,8 @@ export function RushHero() {
                                     className="w-20 md:w-24"
                                 >
                                     <div className={`p-4 rounded-xl border ${rushPeriod.isActive
-                                            ? 'bg-green-accent/10 border-green-accent/30'
-                                            : 'bg-green-card border-green-accent/20'
+                                        ? 'bg-green-accent/10 border-green-accent/30'
+                                        : 'bg-green-card border-green-accent/20'
                                         }`}>
                                         <motion.span
                                             key={item.value}
@@ -296,13 +298,13 @@ export function RushHero() {
                     <p className="text-green-light/70 text-lg mb-6 max-w-2xl mx-auto">
                         {rushPeriod.description}
                     </p>
-                    <a href="#interest-form">
+                    <a href={rushPeriod.isActive ? "#rush-events" : "#interest-form"}>
                         <motion.button
                             whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(46, 204, 113, 0.3)' }}
                             whileTap={{ scale: 0.98 }}
                             className={`px-10 py-5 font-bold rounded-full text-lg ${rushPeriod.isActive
-                                    ? 'bg-gradient-to-r from-green-accent to-green-secondary text-white animate-pulse'
-                                    : 'bg-gradient-to-r from-green-secondary to-green-accent text-white'
+                                ? 'bg-gradient-to-r from-green-accent to-green-secondary text-white animate-pulse'
+                                : 'bg-gradient-to-r from-green-secondary to-green-accent text-white'
                                 }`}
                         >
                             {rushPeriod.isActive ? 'View Rush Events' : 'Register Your Interest'}

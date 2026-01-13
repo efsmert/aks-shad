@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
@@ -19,6 +19,11 @@ interface BrotherProfileProps {
 
 export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps) {
     const [imageError, setImageError] = useState(false);
+
+    // Reset imageError when brother changes so each brother gets a fresh attempt to load their photo
+    useEffect(() => {
+        setImageError(false);
+    }, [brother?.id]);
 
     if (!brother) return null;
 
