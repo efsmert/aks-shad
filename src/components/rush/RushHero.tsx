@@ -157,25 +157,17 @@ export function RushHero() {
 
     return (
         <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-32">
-            {/* Animated background */}
+            {/* Static background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-green-dark-bg" />
-                {/* Animated gradient orbs */}
-                <motion.div
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-green-primary/30 blur-3xl"
+                {/* Static gradient orbs (no animation, no blur) */}
+                <div
+                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-30"
+                    style={{ background: 'radial-gradient(circle, rgba(13, 77, 43, 0.5) 0%, transparent 70%)' }}
                 />
-                <motion.div
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-green-accent/20 blur-3xl"
+                <div
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-25"
+                    style={{ background: 'radial-gradient(circle, rgba(46, 204, 113, 0.4) 0%, transparent 70%)' }}
                 />
             </div>
 
