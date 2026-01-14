@@ -1,7 +1,6 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
@@ -46,12 +45,10 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                     {/* Header with image */}
                     <div className="relative h-64 md:h-80 bg-green-dark-bg">
                         {!imageError ? (
-                            <Image
+                            <img
                                 src={photoPath}
                                 alt={brother.name}
-                                fill
-                                className="object-cover object-top"
-                                sizes="(max-width: 768px) 100vw, 672px"
+                                className="w-full h-full object-cover"
                                 onError={() => setImageError(true)}
                             />
                         ) : (
