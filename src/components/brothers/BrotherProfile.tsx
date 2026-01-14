@@ -50,7 +50,7 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 src={photoPath}
                                 alt={brother.name}
                                 fill
-                                className="object-cover"
+                                className="object-cover object-top"
                                 sizes="(max-width: 768px) 100vw, 672px"
                                 onError={() => setImageError(true)}
                             />
