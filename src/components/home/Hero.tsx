@@ -5,6 +5,13 @@ import { ChevronDown } from 'lucide-react';
 import { letterStagger, letterAnimation } from '@/lib/animations';
 import Link from 'next/link';
 
+// Breathing animation classes for each letter - different timings for organic feel
+const breatheClasses = [
+    'animate-breathe-1', // Α - 4s cycle
+    'animate-breathe-2', // Κ - 4.5s cycle  
+    'animate-breathe-3', // Σ - 5s cycle
+];
+
 export function Hero() {
     const greekLetters = 'ΑΚΣ'.split('');
 
@@ -12,7 +19,7 @@ export function Hero() {
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Hero content */}
             <div className="relative z-10 text-center px-4">
-                {/* Greek Letters - clean and beautiful */}
+                {/* Greek Letters - with breathing animation */}
                 <motion.div
                     variants={letterStagger}
                     initial="hidden"
@@ -23,9 +30,10 @@ export function Hero() {
                         <motion.span
                             key={letter}
                             variants={letterAnimation}
-                            className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-display font-black text-gradient leading-none relative"
+                            className={`text-[8rem] md:text-[12rem] lg:text-[16rem] font-display font-black text-gradient leading-none relative ${breatheClasses[index]}`}
                             style={{
-                                textShadow: '0 0 40px rgba(46, 204, 113, 0.5), 0 0 80px rgba(46, 204, 113, 0.25), 0 0 120px rgba(46, 204, 113, 0.1)',
+                                // Stagger the animation start for each letter
+                                animationDelay: `${index * 0.8}s`,
                             }}
                         >
                             {letter}

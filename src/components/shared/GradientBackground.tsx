@@ -2,21 +2,22 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 
-// Static particle data (8 particles - more visible)
+// Static particle data with fly-in directions (8 particles - more visible)
 const particles = [
-    { id: 1, x: 12, y: 18, size: 4, duration: 28 },
-    { id: 2, x: 88, y: 12, size: 5, duration: 32 },
-    { id: 3, x: 22, y: 72, size: 4, duration: 26 },
-    { id: 4, x: 75, y: 78, size: 5, duration: 30 },
-    { id: 5, x: 48, y: 32, size: 4, duration: 34 },
-    { id: 6, x: 62, y: 52, size: 3, duration: 29 },
-    { id: 7, x: 35, y: 45, size: 4, duration: 31 },
-    { id: 8, x: 82, y: 38, size: 5, duration: 27 },
+    { id: 1, x: 12, y: 18, size: 4, duration: 28, flyX: -150, flyY: -100 },
+    { id: 2, x: 88, y: 12, size: 5, duration: 32, flyX: 150, flyY: -120 },
+    { id: 3, x: 22, y: 72, size: 4, duration: 26, flyX: -180, flyY: 100 },
+    { id: 4, x: 75, y: 78, size: 5, duration: 30, flyX: 160, flyY: 120 },
+    { id: 5, x: 48, y: 32, size: 4, duration: 34, flyX: 0, flyY: -150 },
+    { id: 6, x: 62, y: 52, size: 3, duration: 29, flyX: 100, flyY: 0 },
+    { id: 7, x: 35, y: 45, size: 4, duration: 31, flyX: -120, flyY: 50 },
+    { id: 8, x: 82, y: 38, size: 5, duration: 27, flyX: 140, flyY: -80 },
 ];
 
 export function GradientBackground() {
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
     const [isMounted, setIsMounted] = useState(false);
+    const [particlesReady, setParticlesReady] = useState(false);
     const lastUpdate = useRef(0);
     const THROTTLE_MS = 200; // ~5 updates per second
 
@@ -33,8 +34,13 @@ export function GradientBackground() {
 
     useEffect(() => {
         setIsMounted(true);
+        // Delay particle animation start slightly for smoother initial experience
+        const timer = setTimeout(() => setParticlesReady(true), 100);
         window.addEventListener('mousemove', handleMouseMove, { passive: true });
-        return () => window.removeEventListener('mousemove', handleMouseMove);
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            clearTimeout(timer);
+        };
     }, [handleMouseMove]);
 
     return (
@@ -42,11 +48,11 @@ export function GradientBackground() {
             {/* Base gradient */}
             <div className="absolute inset-0 bg-green-dark-bg" />
 
-            {/* Floating particles with slow drift animation - start immediately */}
-            {isMounted && particles.map((particle, index) => (
+            {/* Floating particles with fly-in animation then slow drift */}
+            {isMounted && particlesReady && particles.map((particle, index) => (
                 <div
                     key={particle.id}
-                    className="absolute rounded-full animate-particle-drift"
+                    className="absolute rounded-full animate-particle-fly-in"
                     style={{
                         left: `${particle.x}%`,
                         top: `${particle.y}%`,
@@ -54,10 +60,19 @@ export function GradientBackground() {
                         height: `${particle.size}px`,
                         backgroundColor: 'rgba(46, 204, 113, 0.5)',
                         boxShadow: `0 0 ${particle.size * 3}px rgba(46, 204, 113, 0.4), 0 0 ${particle.size * 6}px rgba(46, 204, 113, 0.2)`,
-                        animationDuration: `${particle.duration}s`,
-                        // Small delay just to stagger the phase, not to delay the start
-                        animationDelay: `${-particle.duration * (index / particles.length)}s`,
-                        opacity: 0.5, // Start at the animation's mid-point opacity
+                        // CSS variables for fly-in direction
+                        '--fly-x': `${particle.flyX}px`,
+                        '--fly-y': `${particle.flyY}px`,
+                        animationDelay: `${index * 0.1}s`,
+                    } as React.CSSProperties}
+                    // After fly-in completes, this element continues with its final state
+                    onAnimationEnd={(e) => {
+                        // Add drift animation after fly-in completes
+                        const el = e.currentTarget;
+                        el.classList.remove('animate-particle-fly-in');
+                        el.classList.add('animate-particle-drift');
+                        el.style.animationDuration = `${particle.duration}s`;
+                        el.style.animationDelay = `${-particle.duration * (index / particles.length)}s`;
                     }}
                 />
             ))}
@@ -104,11 +119,12 @@ export function GradientBackground() {
                 </>
             )}
 
-            {/* Subtle vignette overlay */}
+            {/* Subtle vignette overlay with shifting animation */}
             <div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none animate-vignette-shift"
                 style={{
-                    background: 'radial-gradient(ellipse at center, transparent 0%, rgba(10, 15, 13, 0.4) 100%)',
+                    background: 'radial-gradient(ellipse 120% 120% at var(--vignette-x, 50%) var(--vignette-y, 50%), transparent 0%, rgba(10, 15, 13, 0.4) 70%)',
+                    backgroundSize: '200% 200%',
                 }}
             />
 

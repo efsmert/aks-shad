@@ -33,6 +33,14 @@ module.exports = {
                 'letter-glow-1': 'letter-glow-1 3s ease-in-out infinite',
                 'letter-glow-2': 'letter-glow-2 4s ease-in-out infinite',
                 'letter-aura': 'letter-aura 5s ease-in-out infinite',
+                // Breathing animations for Greek letters - each slightly different timing
+                'breathe-1': 'breathe-1 4s ease-in-out infinite',
+                'breathe-2': 'breathe-2 4.5s ease-in-out infinite',
+                'breathe-3': 'breathe-3 5s ease-in-out infinite',
+                // Vignette shift animation
+                'vignette-shift': 'vignette-shift 12s ease-in-out infinite',
+                // Particle fly-in animation
+                'particle-fly-in': 'particle-fly-in 1.5s ease-out forwards',
             },
             keyframes: {
                 float: {
@@ -97,6 +105,71 @@ module.exports = {
                 'letter-aura': {
                     '0%, 100%': { opacity: '0.1' },
                     '50%': { opacity: '0.5' },
+                },
+                // Breathing keyframes - subtle scale + filter brightness changes
+                'breathe-1': {
+                    '0%, 100%': {
+                        transform: 'scale(1)',
+                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                    },
+                    '50%': {
+                        transform: 'scale(1.02)',
+                        filter: 'brightness(1.15) drop-shadow(0 0 60px rgba(46, 204, 113, 0.7))'
+                    },
+                },
+                'breathe-2': {
+                    '0%, 100%': {
+                        transform: 'scale(1)',
+                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                    },
+                    '50%': {
+                        transform: 'scale(1.025)',
+                        filter: 'brightness(1.12) drop-shadow(0 0 55px rgba(46, 204, 113, 0.65))'
+                    },
+                },
+                'breathe-3': {
+                    '0%, 100%': {
+                        transform: 'scale(1)',
+                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                    },
+                    '50%': {
+                        transform: 'scale(1.018)',
+                        filter: 'brightness(1.1) drop-shadow(0 0 50px rgba(46, 204, 113, 0.6))'
+                    },
+                },
+                // Vignette shift - subtle movement of the radial gradient center
+                'vignette-shift': {
+                    '0%, 100%': {
+                        backgroundPosition: '50% 50%',
+                        opacity: '1'
+                    },
+                    '25%': {
+                        backgroundPosition: '45% 55%',
+                        opacity: '0.95'
+                    },
+                    '50%': {
+                        backgroundPosition: '55% 45%',
+                        opacity: '1'
+                    },
+                    '75%': {
+                        backgroundPosition: '52% 52%',
+                        opacity: '0.97'
+                    },
+                },
+                // Particle fly-in from random directions
+                'particle-fly-in': {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translate(var(--fly-x, 0), var(--fly-y, 100px)) scale(0)'
+                    },
+                    '60%': {
+                        opacity: '0.6',
+                        transform: 'translate(0, 0) scale(1.2)'
+                    },
+                    '100%': {
+                        opacity: '0.5',
+                        transform: 'translate(0, 0) scale(1)'
+                    },
                 },
             },
         },
