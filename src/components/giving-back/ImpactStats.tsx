@@ -54,6 +54,9 @@ export function ImpactStats() {
 
     return (
         <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-20" />
+
             {/* Background decoration */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-primary/5 via-transparent to-green-primary/5" />
 
@@ -93,6 +96,9 @@ export function ImpactStats() {
                     ))}
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-20" />
         </section>
     );
 }

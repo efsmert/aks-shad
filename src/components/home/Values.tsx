@@ -20,6 +20,9 @@ export function Values() {
 
     return (
         <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+
             {/* Background decoration */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-primary/5 to-transparent" />
 
@@ -77,6 +80,9 @@ export function Values() {
                     })}
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-10" />
         </section>
     );
 }

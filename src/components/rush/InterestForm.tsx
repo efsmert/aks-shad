@@ -29,8 +29,11 @@ export function InterestForm() {
     };
 
     return (
-        <section id="interest-form" ref={ref} className="py-24 px-4">
-            <div className="max-w-2xl mx-auto">
+        <section id="interest-form" ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+
+            <div className="max-w-2xl mx-auto relative z-10">
                 <SectionHeading
                     title="Register Your Interest"
                     subtitle="Fill out the form below and our Rush Chair will be in touch."

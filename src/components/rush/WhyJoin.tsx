@@ -34,8 +34,11 @@ export function WhyJoin() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <SectionHeading
                     title="Why Join ΑΚΣ?"
                     subtitle="Being part of Alpha Kappa Sigma means gaining experiences and connections that last a lifetime."
@@ -47,7 +50,7 @@ export function WhyJoin() {
                     animate={isInView ? 'animate' : 'initial'}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16"
                 >
-                    {benefits.map((benefit, index) => (
+                    {benefits.map((benefit) => (
                         <motion.div
                             key={benefit.title}
                             variants={fadeInUp}
@@ -79,6 +82,9 @@ export function WhyJoin() {
                     ))}
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-10" />
         </section>
     );
 }

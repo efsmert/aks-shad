@@ -18,8 +18,11 @@ export function RushFAQ() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-3xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+
+            <div className="max-w-3xl mx-auto relative z-10">
                 <SectionHeading
                     title="Frequently Asked Questions"
                     subtitle="Got questions? We've got answers."
@@ -32,7 +35,7 @@ export function RushFAQ() {
                     className="mt-12"
                 >
                     <Accordion type="single" collapsible className="space-y-4">
-                        {RUSH_FAQS.map((faq, index) => (
+                        {RUSH_FAQS.map((faq) => (
                             <motion.div key={faq.id} variants={fadeInUp}>
                                 <AccordionItem
                                     value={faq.id}
@@ -52,6 +55,9 @@ export function RushFAQ() {
                     </Accordion>
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-10" />
         </section>
     );
 }

@@ -35,8 +35,11 @@ export function CTASection() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <motion.div
                     variants={staggerContainer}
                     initial="initial"

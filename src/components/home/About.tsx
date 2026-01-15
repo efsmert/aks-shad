@@ -19,8 +19,11 @@ export function About() {
     ];
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade for seamless transition from previous section */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <SectionHeading
                     title="Our Legacy"
                     subtitle="Founded in 1919 at Northeastern University, Alpha Kappa Sigma has been building brotherhood, developing leaders, and creating lifelong connections for over a century."
@@ -50,7 +53,7 @@ export function About() {
 
                     {/* Stats grid */}
                     <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-6">
-                        {stats.map((stat, index) => (
+                        {stats.map((stat) => (
                             <motion.div
                                 key={stat.label}
                                 whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(46, 204, 113, 0.2)' }}
@@ -70,6 +73,9 @@ export function About() {
                     </motion.div>
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade for seamless transition to next section */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none" />
         </section>
     );
 }

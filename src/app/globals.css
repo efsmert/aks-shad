@@ -42,9 +42,9 @@
   background: #2ecc71;
 }
 
-/* Text gradient utility */
+/* Text gradient utility - dark forest green AKS vibe */
 .text-gradient {
-  background: linear-gradient(135deg, #2ecc71 0%, #a8e6cf 50%, #2ecc71 100%);
+  background: linear-gradient(135deg, #0d4d2b 0%, #1a7d4e 35%, #2ecc71 65%, #1a7d4e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
