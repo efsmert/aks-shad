@@ -71,43 +71,51 @@ export function GradientBackground() {
                 />
             ))}
 
-            {/* Gradient orbs with slow drift + mouse tracking */}
+            {/* Gradient orbs with slow drift + mouse tracking (GPU-accelerated) */}
             {isMounted && (
                 <>
                     <div
                         className="absolute w-[550px] h-[550px] rounded-full animate-orb-drift-1"
                         style={{
-                            left: `calc(5% + ${(mousePosition.x - 0.5) * 50}px)`,
-                            top: `calc(15% + ${(mousePosition.y - 0.5) * 50}px)`,
+                            left: '5%',
+                            top: '15%',
+                            transform: `translate(${(mousePosition.x - 0.5) * 50}px, ${(mousePosition.y - 0.5) * 50}px)`,
                             background: 'radial-gradient(circle, rgba(13, 77, 43, 0.45) 0%, transparent 60%)',
-                            transition: 'left 0.8s ease-out, top 0.8s ease-out',
+                            transition: 'transform 0.8s ease-out',
+                            willChange: 'transform',
                         }}
                     />
                     <div
                         className="absolute w-[450px] h-[450px] rounded-full animate-orb-drift-2"
                         style={{
-                            right: `calc(10% + ${(mousePosition.x - 0.5) * -40}px)`,
-                            top: `calc(35% + ${(mousePosition.y - 0.5) * -40}px)`,
+                            right: '10%',
+                            top: '35%',
+                            transform: `translate(${(mousePosition.x - 0.5) * -40}px, ${(mousePosition.y - 0.5) * -40}px)`,
                             background: 'radial-gradient(circle, rgba(26, 125, 78, 0.35) 0%, transparent 60%)',
-                            transition: 'right 0.8s ease-out, top 0.8s ease-out',
+                            transition: 'transform 0.8s ease-out',
+                            willChange: 'transform',
                         }}
                     />
                     <div
                         className="absolute w-[400px] h-[400px] rounded-full animate-orb-drift-3"
                         style={{
-                            left: `calc(40% + ${(mousePosition.x - 0.5) * 35}px)`,
-                            bottom: `calc(10% + ${(mousePosition.y - 0.5) * 35}px)`,
+                            left: '40%',
+                            bottom: '10%',
+                            transform: `translate(${(mousePosition.x - 0.5) * 35}px, ${(mousePosition.y - 0.5) * -35}px)`,
                             background: 'radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 60%)',
-                            transition: 'left 0.8s ease-out, bottom 0.8s ease-out',
+                            transition: 'transform 0.8s ease-out',
+                            willChange: 'transform',
                         }}
                     />
                     <div
                         className="absolute w-[350px] h-[350px] rounded-full animate-orb-drift-4"
                         style={{
-                            left: `calc(20% + ${(mousePosition.x - 0.5) * -25}px)`,
-                            top: `calc(50% + ${(mousePosition.y - 0.5) * -25}px)`,
+                            left: '20%',
+                            top: '50%',
+                            transform: `translate(${(mousePosition.x - 0.5) * -25}px, ${(mousePosition.y - 0.5) * -25}px)`,
                             background: 'radial-gradient(circle, rgba(13, 77, 43, 0.3) 0%, transparent 60%)',
-                            transition: 'left 0.8s ease-out, top 0.8s ease-out',
+                            transition: 'transform 0.8s ease-out',
+                            willChange: 'transform',
                         }}
                     />
                 </>
