@@ -17,7 +17,6 @@ const particles = [
 export function GradientBackground() {
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
     const [isMounted, setIsMounted] = useState(false);
-    const [particlesReady, setParticlesReady] = useState(false);
     const lastUpdate = useRef(0);
     const THROTTLE_MS = 200; // ~5 updates per second
 
@@ -34,13 +33,8 @@ export function GradientBackground() {
 
     useEffect(() => {
         setIsMounted(true);
-        // Delay particle animation start slightly for smoother initial experience
-        const timer = setTimeout(() => setParticlesReady(true), 100);
         window.addEventListener('mousemove', handleMouseMove, { passive: true });
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            clearTimeout(timer);
-        };
+        return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [handleMouseMove]);
 
     return (
@@ -48,8 +42,8 @@ export function GradientBackground() {
             {/* Base gradient */}
             <div className="absolute inset-0 bg-green-dark-bg" />
 
-            {/* Floating particles with fly-in animation then slow drift */}
-            {isMounted && particlesReady && particles.map((particle, index) => (
+            {/* Floating particles - render immediately for instant fly-in on page load */}
+            {particles.map((particle, index) => (
                 <div
                     key={particle.id}
                     className="absolute rounded-full animate-particle-fly-in"
@@ -63,11 +57,11 @@ export function GradientBackground() {
                         // CSS variables for fly-in direction
                         '--fly-x': `${particle.flyX}px`,
                         '--fly-y': `${particle.flyY}px`,
-                        animationDelay: `${index * 0.1}s`,
+                        // Stagger the animation start for each particle
+                        animationDelay: `${index * 0.08}s`,
                     } as React.CSSProperties}
-                    // After fly-in completes, this element continues with its final state
+                    // After fly-in completes, transition to drift animation
                     onAnimationEnd={(e) => {
-                        // Add drift animation after fly-in completes
                         const el = e.currentTarget;
                         el.classList.remove('animate-particle-fly-in');
                         el.classList.add('animate-particle-drift');

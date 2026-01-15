@@ -39,8 +39,8 @@ module.exports = {
                 'breathe-3': 'breathe-3 5s ease-in-out infinite',
                 // Vignette shift animation
                 'vignette-shift': 'vignette-shift 12s ease-in-out infinite',
-                // Particle fly-in animation
-                'particle-fly-in': 'particle-fly-in 1.5s ease-out forwards',
+                // Particle fly-in animation - 'both' ensures particles start at their off-screen position
+                'particle-fly-in': 'particle-fly-in 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both',
             },
             keyframes: {
                 float: {
