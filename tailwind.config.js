@@ -106,53 +106,54 @@ module.exports = {
                     '0%, 100%': { opacity: '0.1' },
                     '50%': { opacity: '0.5' },
                 },
-                // Breathing keyframes - subtle scale + filter brightness changes
+                // Breathing keyframes - GPU-optimized using only transform + opacity
+                // The glow is handled by a static text-shadow/drop-shadow, only scale animates
                 'breathe-1': {
                     '0%, 100%': {
                         transform: 'scale(1)',
-                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                        opacity: '1',
                     },
                     '50%': {
                         transform: 'scale(1.02)',
-                        filter: 'brightness(1.15) drop-shadow(0 0 60px rgba(46, 204, 113, 0.7))'
+                        opacity: '0.92',
                     },
                 },
                 'breathe-2': {
                     '0%, 100%': {
                         transform: 'scale(1)',
-                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                        opacity: '1',
                     },
                     '50%': {
                         transform: 'scale(1.025)',
-                        filter: 'brightness(1.12) drop-shadow(0 0 55px rgba(46, 204, 113, 0.65))'
+                        opacity: '0.9',
                     },
                 },
                 'breathe-3': {
                     '0%, 100%': {
                         transform: 'scale(1)',
-                        filter: 'brightness(1) drop-shadow(0 0 40px rgba(46, 204, 113, 0.5))'
+                        opacity: '1',
                     },
                     '50%': {
                         transform: 'scale(1.018)',
-                        filter: 'brightness(1.1) drop-shadow(0 0 50px rgba(46, 204, 113, 0.6))'
+                        opacity: '0.94',
                     },
                 },
-                // Vignette shift - subtle movement of the radial gradient center
+                // Vignette shift - GPU-accelerated using transform
                 'vignette-shift': {
                     '0%, 100%': {
-                        backgroundPosition: '50% 50%',
+                        transform: 'translate(0, 0)',
                         opacity: '1'
                     },
                     '25%': {
-                        backgroundPosition: '45% 55%',
+                        transform: 'translate(3%, 3%)',
                         opacity: '0.95'
                     },
                     '50%': {
-                        backgroundPosition: '55% 45%',
+                        transform: 'translate(-3%, -3%)',
                         opacity: '1'
                     },
                     '75%': {
-                        backgroundPosition: '52% 52%',
+                        transform: 'translate(1%, -1%)',
                         opacity: '0.97'
                     },
                 },

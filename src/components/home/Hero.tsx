@@ -34,6 +34,10 @@ export function Hero() {
                             style={{
                                 // Stagger the animation start for each letter
                                 animationDelay: `${index * 0.8}s`,
+                                // Static glow effect (not animated - much cheaper)
+                                filter: 'drop-shadow(0 0 50px rgba(46, 204, 113, 0.5))',
+                                // GPU layer promotion for smooth animations
+                                willChange: 'transform, opacity',
                             }}
                         >
                             {letter}

@@ -121,12 +121,17 @@ export function GradientBackground() {
                 </>
             )}
 
-            {/* Subtle vignette overlay with shifting animation */}
+            {/* Subtle vignette overlay - GPU-accelerated with transform */}
             <div
-                className="absolute inset-0 pointer-events-none animate-vignette-shift"
+                className="absolute pointer-events-none animate-vignette-shift"
                 style={{
-                    background: 'radial-gradient(ellipse 120% 120% at var(--vignette-x, 50%) var(--vignette-y, 50%), transparent 0%, rgba(10, 15, 13, 0.4) 70%)',
-                    backgroundSize: '200% 200%',
+                    // Slightly larger than viewport so we can shift it
+                    top: '-10%',
+                    left: '-10%',
+                    right: '-10%',
+                    bottom: '-10%',
+                    background: 'radial-gradient(ellipse 60% 60% at 50% 50%, transparent 0%, rgba(10, 15, 13, 0.4) 70%)',
+                    willChange: 'transform, opacity',
                 }}
             />
 
