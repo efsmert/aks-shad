@@ -21,9 +21,9 @@ export function About() {
     return (
         <section ref={ref} className="py-24 px-4 relative">
             {/* Top gradient fade for seamless transition from previous section */}
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10 pt-8">
                 <SectionHeading
                     title="Our Legacy"
                     subtitle="Founded in 1919 at Northeastern University, Alpha Kappa Sigma has been building brotherhood, developing leaders, and creating lifelong connections for over a century."

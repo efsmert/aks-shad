@@ -20,9 +20,9 @@ export function RushFAQ() {
     return (
         <section ref={ref} className="py-24 px-4 relative">
             {/* Top gradient fade */}
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
 
-            <div className="max-w-3xl mx-auto relative z-10">
+            <div className="max-w-3xl mx-auto relative z-10 pt-8">
                 <SectionHeading
                     title="Frequently Asked Questions"
                     subtitle="Got questions? We've got answers."
@@ -57,7 +57,7 @@ export function RushFAQ() {
             </div>
 
             {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
         </section>
     );
 }

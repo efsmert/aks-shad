@@ -36,9 +36,9 @@ export function WhyJoin() {
     return (
         <section ref={ref} className="py-24 px-4 relative">
             {/* Top gradient fade */}
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10 pt-8">
                 <SectionHeading
                     title="Why Join ΑΚΣ?"
                     subtitle="Being part of Alpha Kappa Sigma means gaining experiences and connections that last a lifetime."
@@ -84,7 +84,7 @@ export function WhyJoin() {
             </div>
 
             {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
         </section>
     );
 }

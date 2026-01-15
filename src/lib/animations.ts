@@ -255,16 +255,17 @@ export const scrollReveal: Variants = {
 };
 
 // Text reveal animation (for headlines)
+// Note: clipPath extends to 120% at bottom to prevent clipping of letter descenders (y, g, p, etc.)
 export const textReveal: Variants = {
     hidden: {
         opacity: 0,
         y: 30,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
+        clipPath: "polygon(0 -20%, 100% -20%, 100% 0%, 0 0%)"
     },
     visible: {
         opacity: 1,
         y: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+        clipPath: "polygon(0 -20%, 100% -20%, 100% 120%, 0 120%)",
         transition: {
             duration: 0.8,
             ease: [0.22, 1, 0.36, 1]
