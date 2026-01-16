@@ -42,8 +42,8 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                     exit="exit"
                     className="relative"
                 >
-                    {/* Header with image */}
-                    <div className="relative h-64 md:h-80 bg-green-dark-bg">
+                    {/* Header with image - taller to show more of the face */}
+                    <div className="relative h-96 md:h-[500px] bg-green-dark-bg">
                         {!imageError ? (
                             <img
                                 src={photoPath}
