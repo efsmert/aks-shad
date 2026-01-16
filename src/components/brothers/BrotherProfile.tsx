@@ -49,6 +49,7 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 src={photoPath}
                                 alt={brother.name}
                                 className="w-full h-full object-cover"
+                                style={{ objectPosition: 'center 20%' }}
                                 onError={() => setImageError(true)}
                             />
                         ) : (

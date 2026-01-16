@@ -46,6 +46,7 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                                 src={photoPath}
                                 alt={brother.name}
                                 className="w-full h-full object-cover"
+                                style={{ objectPosition: 'center 15%' }}
                                 onError={() => setImageError(true)}
                                 loading="lazy"
                             />
