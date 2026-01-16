@@ -50,7 +50,7 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                                 className="object-cover"
                                 style={{ objectPosition: 'center 15%' }}
                                 onError={() => setImageError(true)}
-                                quality={50}
+                                quality={65}
                                 queueIndex={index}
                             />
                         </motion.div>
