@@ -6,6 +6,7 @@ import { Brother } from '@/types';
 import { BrotherCard } from './BrotherCard';
 import { BrotherProfile } from './BrotherProfile';
 import { FilterBar } from './FilterBar';
+import { ImageQueueProvider } from './ImageQueueContext';
 import { filterBrothers } from '@/data/brothers';
 
 interface BrotherGridProps {
@@ -43,22 +44,24 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
                 Showing {filteredBrothers.length} {filteredBrothers.length === 1 ? 'brother' : 'brothers'}
             </motion.p>
 
-            {/* Grid */}
-            <motion.div
-                layout
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-                <AnimatePresence mode="popLayout">
-                    {filteredBrothers.map((brother, index) => (
-                        <BrotherCard
-                            key={brother.id}
-                            brother={brother}
-                            index={index}
-                            onClick={() => setSelectedBrother(brother)}
-                        />
-                    ))}
-                </AnimatePresence>
-            </motion.div>
+            {/* Grid - wrapped with ImageQueueProvider for sequential loading */}
+            <ImageQueueProvider concurrency={3}>
+                <motion.div
+                    layout
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                >
+                    <AnimatePresence mode="popLayout">
+                        {filteredBrothers.map((brother, index) => (
+                            <BrotherCard
+                                key={brother.id}
+                                brother={brother}
+                                index={index}
+                                onClick={() => setSelectedBrother(brother)}
+                            />
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
+            </ImageQueueProvider>
 
             {/* Empty state */}
             {filteredBrothers.length === 0 && (
@@ -81,3 +84,4 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
         </div>
     );
 }
+
