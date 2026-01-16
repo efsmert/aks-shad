@@ -45,7 +45,7 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
             </motion.p>
 
             {/* Grid - wrapped with ImageQueueProvider for sequential loading */}
-            <ImageQueueProvider concurrency={3}>
+            <ImageQueueProvider concurrency={6}>
                 <motion.div
                     layout
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"

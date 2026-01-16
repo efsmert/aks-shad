@@ -20,7 +20,7 @@ interface ImageQueueProviderProps {
  * Provider that manages sequential image loading
  * Images register themselves and wait their turn to load
  */
-export function ImageQueueProvider({ children, concurrency = 2 }: ImageQueueProviderProps) {
+export function ImageQueueProvider({ children, concurrency = 6 }: ImageQueueProviderProps) {
     const [currentLoadingIndex, setCurrentLoadingIndex] = useState(0);
     const pendingLoads = useRef<Map<number, () => void>>(new Map());
     const loadedIndices = useRef<Set<number>>(new Set());
