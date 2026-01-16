@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Image from 'next/image';
 import { User } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
 import { Badge } from '@/components/ui/badge';
+import { ProgressiveImage } from '@/components/ui/progressive-image';
 import { cardHover, imageZoom } from '@/lib/animations';
 
 interface BrotherCardProps {
@@ -42,16 +42,14 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                 <div className="relative aspect-square overflow-hidden bg-green-dark-bg">
                     {!imageError ? (
                         <motion.div variants={imageZoom} className="w-full h-full relative">
-                            {/* Next.js Image for automatic optimization */}
-                            <Image
+                            {/* Progressive image with shimmer placeholder */}
+                            <ProgressiveImage
                                 src={photoPath}
                                 alt={brother.name}
-                                fill
                                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                 className="object-cover"
                                 style={{ objectPosition: 'center 15%' }}
                                 onError={() => setImageError(true)}
-                                loading="lazy"
                                 quality={75}
                             />
                         </motion.div>

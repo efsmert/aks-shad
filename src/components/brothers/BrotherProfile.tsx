@@ -2,11 +2,11 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
 import { Badge } from '@/components/ui/badge';
+import { ProgressiveImage } from '@/components/ui/progressive-image';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { modalContent } from '@/lib/animations';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
@@ -46,10 +46,9 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                     {/* Header with image - taller to show more of the face */}
                     <div className="relative h-96 md:h-[500px] bg-green-dark-bg">
                         {!imageError ? (
-                            <Image
+                            <ProgressiveImage
                                 src={photoPath}
                                 alt={brother.name}
-                                fill
                                 sizes="(max-width: 768px) 100vw, 672px"
                                 className="object-cover"
                                 style={{ objectPosition: 'center 20%' }}
