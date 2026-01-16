@@ -23,23 +23,18 @@
   }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Hide scrollbar but keep scrolling functional */
+/* This completely eliminates layout shift when modals open */
+html {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 }
 
-::-webkit-scrollbar-track {
-  background: #0a0f0d;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1a7d4e;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #2ecc71;
+html::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
 /* Text gradient utility - dark forest green AKS vibe */

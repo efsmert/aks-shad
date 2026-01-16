@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
@@ -45,12 +46,16 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                     {/* Header with image - taller to show more of the face */}
                     <div className="relative h-96 md:h-[500px] bg-green-dark-bg">
                         {!imageError ? (
-                            <img
+                            <Image
                                 src={photoPath}
                                 alt={brother.name}
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 672px"
+                                className="object-cover"
                                 style={{ objectPosition: 'center 20%' }}
                                 onError={() => setImageError(true)}
+                                priority
+                                quality={85}
                             />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-card to-green-dark-bg">
@@ -59,11 +64,14 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 </div>
                             </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-green-card via-green-card/50 to-transparent" />
+                        {/* Gradient overlay - only covers bottom 40% for name readability */}
+                        <div
+                            className="absolute bottom-0 left-0 right-0 h-[40%] bg-gradient-to-t from-green-card via-green-card/70 to-transparent"
+                        />
 
                         {/* Close button */}
                         <motion.button
-                            whileHover={{ rotate: 90, scale: 1.1 }}
+                            whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={onClose}
                             className="absolute top-4 right-4 w-10 h-10 rounded-full bg-green-dark-bg/80 backdrop-blur-sm border border-green-accent/20 flex items-center justify-center text-white hover:text-green-accent transition-colors duration-300"

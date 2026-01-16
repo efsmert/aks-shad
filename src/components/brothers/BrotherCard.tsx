@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
 import { User } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
@@ -40,15 +41,18 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                 {/* Image container */}
                 <div className="relative aspect-square overflow-hidden bg-green-dark-bg">
                     {!imageError ? (
-                        <motion.div variants={imageZoom} className="w-full h-full">
-                            {/* Using native img to avoid Next.js Image 404 performance issue */}
-                            <img
+                        <motion.div variants={imageZoom} className="w-full h-full relative">
+                            {/* Next.js Image for automatic optimization */}
+                            <Image
                                 src={photoPath}
                                 alt={brother.name}
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                className="object-cover"
                                 style={{ objectPosition: 'center 15%' }}
                                 onError={() => setImageError(true)}
                                 loading="lazy"
+                                quality={75}
                             />
                         </motion.div>
                     ) : (
