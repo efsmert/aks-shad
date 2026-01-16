@@ -64,10 +64,10 @@ module.exports = {
                     '50%': { opacity: '0.6' },
                 },
                 'particle-drift': {
-                    '0%, 100%': { transform: 'translate(0, 0)', opacity: '0.4' },
-                    '25%': { transform: 'translate(8px, -12px)', opacity: '0.7' },
+                    '0%, 100%': { transform: 'translate(0, 0)', opacity: '0.5' },
+                    '25%': { transform: 'translate(8px, -12px)', opacity: '0.6' },
                     '50%': { transform: 'translate(-5px, 10px)', opacity: '0.5' },
-                    '75%': { transform: 'translate(10px, 5px)', opacity: '0.6' },
+                    '75%': { transform: 'translate(10px, 5px)', opacity: '0.55' },
                 },
                 'orb-drift-1': {
                     '0%, 100%': { transform: 'translate(0, 0)' },

@@ -66,16 +66,17 @@ export function GradientBackground() {
                         el.classList.remove('animate-particle-fly-in');
                         el.classList.add('animate-particle-drift');
                         el.style.animationDuration = `${particle.duration}s`;
-                        el.style.animationDelay = `${-particle.duration * (index / particles.length)}s`;
+                        // Start from 0% keyframe (no delay) to prevent position jump
+                        el.style.animationDelay = '0s';
                     }}
                 />
             ))}
 
-            {/* Gradient orbs with slow drift + mouse tracking (GPU-accelerated) */}
+            {/* Gradient orbs with mouse tracking (GPU-accelerated) */}
             {isMounted && (
                 <>
                     <div
-                        className="absolute w-[550px] h-[550px] rounded-full animate-orb-drift-1"
+                        className="absolute w-[550px] h-[550px] rounded-full"
                         style={{
                             left: '5%',
                             top: '15%',
@@ -86,7 +87,7 @@ export function GradientBackground() {
                         }}
                     />
                     <div
-                        className="absolute w-[450px] h-[450px] rounded-full animate-orb-drift-2"
+                        className="absolute w-[450px] h-[450px] rounded-full"
                         style={{
                             right: '10%',
                             top: '35%',
@@ -97,7 +98,7 @@ export function GradientBackground() {
                         }}
                     />
                     <div
-                        className="absolute w-[400px] h-[400px] rounded-full animate-orb-drift-3"
+                        className="absolute w-[400px] h-[400px] rounded-full"
                         style={{
                             left: '40%',
                             bottom: '10%',
@@ -108,7 +109,7 @@ export function GradientBackground() {
                         }}
                     />
                     <div
-                        className="absolute w-[350px] h-[350px] rounded-full animate-orb-drift-4"
+                        className="absolute w-[350px] h-[350px] rounded-full"
                         style={{
                             left: '20%',
                             top: '50%',
