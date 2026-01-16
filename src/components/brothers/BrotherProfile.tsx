@@ -54,7 +54,7 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 style={{ objectPosition: 'center 20%' }}
                                 onError={() => setImageError(true)}
                                 priority
-                                quality={50}
+                                quality={80}
                             />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-card to-green-dark-bg">
