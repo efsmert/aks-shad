@@ -1,6 +1,15 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useSyncExternalStore } from 'react';
+
+// Hydration-safe client detection using useSyncExternalStore
+const emptySubscribe = () => () => { };
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+function useIsClient() {
+    return useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
+}
 
 // Static particle data with fly-in directions (8 particles - more visible)
 const particles = [
@@ -16,7 +25,7 @@ const particles = [
 
 export function GradientBackground() {
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-    const [isMounted, setIsMounted] = useState(false);
+    const isClient = useIsClient();
     const lastUpdate = useRef(0);
     const THROTTLE_MS = 200; // ~5 updates per second
 
@@ -32,7 +41,6 @@ export function GradientBackground() {
     }, []);
 
     useEffect(() => {
-        setIsMounted(true);
         window.addEventListener('mousemove', handleMouseMove, { passive: true });
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [handleMouseMove]);
@@ -73,7 +81,7 @@ export function GradientBackground() {
             ))}
 
             {/* Gradient orbs with mouse tracking (GPU-accelerated) */}
-            {isMounted && (
+            {isClient && (
                 <>
                     <div
                         className="absolute w-[550px] h-[550px] rounded-full"

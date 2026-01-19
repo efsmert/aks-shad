@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
@@ -18,12 +18,12 @@ interface BrotherProfileProps {
 }
 
 export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps) {
-    const [imageError, setImageError] = useState(false);
+    // Use brother.id as part of the state key to auto-reset imageError when brother changes
+    const [errorState, setErrorState] = useState<{ id: string | null; hasError: boolean }>({ id: null, hasError: false });
 
-    // Reset imageError when brother changes so each brother gets a fresh attempt to load their photo
-    useEffect(() => {
-        setImageError(false);
-    }, [brother?.id]);
+    // If the brother changed, reset the error state without useEffect
+    const imageError = errorState.id === brother?.id ? errorState.hasError : false;
+    const handleImageError = () => setErrorState({ id: brother?.id ?? null, hasError: true });
 
     if (!brother) return null;
 
@@ -52,7 +52,7 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 sizes="(max-width: 768px) 100vw, 672px"
                                 className="object-cover"
                                 style={{ objectPosition: 'center 20%' }}
-                                onError={() => setImageError(true)}
+                                onError={handleImageError}
                                 priority
                                 quality={100}
                             />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useImageQueue } from '@/components/brothers/ImageQueueContext';
@@ -38,22 +38,35 @@ export function ProgressiveImage({
 }: ProgressiveImageProps) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const [shouldRender, setShouldRender] = useState(false);
     const imageQueue = useImageQueue();
     const hasRegistered = useRef(false);
+    const shouldRenderRef = useRef(false);
+
+    // Determine if we should render immediately (no queue) or wait for queue
+    // Using a sync check instead of effect-based setState
+    const shouldRenderImmediately = queueIndex === undefined || !imageQueue;
+
+    // Use ref + state pattern to avoid effect-based setState
+    const [shouldRender, setShouldRender] = useState(() => shouldRenderImmediately);
 
     // Register with queue if index provided and queue context exists
     useEffect(() => {
+        if (shouldRenderImmediately) {
+            // Already set via initial state
+            if (!shouldRenderRef.current) {
+                shouldRenderRef.current = true;
+            }
+            return;
+        }
+
         if (queueIndex !== undefined && imageQueue && !hasRegistered.current) {
             hasRegistered.current = true;
             imageQueue.registerImage(queueIndex, () => {
+                shouldRenderRef.current = true;
                 setShouldRender(true);
             });
-        } else if (queueIndex === undefined || !imageQueue) {
-            // No queue, render immediately
-            setShouldRender(true);
         }
-    }, [queueIndex, imageQueue]);
+    }, [queueIndex, imageQueue, shouldRenderImmediately]);
 
     const handleLoad = () => {
         setIsLoaded(true);

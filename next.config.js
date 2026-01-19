@@ -8,12 +8,11 @@ const nextConfig = {
             },
         ],
     },
-    /*
-    output: 'export',
-    trailingSlash: true,
-    images: {
-        unoptimized: true,
-    },*/
+    // Optimize package imports for better build performance
+    // This transforms barrel imports to direct imports at build time
+    experimental: {
+        optimizePackageImports: ['lucide-react', 'framer-motion'],
+    },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
