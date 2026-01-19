@@ -123,7 +123,7 @@ export default function HistoryPage() {
                                     that by supporting one another, they could achieve greatness both individually and collectively.
                                 </p>
                                 <p>
-                                    They chose the name Alpha Kappa Sigma—with ΑΚΣ representing "Advancement of Kindred Sympathy"—to
+                                    They chose the name Alpha Kappa Sigma—with ΑΚΣ representing &quot;Advancement of Kindred Sympathy&quot;—to
                                     embody their mission of fostering genuine connections and understanding among brothers.
                                 </p>
                             </div>
