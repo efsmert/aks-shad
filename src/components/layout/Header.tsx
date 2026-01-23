@@ -88,49 +88,71 @@ export function Header() {
                         </SheetTrigger>
                         <SheetContent side="right" className="w-80 bg-green-dark-bg border-l border-green-accent/20">
                             <div className="flex flex-col h-full py-8">
-                                <div className="flex items-center gap-3 mb-12">
-                                    <Image
-                                        src="/logo.jpg"
-                                        alt="Alpha Kappa Sigma Logo"
-                                        width={40}
-                                        height={40}
-                                        className="rounded-full"
-                                    />
-                                    <div>
-                                        <p className="font-display font-bold text-white">Alpha Kappa Sigma</p>
+                                {/* Centered Logo Header */}
+                                <div className="flex flex-col items-center gap-3 mb-10 pb-8 border-b border-green-accent/10">
+                                    <div className="relative">
+                                        <Image
+                                            src="/logo.jpg"
+                                            alt="Alpha Kappa Sigma Logo"
+                                            width={56}
+                                            height={56}
+                                            className="rounded-full shadow-lg shadow-green-accent/30"
+                                        />
+                                        <div className="absolute inset-0 rounded-full bg-green-accent/20 blur-md" />
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="font-display font-bold text-white text-lg">Alpha Kappa Sigma</p>
+                                        <p className="text-xs text-green-light/60 tracking-wider uppercase">Est. {CHAPTER_INFO.foundingYear}</p>
                                     </div>
                                 </div>
-                                <nav className="flex flex-col gap-4">
-                                    {NAV_LINKS.map((link, index) => (
-                                        <motion.div
-                                            key={link.href}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                        >
-                                            <Link
-                                                href={link.href}
-                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all duration-300 ${(
-                                                    link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
-                                                )
-                                                    ? 'bg-green-accent/20 text-green-accent'
-                                                    : 'text-white hover:bg-white/5 hover:text-green-light'
-                                                    }`}
+
+                                {/* Navigation Links */}
+                                <nav className="flex flex-col gap-2 px-2">
+                                    {NAV_LINKS.map((link, index) => {
+                                        const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+                                        return (
+                                            <motion.div
+                                                key={link.href}
+                                                initial={{ opacity: 0, x: 20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: index * 0.1 }}
                                             >
-                                                {link.label}
-                                            </Link>
-                                        </motion.div>
-                                    ))}
+                                                <Link
+                                                    href={link.href}
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                    className={`group relative flex items-center gap-4 py-4 px-5 rounded-xl text-lg font-medium transition-all duration-300 ${isActive
+                                                        ? 'bg-gradient-to-r from-green-accent/20 to-green-secondary/10 text-green-accent border border-green-accent/30'
+                                                        : 'text-white hover:bg-green-card hover:text-green-light border border-transparent hover:border-green-accent/10'
+                                                        }`}
+                                                >
+                                                    {/* Active indicator dot */}
+                                                    <span className={`w-2 h-2 rounded-full transition-all duration-300 ${isActive
+                                                        ? 'bg-green-accent shadow-[0_0_8px_rgba(45,212,191,0.6)]'
+                                                        : 'bg-green-accent/30 group-hover:bg-green-accent/50'
+                                                        }`} />
+                                                    {link.label}
+                                                </Link>
+                                            </motion.div>
+                                        );
+                                    })}
                                 </nav>
-                                <div className="mt-auto">
-                                    <Link
-                                        href="/rush"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className="block w-full py-4 px-6 bg-gradient-to-r from-green-secondary to-green-accent text-white font-semibold text-center rounded-xl hover:shadow-lg hover:shadow-green-accent/30 transition-all duration-300"
+
+                                {/* CTA Button */}
+                                <div className="mt-auto px-2">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.5 }}
                                     >
-                                        Rush ΑΚΣ
-                                    </Link>
+                                        <Link
+                                            href="/rush"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="group relative block w-full py-4 px-6 bg-gradient-to-r from-green-secondary to-green-accent text-white font-bold text-center rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-green-accent/40 hover:scale-[1.02]"
+                                        >
+                                            <span className="relative z-10">Rush ΑΚΣ</span>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-green-accent to-green-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        </Link>
+                                    </motion.div>
                                 </div>
                             </div>
                         </SheetContent>

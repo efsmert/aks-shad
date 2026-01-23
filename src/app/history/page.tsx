@@ -4,39 +4,46 @@ import { motion } from 'framer-motion';
 import { History, Calendar, Users, Award, BookOpen, MapPin } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { CHAPTER_INFO } from '@/lib/constants';
+import { Timeline } from '@/components/shared/Timeline';
 
 const timelineEvents = [
     {
+        id: '1',
         year: 1919,
         title: 'Foundation',
         description: 'Alpha Kappa Sigma was founded at Northeastern University by a group of seven visionary students who believed in the power of brotherhood and the advancement of kindred sympathy.',
         icon: BookOpen,
     },
     {
+        id: '2',
         year: 1925,
         title: 'First Chapter House',
         description: 'The fraternity acquired its first official chapter house near the Northeastern campus, providing a home for brothers and a center for fraternity activities.',
         icon: MapPin,
     },
     {
+        id: '3',
         year: 1945,
         title: 'Post-War Growth',
         description: 'Following World War II, Alpha Kappa Sigma experienced significant growth as returning veterans joined the brotherhood, bringing diverse experiences and perspectives.',
         icon: Users,
     },
     {
+        id: '4',
         year: 1969,
         title: '50th Anniversary',
         description: 'The fraternity celebrated its golden anniversary with a grand reunion, bringing together generations of brothers to honor our founding principles.',
         icon: Award,
     },
     {
+        id: '5',
         year: 1994,
         title: '75th Anniversary',
         description: 'Three-quarters of a century of brotherhood was commemorated with the establishment of the AKΣ Alumni Foundation to support current and future members.',
         icon: Calendar,
     },
     {
+        id: '6',
         year: 2019,
         title: 'Centennial Celebration',
         description: 'Alpha Kappa Sigma celebrated 100 years of brotherhood, service, and the advancement of kindred sympathy at Northeastern University.',
@@ -178,47 +185,10 @@ export default function HistoryPage() {
                         </p>
                     </motion.div>
 
-                    <div className="relative max-w-4xl mx-auto">
-                        {/* Timeline line */}
-                        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-green-accent/30 transform md:-translate-x-1/2" />
-
-                        {timelineEvents.map((event, index) => {
-                            const Icon = event.icon;
-                            const isEven = index % 2 === 0;
-
-                            return (
-                                <motion.div
-                                    key={event.year}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className={`relative flex items-center gap-8 mb-12 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                                        }`}
-                                >
-                                    {/* Timeline dot */}
-                                    <div className="absolute left-8 md:left-1/2 w-4 h-4 rounded-full bg-green-accent transform -translate-x-1/2 z-10" />
-
-                                    {/* Content */}
-                                    <div className={`ml-16 md:ml-0 md:w-1/2 ${isEven ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
-                                        <div className={`bg-green-card border border-green-accent/20 rounded-xl p-6 ${isEven ? 'md:ml-auto' : ''
-                                            } max-w-md`}>
-                                            <div className={`flex items-center gap-3 mb-3 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                                                <div className="w-10 h-10 rounded-lg bg-green-accent/10 flex items-center justify-center">
-                                                    <Icon className="w-5 h-5 text-green-accent" />
-                                                </div>
-                                                <span className="text-green-accent font-display font-bold text-2xl">
-                                                    {event.year}
-                                                </span>
-                                            </div>
-                                            <h3 className="text-white font-semibold text-lg mb-2">{event.title}</h3>
-                                            <p className="text-green-light/60 text-sm leading-relaxed">{event.description}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
+                    <Timeline
+                        events={timelineEvents}
+                        dateFormat="year"
+                    />
                 </div>
             </section>
 
