@@ -63,7 +63,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '5:00 PM',
         location: 'AKΣ Chapter House',
         description: 'Kick off rush with casino night! Games, food, and a chance to meet the brothers in a fun casino-themed atmosphere.',
-        isPast: false,
     },
     {
         id: '2',
@@ -72,7 +71,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '8:00 PM',
         location: 'AKΣ Chapter House',
         description: 'Watch the game with the brothers! Enjoy food, drinks, and great company while cheering on your team.',
-        isPast: false,
     },
     {
         id: '3',
@@ -81,7 +79,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '7:00 PM',
         location: 'AKΣ Chapter House',
         description: 'Think you can handle the heat? Take on the Hot Ones challenge with the brothers and test your spice tolerance!',
-        isPast: false,
     },
     {
         id: '4',
@@ -90,7 +87,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '2:00 PM',
         location: 'TBD',
         description: 'Show off your football skills in our rush football tournament. Teams will be formed on-site.',
-        isPast: false,
     },
     {
         id: '5',
@@ -99,7 +95,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '9:30 PM',
         location: 'AKΣ Chapter House',
         description: 'End the day with the official rush party. Connect with brothers and potential new members.',
-        isPast: false,
     },
     {
         id: '6',
@@ -108,7 +103,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '6:00 PM',
         location: 'TBD',
         description: 'Invite-only dim sum dinner. A more intimate setting to get to know the brotherhood.',
-        isPast: false,
     },
     {
         id: '7',
@@ -117,7 +111,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '7:00 PM',
         location: 'TBD',
         description: 'A relaxed evening of conversation, apple cider, and good company with the brothers.',
-        isPast: false,
     },
     {
         id: '8',
@@ -126,7 +119,6 @@ export const RUSH_EVENTS: RushEvent[] = [
         time: '6:00 PM',
         location: 'AKΣ Chapter House',
         description: 'The moment you\'ve been waiting for. Join us to officially accept your bid and become part of the ΑΚΣ family.',
-        isPast: false,
     },
 ];
 

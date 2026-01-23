@@ -159,21 +159,3 @@ export const letterAnimation: Variants = {
     }
 };
 
-// Timeline node animation
-export const timelineNode: Variants = {
-    hidden: {
-        opacity: 0,
-        x: -20,
-        scale: 0.8
-    },
-    visible: (i: number) => ({
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        transition: {
-            delay: i * 0.15,
-            duration: 0.5,
-            ease: [0.22, 1, 0.36, 1]
-        }
-    })
-};

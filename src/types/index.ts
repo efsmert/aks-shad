@@ -21,7 +21,6 @@ export interface RushEvent {
     time: string;
     location: string;
     description: string;
-    isPast: boolean;
 }
 
 export interface PhilanthropyEvent {
