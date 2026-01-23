@@ -1,78 +1,117 @@
 import { PhilanthropyEvent } from '@/types';
 
+// Fish Fest events - our signature philanthropy in memory of Matt Fishman
+export const fishFestEvents = [
+    {
+        id: 'ff1',
+        name: 'Fish Fest I (Boiler Room)',
+        season: 'Spring 2024',
+        date: '2024-04-15',
+        amountRaised: 3018,
+        guests: 350,
+        description: 'Our inaugural charity concert in memory of Matt Fishman, featuring local DJs and electronic music.',
+    },
+    {
+        id: 'ff2',
+        name: 'Fish Fest II (Boiler Room)',
+        season: 'Fall 2024',
+        date: '2024-10-20',
+        amountRaised: 22174,
+        guests: 900,
+        description: 'The second iteration exceeded all expectations, bringing the Boston music community together for a cause.',
+    },
+    {
+        id: 'ff3',
+        name: 'Fish Fest III (Boiler Room)',
+        season: 'Fall 2025',
+        date: '2025-10-18',
+        amountRaised: 5000,
+        guests: 700,
+        description: 'Continuing the tradition with another incredible night of music and community support.',
+    },
+];
+
 export const philanthropyEvents: PhilanthropyEvent[] = [
     {
         id: '1',
-        title: 'Community Food Drive',
-        date: '2025-11-15',
-        description: 'Our annual food drive collected over 2,000 pounds of non-perishable items for local food banks.',
-        image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=400&fit=crop',
-        hoursVolunteered: 120,
-    },
-    {
-        id: '2',
-        title: 'Habitat for Humanity Build',
-        date: '2025-10-20',
-        description: 'Brothers spent the weekend helping build homes for families in need in our local community.',
-        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&h=400&fit=crop',
+        title: 'Fish Fest III',
+        date: '2025-10-18',
+        description: 'Our third annual charity concert featuring local DJs, raising funds for the Matt Fishman Scholarship.',
+        image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
         hoursVolunteered: 200,
     },
     {
+        id: '2',
+        title: 'Fish Fest II',
+        date: '2024-10-20',
+        description: 'Record-breaking event with 900 guests, raising over $22,000 for the Matt Fishman Scholarship.',
+        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&h=400&fit=crop',
+        hoursVolunteered: 250,
+    },
+    {
         id: '3',
-        title: 'Youth Mentorship Program',
-        date: '2025-09-01',
-        description: 'Monthly mentorship sessions with local high school students, focusing on college preparation and leadership skills.',
-        image: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&h=400&fit=crop',
+        title: 'Community Servings Volunteer Day',
+        date: '2025-09-15',
+        description: 'Brothers volunteered at Community Servings, preparing meals for those in need across the Boston area.',
+        image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=400&fit=crop',
         hoursVolunteered: 80,
     },
     {
         id: '4',
-        title: 'Campus Cleanup Day',
-        date: '2025-04-22',
-        description: 'Earth Day initiative to beautify our campus and surrounding neighborhoods.',
-        image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&h=400&fit=crop',
-        hoursVolunteered: 60,
-    },
-    {
-        id: '5',
-        title: '5K Charity Run',
-        date: '2025-03-15',
-        description: 'Annual charity run supporting Children\'s Hope Foundation, raising over $15,000.',
-        image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&h=400&fit=crop',
+        title: 'Fish Fest I',
+        date: '2024-04-15',
+        description: 'The inaugural Fish Fest charity concert, starting a tradition of honoring Matt through music.',
+        image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=400&fit=crop',
         hoursVolunteered: 150,
     },
     {
+        id: '5',
+        title: 'RACE Cancer Foundation Event',
+        date: '2025-05-10',
+        description: 'Partnered with RACE Cancer Foundation for awareness and fundraising activities.',
+        image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop',
+        hoursVolunteered: 60,
+    },
+    {
         id: '6',
-        title: 'Holiday Toy Drive',
-        date: '2024-12-10',
-        description: 'Collected and distributed toys to over 200 children in underprivileged communities.',
-        image: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600&h=400&fit=crop',
-        hoursVolunteered: 100,
+        title: 'Little Sparks Project Workshop',
+        date: '2025-03-22',
+        description: 'Hosted a creative workshop with Little Sparks Project, inspiring young minds through art and music.',
+        image: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&h=400&fit=crop',
+        hoursVolunteered: 40,
     },
 ];
 
 export const impactStats = {
-    totalHours: 2500,
-    eventsHosted: 24,
-    moneyRaised: 50000,
-    communitiesServed: 15,
-    partnersWorkedWith: 12,
-    studentsmentored: 75,
+    totalHours: 1500,
+    eventsHosted: 12,
+    moneyRaised: 30000,
+    communitiesServed: 8,
+    partnersWorkedWith: 4,
+    studentsmentored: 25,
+};
+
+// Fish Fest specific stats
+export const fishFestStats = {
+    totalRaised: 30192, // $3,018 + $22,174 + $5,000
+    totalGuests: 1950, // 350 + 900 + 700
+    eventsHosted: 3,
+    scholarshipYearsFunded: 12,
 };
 
 export const upcomingEvents: PhilanthropyEvent[] = [
     {
         id: '7',
-        title: 'Spring Beach Cleanup',
-        date: '2026-03-20',
-        description: 'Join us for our annual beach cleanup at Ocean State Park. All supplies provided.',
-        image: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=600&h=400&fit=crop',
+        title: 'Fish Fest IV',
+        date: '2026-04-25',
+        description: 'Our spring charity concert continuing the Fish Fest tradition. Stay tuned for lineup announcements!',
+        image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
     },
     {
         id: '8',
-        title: 'Children\'s Hospital Visit',
-        date: '2026-02-14',
-        description: 'Valentine\'s Day visit to the local children\'s hospital to spread joy and cheer.',
-        image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=600&h=400&fit=crop',
+        title: 'Community Servings Spring Event',
+        date: '2026-03-15',
+        description: 'Join us for our spring volunteer day with Community Servings, preparing meals for those in need.',
+        image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=400&fit=crop',
     },
 ];

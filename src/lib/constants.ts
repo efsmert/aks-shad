@@ -28,8 +28,8 @@ export const CHAPTER_STATS = {
     totalChapters: 1,
     foundingYear: 1919,
     alumni: 500,
-    philanthropyHours: 2500,
-    moneyRaised: 50000,
+    philanthropyHours: 1500,
+    moneyRaised: 30000,
 };
 
 export const VALUES: ValueCard[] = [
@@ -155,14 +155,51 @@ export const RUSH_FAQS: FAQ[] = [
     },
 ];
 
-export const PHILANTHROPY_PARTNER = {
-    name: 'Children\'s Hope Foundation',
-    description: 'Our national philanthropy partner, Children\'s Hope Foundation, provides educational resources and mentorship programs for underprivileged youth across the country.',
-    logo: '/philanthropy-logo.png',
-    website: 'https://childrenshope.org',
+export const MATT_FISHMAN_SCHOLARSHIP = {
+    name: 'Matt Fishman Scholarship',
+    subtitle: 'In Memory of Matt Fishman (2001-2024)',
+    description: 'The Matt Fishman Scholarship supports high school students pursuing music—either as performers or composers—who have been impacted by cancer or another medical hardship, either personally or through a family member. Matt passed away in August 2024 at the age of 23 after a courageous 2-year battle with Glioblastoma.',
+    about: 'Matt was a brother of Alpha Kappa Sigma who embodied the spirit of kindred sympathy. Through Fish Fest, our Boiler Room-inspired charity concerts, we continue to honor his memory and passion for music.',
+    links: {
+        scholarship: 'https://bold.org/scholarships/matt-fishman-scholarship/',
+        raceCancer: 'https://racecancer.org/matt',
+        neuArticle: 'https://news.northeastern.edu/2024/09/09/matt-fishman-scholarship/',
+        memorial: 'https://yourmission.org/matt/',
+    },
     impact: {
-        childrenHelped: 10000,
-        scholarshipsAwarded: 500,
-        mentorshipHours: 25000,
+        totalRaised: 30000,
+        scholarshipYears: 12,
+        guestsReached: 1950,
+    },
+};
+
+export const PHILANTHROPY_PARTNERS = [
+    {
+        name: 'RACE Cancer Foundation',
+        description: 'A local charitable organization that administers the Matt Fishman Scholarship and supports cancer research and patient care.',
+        website: 'https://racecancer.org',
+    },
+    {
+        name: 'Community Servings',
+        description: 'A nonprofit providing medically tailored meals to individuals and families living with critical and chronic illnesses.',
+        website: 'https://communityservings.org',
+    },
+    {
+        name: 'Little Sparks Project',
+        description: 'An organization dedicated to inspiring creativity and providing educational opportunities for young people.',
+        website: 'https://littlesparksproject.org',
+    },
+];
+
+// Keep for backward compatibility
+export const PHILANTHROPY_PARTNER = {
+    name: 'Matt Fishman Scholarship',
+    description: 'In memory of our brother Matt Fishman, we raise funds for a scholarship supporting high school students pursuing music who have been impacted by cancer or medical hardship.',
+    logo: '/philanthropy-logo.png',
+    website: 'https://bold.org/scholarships/matt-fishman-scholarship/',
+    impact: {
+        childrenHelped: 1950,
+        scholarshipsAwarded: 12,
+        mentorshipHours: 30000,
     },
 };

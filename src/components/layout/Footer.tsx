@@ -30,11 +30,11 @@ export function Footer() {
                     <motion.div variants={fadeInUp} className="lg:col-span-1">
                         <div className="flex items-center gap-3 mb-6">
                             <Image
-                                src="/logo.jpg"
+                                src="/metal-rounded.png"
                                 alt="Alpha Kappa Sigma Logo"
                                 width={48}
                                 height={48}
-                                className="rounded-full shadow-lg shadow-green-accent/20"
+                                className="rounded-full"
                             />
                             <div>
                                 <h3 className="font-display font-bold text-white text-lg">{CHAPTER_INFO.name}</h3>

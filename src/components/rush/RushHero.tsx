@@ -184,12 +184,7 @@ export function RushHero() {
                         }`}
                 >
                     {rushPeriod.isActive ? (
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            <CheckCircle className="w-4 h-4" />
-                        </motion.div>
+                        <CheckCircle className="w-4 h-4" />
                     ) : (
                         <Calendar className="w-4 h-4" />
                     )}
@@ -254,28 +249,22 @@ export function RushHero() {
                                 { value: timeLeft.minutes, label: 'Minutes' },
                                 { value: timeLeft.seconds, label: 'Seconds' },
                             ].map((item) => (
-                                <motion.div
+                                <div
                                     key={item.label}
-                                    whileHover={{ y: -4, scale: 1.05 }}
                                     className="w-20 md:w-24"
                                 >
                                     <div className={`p-4 rounded-xl border ${rushPeriod.isActive
                                         ? 'bg-green-accent/10 border-green-accent/30'
                                         : 'bg-green-card border-green-accent/20'
                                         }`}>
-                                        <motion.span
-                                            key={item.value}
-                                            initial={{ scale: 1.2, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            className="block text-3xl md:text-4xl font-display font-bold text-gradient"
-                                        >
+                                        <span className="block text-3xl md:text-4xl font-display font-bold text-gradient">
                                             {String(item.value).padStart(2, '0')}
-                                        </motion.span>
+                                        </span>
                                     </div>
                                     <p className="text-green-light/50 text-xs uppercase tracking-wider mt-2">
                                         {item.label}
                                     </p>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </motion.div>

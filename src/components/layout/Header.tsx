@@ -45,13 +45,12 @@ export function Header() {
                             className="relative"
                         >
                             <Image
-                                src="/logo.jpg"
+                                src="/metal-rounded.png"
                                 alt="Alpha Kappa Sigma Logo"
                                 width={48}
                                 height={48}
-                                className="rounded-full shadow-lg shadow-green-accent/20"
+                                className="rounded-full"
                             />
-                            <div className="absolute inset-0 rounded-full bg-green-accent/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </motion.div>
                         <div className="hidden sm:block">
                             <p className="font-display font-bold text-white text-lg">Alpha Kappa Sigma</p>
@@ -90,16 +89,13 @@ export function Header() {
                             <div className="flex flex-col h-full py-8">
                                 {/* Centered Logo Header */}
                                 <div className="flex flex-col items-center gap-3 mb-10 pb-8 border-b border-green-accent/10">
-                                    <div className="relative">
-                                        <Image
-                                            src="/logo.jpg"
-                                            alt="Alpha Kappa Sigma Logo"
-                                            width={56}
-                                            height={56}
-                                            className="rounded-full shadow-lg shadow-green-accent/30"
-                                        />
-                                        <div className="absolute inset-0 rounded-full bg-green-accent/20 blur-md" />
-                                    </div>
+                                    <Image
+                                        src="/metal-rounded.png"
+                                        alt="Alpha Kappa Sigma Logo"
+                                        width={56}
+                                        height={56}
+                                        className="rounded-full"
+                                    />
                                     <div className="text-center">
                                         <p className="font-display font-bold text-white text-lg">Alpha Kappa Sigma</p>
                                         <p className="text-xs text-green-light/60 tracking-wider uppercase">Est. {CHAPTER_INFO.foundingYear}</p>
