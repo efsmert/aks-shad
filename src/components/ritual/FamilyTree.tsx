@@ -431,9 +431,6 @@ export function FamilyTree() {
                     </div>
                 </div>
 
-                <p className="text-green-light/30 text-xs text-center mt-8">
-                    To update: edit <code className="bg-green-dark-bg px-2 py-1 rounded">src/data/familyTree.ts</code>
-                </p>
             </div>
         </main>
     );
