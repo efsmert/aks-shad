@@ -205,7 +205,7 @@ export function FamilyTree() {
                 </button>
 
                 {/* Profile Image */}
-                <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-green-dark-bg border-2 border-green-accent/30 mb-4">
+                <div className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-green-dark-bg border-2 border-green-accent/30 mb-4">
                     {brother ? (
                         <div className="relative w-full h-full">
                             <Image
@@ -288,8 +288,8 @@ export function FamilyTree() {
                                         if (member) setSelectedMember(member);
                                     }}
                                     className={`text-xs px-2 py-1 rounded transition-colors ${name === selectedMember.name
-                                            ? 'bg-green-accent text-black font-medium'
-                                            : 'bg-green-card/50 text-green-light/70 hover:bg-green-card hover:text-white'
+                                        ? 'bg-green-accent text-black font-medium'
+                                        : 'bg-green-card/50 text-green-light/70 hover:bg-green-card hover:text-white'
                                         }`}
                                 >
                                     {name}
