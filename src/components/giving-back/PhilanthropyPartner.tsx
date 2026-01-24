@@ -21,8 +21,11 @@ export function PhilanthropyPartner() {
     ];
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <SectionHeading
                     title="The Matt Fishman Scholarship"
                     subtitle="Honoring our brother's memory through music and supporting students impacted by cancer."
@@ -164,6 +167,9 @@ export function PhilanthropyPartner() {
                     </motion.div>
                 </motion.div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
         </section>
     );
 }

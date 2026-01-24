@@ -45,7 +45,7 @@ export function Footer() {
                             {CHAPTER_INFO.tagline}
                         </p>
                         <p className="text-green-light/60 text-sm">
-                            Established {CHAPTER_INFO.foundingYear}
+                            Established <Link href="/ritual" className="text-green-light/60 cursor-text select-text" style={{ textDecoration: 'none' }}>{CHAPTER_INFO.foundingYear}</Link>
                         </p>
                     </motion.div>
 
@@ -139,7 +139,7 @@ export function Footer() {
                         © {new Date().getFullYear()} Alpha Kappa Sigma. All rights reserved.
                     </p>
                     <p className="text-green-light/50 text-sm">
-                        Founded {CHAPTER_INFO.foundingYear} • {CHAPTER_INFO.university}
+                        Founded <Link href="/ritual" className="text-green-light/50 cursor-text select-text" style={{ textDecoration: 'none' }}>{CHAPTER_INFO.foundingYear}</Link> • {CHAPTER_INFO.university}
                     </p>
                 </motion.div>
             </div>

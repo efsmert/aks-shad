@@ -14,7 +14,7 @@ export function About() {
     const stats = [
         { value: CHAPTER_STATS.foundingYear, label: 'Year Founded', prefix: '', formatNumber: false },
         { value: CHAPTER_STATS.activeBrothers, label: 'Active Brothers', suffix: '+' },
-        { value: CHAPTER_STATS.totalChapters, label: 'Chapters Nationwide', suffix: '+' },
+        { value: CHAPTER_STATS.totalChapters, label: 'Chapter Nationwide' },
         { value: CHAPTER_STATS.alumni, label: 'Alumni', suffix: '+' },
     ];
 

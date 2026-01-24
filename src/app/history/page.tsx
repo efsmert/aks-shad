@@ -106,8 +106,8 @@ export default function HistoryPage() {
             </section>
 
             {/* Founding Story */}
-            <section className="py-20">
-                <div className="container mx-auto px-4">
+            <section className="py-20 relative">
+                <div className="container mx-auto px-4 relative z-10">
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
@@ -166,11 +166,14 @@ export default function HistoryPage() {
                         </motion.div>
                     </motion.div>
                 </div>
+
+                {/* Bottom gradient fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-green-card/30 to-transparent pointer-events-none z-0" />
             </section>
 
             {/* Timeline */}
-            <section className="py-20 bg-green-card/30">
-                <div className="container mx-auto px-4">
+            <section className="py-20 bg-green-card/30 relative">
+                <div className="container mx-auto px-4 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -190,11 +193,17 @@ export default function HistoryPage() {
                         dateFormat="year"
                     />
                 </div>
+
+                {/* Bottom gradient fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
             </section>
 
             {/* Stats Section */}
-            <section className="py-20">
-                <div className="container mx-auto px-4">
+            <section className="py-20 relative">
+                {/* Top gradient fade */}
+                <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-card/30 to-transparent pointer-events-none z-0" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
@@ -207,7 +216,7 @@ export default function HistoryPage() {
                             { value: '500+', label: 'Alumni Worldwide' },
                             { value: '7', label: 'Founding Fathers' },
                             { value: '1919', label: 'Year Founded' },
-                        ].map((stat, index) => (
+                        ].map((stat) => (
                             <motion.div
                                 key={stat.label}
                                 variants={fadeInUp}
@@ -223,11 +232,14 @@ export default function HistoryPage() {
                         ))}
                     </motion.div>
                 </div>
+
+                {/* Bottom gradient fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
             </section>
 
             {/* Legacy CTA */}
-            <section className="py-20">
-                <div className="container mx-auto px-4">
+            <section className="py-20 relative">
+                <div className="container mx-auto px-4 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

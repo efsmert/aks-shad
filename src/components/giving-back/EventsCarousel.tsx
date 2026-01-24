@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Calendar, Clock } from 'lucide-react';
 import { philanthropyEvents, upcomingEvents } from '@/data/philanthropy';
@@ -25,8 +25,11 @@ export function EventsCarousel() {
     };
 
     return (
-        <section ref={ref} className="py-24 px-4">
-            <div className="max-w-7xl mx-auto">
+        <section ref={ref} className="py-24 px-4 relative">
+            {/* Top gradient fade */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <SectionHeading
                     title="Service Events"
                     subtitle="From local volunteering to nationwide initiatives, see how we give back."
@@ -49,45 +52,18 @@ export function EventsCarousel() {
                     </TabsList>
 
                     <TabsContent value="past" className="mt-8">
-                        <div className="relative">
-                            {/* Scroll buttons */}
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => scroll('left')}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 rounded-full bg-green-card border border-green-accent/20 flex items-center justify-center text-white hover:bg-green-accent/20 transition-colors duration-300 shadow-lg hidden md:flex"
-                            >
-                                <ChevronLeft className="w-6 h-6" />
-                            </motion.button>
-
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => scroll('right')}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 rounded-full bg-green-card border border-green-accent/20 flex items-center justify-center text-white hover:bg-green-accent/20 transition-colors duration-300 shadow-lg hidden md:flex"
-                            >
-                                <ChevronRight className="w-6 h-6" />
-                            </motion.button>
-
-                            {/* Events scroll container */}
-                            <div
-                                ref={scrollRef}
-                                className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
-                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                            >
-                                {philanthropyEvents.map((event, index) => (
-                                    <motion.div
-                                        key={event.id}
-                                        initial={{ opacity: 0, x: 50 }}
-                                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                        transition={{ delay: index * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                                        className="flex-shrink-0 w-80 snap-center"
-                                    >
-                                        <EventCard event={event} />
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            animate={isInView ? 'animate' : 'initial'}
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                        >
+                            {philanthropyEvents.map((event) => (
+                                <motion.div key={event.id} variants={fadeInUp}>
+                                    <EventCard event={event} />
+                                </motion.div>
+                            ))}
+                        </motion.div>
                     </TabsContent>
 
                     <TabsContent value="upcoming" className="mt-8">
@@ -95,17 +71,20 @@ export function EventsCarousel() {
                             variants={staggerContainer}
                             initial="initial"
                             animate="animate"
-                            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                         >
-                            {upcomingEvents.map((event, index) => (
+                            {upcomingEvents.map((event) => (
                                 <motion.div key={event.id} variants={fadeInUp}>
-                                    <UpcomingEventCard event={event} />
+                                    <EventCard event={event} />
                                 </motion.div>
                             ))}
                         </motion.div>
                     </TabsContent>
                 </Tabs>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
         </section>
     );
 }
@@ -129,17 +108,14 @@ function EventCard({ event }: EventCardProps) {
     });
 
     return (
-        <motion.div
-            whileHover={{ y: -8 }}
-            className="rounded-2xl bg-green-card border border-green-accent/10 overflow-hidden h-full transition-all duration-300 hover:border-green-accent/30 hover:shadow-lg hover:shadow-green-accent/10"
-        >
+        <div className="rounded-2xl bg-green-card border border-green-accent/10 overflow-hidden h-full">
             <div className="relative h-48 overflow-hidden">
                 <Image
                     src={event.image}
                     alt={event.title}
                     fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
-                    sizes="320px"
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-green-card to-transparent" />
                 {event.hoursVolunteered && (
@@ -157,48 +133,10 @@ function EventCard({ event }: EventCardProps) {
                 <h3 className="font-display text-lg font-semibold text-white mb-2">
                     {event.title}
                 </h3>
-                <p className="text-green-light/60 text-sm line-clamp-2">
+                <p className="text-green-light/60 text-sm leading-relaxed">
                     {event.description}
                 </p>
             </div>
-        </motion.div>
-    );
-}
-
-function UpcomingEventCard({ event }: EventCardProps) {
-    const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-    });
-
-    return (
-        <motion.div
-            whileHover={{ y: -4 }}
-            className="flex gap-6 p-6 rounded-2xl bg-green-card border border-green-accent/10 overflow-hidden transition-all duration-300 hover:border-green-accent/30"
-        >
-            <div className="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden">
-                <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover"
-                    sizes="128px"
-                />
-            </div>
-            <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2 text-green-accent text-xs mb-2">
-                    <Calendar className="w-3 h-3" />
-                    {formattedDate}
-                </div>
-                <h3 className="font-display text-xl font-semibold text-white mb-2">
-                    {event.title}
-                </h3>
-                <p className="text-green-light/60 text-sm">
-                    {event.description}
-                </p>
-            </div>
-        </motion.div>
+        </div>
     );
 }
