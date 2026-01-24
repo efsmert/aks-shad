@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, User, ChevronDown, ChevronRight, MapPin, GraduationCap, Briefcase, X, Users } from 'lucide-react';
+import { Lock, User, ChevronDown, ChevronRight, MapPin, GraduationCap, Briefcase, X, Users, Search } from 'lucide-react';
 import Image from 'next/image';
 import { familyTreeData, FamilyMember, getLineagePath } from '@/data/familyTree';
 import { brothers, getBrotherById, getBrotherPhotoPath } from '@/data/brothers';
@@ -38,10 +38,37 @@ export function FamilyTree() {
         const query = searchQuery.toLowerCase();
         return new Set(
             familyTreeData
-                .filter(m => m.name.toLowerCase().includes(query))
+                .filter(m => 
+                    m.name.toLowerCase().includes(query) ||
+                    m.pledgeClass?.toLowerCase().includes(query)
+                )
                 .map(m => m.name)
         );
     }, [searchQuery]);
+
+    // Get all ancestors of matching members so we can expand them
+    const getAncestors = (name: string): string[] => {
+        const member = familyTreeData.find(m => m.name === name);
+        if (!member || !member.bigName) return [];
+        return [member.bigName, ...getAncestors(member.bigName)];
+    };
+
+    // Auto-expand tree when searching
+    const expandedForSearch = useMemo(() => {
+        if (matchingMembers.size === 0) return new Set<string>();
+        const toExpand = new Set<string>();
+        matchingMembers.forEach(name => {
+            getAncestors(name).forEach(ancestor => toExpand.add(ancestor));
+        });
+        return toExpand;
+    }, [matchingMembers]);
+
+    // Combine manual expanded nodes with search-expanded nodes
+    const effectiveExpandedNodes = useMemo(() => {
+        const combined = new Set(expandedNodes);
+        expandedForSearch.forEach(name => combined.add(name));
+        return combined;
+    }, [expandedNodes, expandedForSearch]);
 
     const toggleNode = (name: string) => {
         setExpandedNodes(prev => {
@@ -76,7 +103,7 @@ export function FamilyTree() {
         const brother = getBrotherData(member);
         const children = tree.get(name) || [];
         const hasChildren = children.length > 0;
-        const isExpanded = expandedNodes.has(name);
+        const isExpanded = effectiveExpandedNodes.has(name);
         const isUnknown = name.includes('Unknown') || name.includes('Alumni');
         const isHighlighted = matchingMembers.has(name);
         const lineageCount = getLineageCount(name);
@@ -349,13 +376,79 @@ export function FamilyTree() {
 
                 {/* Controls */}
                 <div className="flex flex-wrap justify-center gap-4 mb-8">
-                    <input
-                        type="text"
-                        placeholder="Search brothers..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="px-4 py-2 bg-green-card/50 border border-green-accent/20 rounded-xl text-white placeholder-green-light/40 focus:outline-none focus:ring-2 focus:ring-green-accent/30 w-64"
-                    />
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-light/40" />
+                        <input
+                            type="text"
+                            placeholder="Search by name or pledge class..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10 pr-4 py-2 bg-green-card/50 border border-green-accent/20 rounded-xl text-white placeholder-green-light/40 focus:outline-none focus:ring-2 focus:ring-green-accent/30 w-72"
+                        />
+                        {searchQuery && (
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-green-light/40 hover:text-white"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        )}
+                        
+                        {/* Search Results Dropdown */}
+                        {searchQuery && matchingMembers.size > 0 && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-green-card border border-green-accent/20 rounded-xl shadow-xl z-20 max-h-64 overflow-y-auto">
+                                <div className="p-2 border-b border-green-accent/10 text-xs text-green-light/50">
+                                    {matchingMembers.size} result{matchingMembers.size !== 1 ? 's' : ''} found
+                                </div>
+                                {Array.from(matchingMembers).slice(0, 10).map(name => {
+                                    const member = familyTreeData.find(m => m.name === name);
+                                    const brother = member?.brotherId ? getBrotherById(member.brotherId) : null;
+                                    return (
+                                        <button
+                                            key={name}
+                                            onClick={() => {
+                                                const foundMember = familyTreeData.find(m => m.name === name);
+                                                if (foundMember) {
+                                                    setSelectedMember(foundMember);
+                                                    setSearchQuery('');
+                                                }
+                                            }}
+                                            className="w-full flex items-center gap-3 p-3 hover:bg-green-dark-bg transition-colors text-left"
+                                        >
+                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-green-dark-bg flex items-center justify-center">
+                                                {brother ? (
+                                                    <Image
+                                                        src={getBrotherPhotoPath(brother.slug)}
+                                                        alt={name}
+                                                        width={32}
+                                                        height={32}
+                                                        className="object-cover w-full h-full"
+                                                    />
+                                                ) : (
+                                                    <User className="w-4 h-4 text-green-light/40" />
+                                                )}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-white text-sm truncate">{name}</p>
+                                                <p className="text-green-light/50 text-xs">{member?.pledgeClass}</p>
+                                            </div>
+                                        </button>
+                                    );
+                                })}
+                                {matchingMembers.size > 10 && (
+                                    <div className="p-2 text-center text-xs text-green-light/40">
+                                        +{matchingMembers.size - 10} more results
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        
+                        {searchQuery && matchingMembers.size === 0 && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-green-card border border-green-accent/20 rounded-xl shadow-xl z-20 p-4 text-center">
+                                <p className="text-green-light/50 text-sm">No brothers found</p>
+                            </div>
+                        )}
+                    </div>
                     <button
                         onClick={() => setExpandedNodes(new Set(familyTreeData.map(m => m.name)))}
                         className="px-4 py-2 text-sm text-green-light/70 hover:text-white bg-green-card/50 hover:bg-green-card rounded-xl transition-colors"
