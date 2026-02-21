@@ -1,30 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { type ReactNode, type ComponentType } from 'react';
+import { type ComponentType } from 'react';
 import { fadeInUp } from '@/lib/animations';
 import { AnimatedCounter } from './AnimatedCounter';
 
 interface IconCardProps {
-    /** Icon component to display */
     icon: ComponentType<{ className?: string }>;
-    /** Card title */
     title?: string;
-    /** Card description */
     description?: string;
-    /** Numeric value (for stat cards) */
     value?: number;
-    /** Label text (for stat cards) */
     label?: string;
-    /** Value prefix (e.g., '$') */
     prefix?: string;
-    /** Value suffix (e.g., '+', '%') */
     suffix?: string;
-    /** Layout variant */
     layout?: 'vertical' | 'horizontal' | 'stat';
-    /** Additional className */
     className?: string;
-    /** Use card hover animation */
     animate?: boolean;
 }
 
@@ -41,97 +31,67 @@ export function IconCard({
     animate = true,
 }: IconCardProps) {
     const Wrapper = animate ? motion.div : 'div';
-    const wrapperProps = animate
-        ? {
-            variants: fadeInUp,
-            initial: 'rest',
-            whileHover: 'hover',
-        }
-        : {};
+    const wrapperProps = animate ? { variants: fadeInUp } : {};
 
-    // Stat card layout
     if (layout === 'stat') {
         return (
-            <Wrapper {...wrapperProps} className={`group relative ${className}`}>
-                <motion.div
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    className="p-6 rounded-2xl bg-green-card border border-green-accent/10 text-center transition-all duration-300 hover:border-green-accent/30 hover:shadow-lg hover:shadow-green-accent/10 h-full"
-                >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-secondary to-green-accent flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-accent/20">
-                        <Icon className="w-6 h-6 text-white" />
+            <Wrapper {...wrapperProps} className={className}>
+                <div className="p-6 text-center">
+                    <div className="w-10 h-10 rounded-full bg-heritage-50 flex items-center justify-center mx-auto mb-4">
+                        <Icon className="w-5 h-5 text-heritage-700" />
                     </div>
                     {value !== undefined && (
-                        <div className="text-3xl md:text-4xl font-display font-bold text-gradient mb-2">
+                        <div className="text-3xl font-display font-bold text-heritage-900 mb-1 tabular-nums">
                             <AnimatedCounter end={value} prefix={prefix} suffix={suffix} />
                         </div>
                     )}
                     {label && (
-                        <p className="text-green-light/60 text-xs font-medium uppercase tracking-wide">
+                        <p className="text-stone-500 text-xs font-medium uppercase tracking-wide">
                             {label}
                         </p>
                     )}
-                </motion.div>
+                </div>
             </Wrapper>
         );
     }
 
-    // Horizontal layout
     if (layout === 'horizontal') {
         return (
-            <Wrapper {...wrapperProps} className={`group relative ${className}`}>
-                <motion.div
-                    whileHover={{ y: -8 }}
-                    className="relative p-8 rounded-2xl bg-green-card border border-green-accent/10 overflow-hidden transition-all duration-300 hover:border-green-accent/30 h-full"
-                >
-                    {/* Background glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div className="relative z-10 flex gap-6">
-                        <motion.div
-                            whileHover={{ rotate: 5, scale: 1.1 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
-                            className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-secondary to-green-accent flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-accent/20"
-                        >
-                            <Icon className="w-7 h-7 text-white" />
-                        </motion.div>
-
-                        <div>
-                            {title && (
-                                <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-green-light transition-colors duration-300">
-                                    {title}
-                                </h3>
-                            )}
-                            {description && (
-                                <p className="text-green-light/70 leading-relaxed">
-                                    {description}
-                                </p>
-                            )}
-                        </div>
+            <Wrapper {...wrapperProps} className={`group ${className}`}>
+                <div className="flex gap-5 py-6 border-b border-stone-200 transition-colors duration-200 group-hover:bg-stone-50 -mx-4 px-4">
+                    <div className="w-10 h-10 rounded-full bg-heritage-50 flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-5 h-5 text-heritage-700" />
                     </div>
-                </motion.div>
+                    <div>
+                        {title && (
+                            <h3 className="font-display text-lg font-bold text-heritage-900 mb-2 group-hover:text-gold-700 transition-colors duration-200">
+                                {title}
+                            </h3>
+                        )}
+                        {description && (
+                            <p className="text-stone-600 leading-relaxed text-sm">
+                                {description}
+                            </p>
+                        )}
+                    </div>
+                </div>
             </Wrapper>
         );
     }
 
-    // Vertical layout (default)
     return (
-        <Wrapper {...wrapperProps} className={`group relative ${className}`}>
-            <div className="p-8 rounded-2xl bg-green-card border border-green-accent/10 h-full flex flex-col items-center text-center">
-                {/* Icon container */}
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-secondary to-green-accent flex items-center justify-center mb-6 shadow-lg shadow-green-accent/20">
-                    <Icon className="w-8 h-8 text-white" />
+        <Wrapper {...wrapperProps} className={`group ${className}`}>
+            <div className="py-6">
+                <div className="w-10 h-10 rounded-full bg-heritage-50 flex items-center justify-center mb-5">
+                    <Icon className="w-5 h-5 text-heritage-700" />
                 </div>
-
-                {/* Title */}
                 {title && (
-                    <h3 className="font-display text-xl font-bold text-white mb-4">
+                    <h3 className="font-display text-lg font-bold text-heritage-900 mb-3">
                         {title}
                     </h3>
                 )}
-
-                {/* Description */}
                 {description && (
-                    <p className="text-green-light/70 text-sm leading-relaxed">
+                    <p className="text-stone-600 text-sm leading-relaxed">
                         {description}
                     </p>
                 )}

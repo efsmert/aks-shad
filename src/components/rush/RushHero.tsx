@@ -2,18 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { fadeInUp, letterStagger, letterAnimation } from '@/lib/animations';
 
-// Rush schedule configuration
-// Spring: Starts Jan 8, lasts 30 days (ends Feb 7)
-// Fall: Starts Sept 12, lasts 30 days (ends Oct 12)
-
-type RushState =
-    | 'spring-rush'      // During spring rush (Jan 8 - Feb 7)
-    | 'post-spring'      // After spring rush, waiting for fall (Feb 8 - Sept 11)
-    | 'fall-rush'        // During fall rush (Sept 12 - Oct 12)
-    | 'post-fall';       // After fall rush, waiting for spring (Oct 13 - Jan 7)
+type RushState = 'spring-rush' | 'post-spring' | 'fall-rush' | 'post-fall';
 
 interface RushPeriod {
     state: RushState;
@@ -28,107 +18,35 @@ interface RushPeriod {
 
 function getRushPeriod(now: Date): RushPeriod {
     const year = now.getFullYear();
-    const month = now.getMonth(); // 0-indexed
-    const day = now.getDate();
+    const springRushStart = new Date(year, 0, 8);
+    const springRushEnd = new Date(year, 0, 30, 23, 59, 59);
+    const fallRushStart = new Date(year, 8, 12);
+    const fallRushEnd = new Date(year, 9, 9, 23, 59, 59);
+    const nextSpringRushStart = new Date(year + 1, 0, 8);
 
-    // Define key dates for current and next year
-    // Spring Rush: Jan 8 - Jan 30 (Bid Acceptance Day)
-    // Fall Rush: Sept 12 - Oct 9 (approximate, adjust as needed)
-    const springRushStart = new Date(year, 0, 8); // Jan 8
-    const springRushEnd = new Date(year, 0, 30, 23, 59, 59); // Jan 30 end of day (Bid Acceptance)
-    const fallRushStart = new Date(year, 8, 12); // Sept 12
-    const fallRushEnd = new Date(year, 9, 9, 23, 59, 59); // Oct 9 end of day
-
-    // Next year's spring rush
-    const nextSpringRushStart = new Date(year + 1, 0, 8); // Jan 8 next year
-
-    // Previous year's fall rush end (for early January check)
-    const prevFallRushEnd = new Date(year - 1, 9, 12, 23, 59, 59);
-
-    // Check current state based on date
-
-    // Before spring rush starts this year (Jan 1 - Jan 7)
     if (now < springRushStart) {
-        return {
-            state: 'post-fall',
-            label: 'Spring Rush Coming Soon',
-            seasonLabel: `Spring ${year} Rush`,
-            countdownLabel: 'Rush Begins In',
-            targetDate: springRushStart,
-            description: 'Get ready for spring rush! Register your interest to be notified when rush events are announced.',
-            showCountdown: true,
-            isActive: false,
-        };
+        return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: springRushStart, description: 'Get ready for spring rush. Register your interest to be notified when events are announced.', showCountdown: true, isActive: false };
     }
-
-    // During spring rush (Jan 8 - Feb 7)
     if (now >= springRushStart && now <= springRushEnd) {
-        return {
-            state: 'spring-rush',
-            label: 'Rush Is Live!',
-            seasonLabel: `Spring ${year} Rush`,
-            countdownLabel: 'Rush Ends In',
-            targetDate: springRushEnd,
-            description: 'Rush is happening now! Come meet the brothers and learn what ΑΚΣ is all about.',
-            showCountdown: true,
-            isActive: true,
-        };
+        return { state: 'spring-rush', label: 'Rush Is Live', seasonLabel: `Spring ${year} Rush`, countdownLabel: 'Rush ends in', targetDate: springRushEnd, description: 'Rush is happening now. Come meet the brothers and learn what ΑΚΣ is all about.', showCountdown: true, isActive: true };
     }
-
-    // Post spring rush, waiting for fall (Feb 8 - Sept 11)
     if (now > springRushEnd && now < fallRushStart) {
-        return {
-            state: 'post-spring',
-            label: 'Fall Rush Coming Soon',
-            seasonLabel: `Fall ${year} Rush`,
-            countdownLabel: 'Rush Begins In',
-            targetDate: fallRushStart,
-            description: 'Spring rush has concluded. Register your interest for fall rush to be notified when events are announced.',
-            showCountdown: true,
-            isActive: false,
-        };
+        return { state: 'post-spring', label: 'Fall Rush Coming Soon', seasonLabel: `Fall ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: fallRushStart, description: 'Spring rush has concluded. Register your interest for fall rush.', showCountdown: true, isActive: false };
     }
-
-    // During fall rush (Sept 12 - Oct 12)
     if (now >= fallRushStart && now <= fallRushEnd) {
-        return {
-            state: 'fall-rush',
-            label: 'Rush Is Live!',
-            seasonLabel: `Fall ${year} Rush`,
-            countdownLabel: 'Rush Ends In',
-            targetDate: fallRushEnd,
-            description: 'Rush is happening now! Come meet the brothers and learn what ΑΚΣ is all about.',
-            showCountdown: true,
-            isActive: true,
-        };
+        return { state: 'fall-rush', label: 'Rush Is Live', seasonLabel: `Fall ${year} Rush`, countdownLabel: 'Rush ends in', targetDate: fallRushEnd, description: 'Rush is happening now. Come meet the brothers and learn what ΑΚΣ is all about.', showCountdown: true, isActive: true };
     }
-
-    // Post fall rush, waiting for spring (Oct 13 - Dec 31)
-    return {
-        state: 'post-fall',
-        label: 'Spring Rush Coming Soon',
-        seasonLabel: `Spring ${year + 1} Rush`,
-        countdownLabel: 'Rush Begins In',
-        targetDate: nextSpringRushStart,
-        description: 'Fall rush has concluded. Register your interest for spring rush to be the first to know about upcoming events.',
-        showCountdown: true,
-        isActive: false,
-    };
+    return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year + 1} Rush`, countdownLabel: 'Rush begins in', targetDate: nextSpringRushStart, description: 'Fall rush has concluded. Register your interest for spring rush.', showCountdown: true, isActive: false };
 }
 
 function calculateTimeRemaining(targetDate: Date) {
-    const now = new Date();
-    const difference = targetDate.getTime() - now.getTime();
-
-    if (difference <= 0) {
-        return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
-    }
-
+    const diff = targetDate.getTime() - Date.now();
+    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
     return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / (1000 * 60)) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
         expired: false,
     };
 }
@@ -140,158 +58,99 @@ export function RushHero() {
     useEffect(() => {
         const timer = setInterval(() => {
             const now = new Date();
-            const currentPeriod = getRushPeriod(now);
-
-            // Check if period changed
-            if (currentPeriod.state !== rushPeriod.state) {
-                setRushPeriod(currentPeriod);
-            }
-
-            setTimeLeft(calculateTimeRemaining(currentPeriod.targetDate));
+            const current = getRushPeriod(now);
+            if (current.state !== rushPeriod.state) setRushPeriod(current);
+            setTimeLeft(calculateTimeRemaining(current.targetDate));
         }, 1000);
-
         return () => clearInterval(timer);
     }, [rushPeriod.state]);
 
-    const titleLetters = 'RUSH ΑΚΣ'.split('');
-
     return (
-        <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-32">
-            {/* Static background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-green-dark-bg" />
-                {/* Static gradient orbs (no animation, no blur) */}
-                <div
-                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-30"
-                    style={{ background: 'radial-gradient(circle, rgba(13, 77, 43, 0.5) 0%, transparent 70%)' }}
-                />
-                <div
-                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-25"
-                    style={{ background: 'radial-gradient(circle, rgba(46, 204, 113, 0.4) 0%, transparent 70%)' }}
-                />
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                {/* Season badge with status indicator */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium mb-8 ${rushPeriod.isActive
-                        ? 'bg-green-accent/20 border-green-accent/50 text-green-accent'
-                        : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                        }`}
-                >
-                    {rushPeriod.isActive ? (
-                        <CheckCircle className="w-4 h-4" />
-                    ) : (
-                        <Calendar className="w-4 h-4" />
-                    )}
-                    {rushPeriod.seasonLabel}
-                    {rushPeriod.isActive && (
-                        <span className="ml-2 px-2 py-0.5 bg-green-accent text-green-dark-bg text-xs font-bold rounded-full">
-                            LIVE NOW
-                        </span>
-                    )}
-                </motion.div>
-
-                {/* Title */}
-                <motion.h1
-                    variants={letterStagger}
-                    initial="hidden"
-                    animate="visible"
-                    className="font-display text-6xl md:text-8xl lg:text-9xl font-black mb-8"
-                >
-                    {titleLetters.map((letter, index) => (
-                        <motion.span
-                            key={index}
-                            variants={letterAnimation}
-                            className={`inline-block ${letter === ' ' ? 'mx-2' : ''} ${letter === 'Α' || letter === 'Κ' || letter === 'Σ'
-                                ? 'text-gradient'
-                                : 'text-white'
-                                }`}
-                        >
-                            {letter}
-                        </motion.span>
-                    ))}
-                </motion.h1>
-
-                {/* Status Label */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                    className="mb-6"
-                >
-                    <h2 className={`text-2xl md:text-3xl font-bold ${rushPeriod.isActive ? 'text-green-accent' : 'text-white'
-                        }`}>
-                        {rushPeriod.label}
-                    </h2>
-                </motion.div>
-
-                {/* Countdown */}
-                {rushPeriod.showCountdown && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+        <section className="pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="max-w-3xl">
+                    {/* Overline — matches other pages */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        className="mb-12"
+                        transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                        className="text-gold-600 text-sm font-semibold tracking-[0.2em] uppercase mb-6"
                     >
-                        <p className="text-green-light/60 text-sm uppercase tracking-wider mb-4 flex items-center justify-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            {rushPeriod.countdownLabel}
-                        </p>
-                        <div className="flex justify-center gap-4 md:gap-8">
-                            {[
-                                { value: timeLeft.days, label: 'Days' },
-                                { value: timeLeft.hours, label: 'Hours' },
-                                { value: timeLeft.minutes, label: 'Minutes' },
-                                { value: timeLeft.seconds, label: 'Seconds' },
-                            ].map((item) => (
-                                <div
-                                    key={item.label}
-                                    className="w-20 md:w-24"
-                                >
-                                    <div className={`p-4 rounded-xl border ${rushPeriod.isActive
-                                        ? 'bg-green-accent/10 border-green-accent/30'
-                                        : 'bg-green-card border-green-accent/20'
-                                        }`}>
-                                        <span className="block text-3xl md:text-4xl font-display font-bold text-gradient">
+                        {rushPeriod.seasonLabel}
+                    </motion.p>
+
+                    {/* Title + Status */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1, duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                        className="mb-6"
+                    >
+                        <h1 className="font-display text-hero font-bold text-heritage-900 inline">
+                            Rush ΑΚΣ
+                        </h1>
+                        {rushPeriod.isActive && (
+                            <span className="inline-flex items-center gap-2 ml-4 px-3 py-1 bg-heritage-900 text-white text-xs font-semibold uppercase tracking-wider rounded-sm align-middle">
+                                <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
+                                Live
+                            </span>
+                        )}
+                    </motion.div>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                        className="text-stone-600 text-xl leading-relaxed mb-10 max-w-xl"
+                    >
+                        {rushPeriod.description}
+                    </motion.p>
+
+                    {/* Countdown */}
+                    {rushPeriod.showCountdown && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="mb-10"
+                        >
+                            <p className="text-stone-500 text-xs uppercase tracking-wider mb-4 font-medium">
+                                {rushPeriod.countdownLabel}
+                            </p>
+                            <div className="flex gap-4 lg:gap-6">
+                                {[
+                                    { value: timeLeft.days, label: 'Days' },
+                                    { value: timeLeft.hours, label: 'Hours' },
+                                    { value: timeLeft.minutes, label: 'Min' },
+                                    { value: timeLeft.seconds, label: 'Sec' },
+                                ].map((item) => (
+                                    <div key={item.label} className="text-center">
+                                        <span className="block font-display text-3xl lg:text-4xl font-bold text-heritage-900 tabular-nums">
                                             {String(item.value).padStart(2, '0')}
                                         </span>
+                                        <span className="text-stone-500 text-xs uppercase tracking-wider mt-1">
+                                            {item.label}
+                                        </span>
                                     </div>
-                                    <p className="text-green-light/50 text-xs uppercase tracking-wider mt-2">
-                                        {item.label}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
 
-                {/* CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <p className="text-green-light/70 text-lg mb-6 max-w-2xl mx-auto">
-                        {rushPeriod.description}
-                    </p>
-                    <a href={rushPeriod.isActive ? "#rush-events" : "#interest-form"}>
-                        <motion.button
-                            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(46, 204, 113, 0.3)' }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`px-10 py-5 font-bold rounded-full text-lg ${rushPeriod.isActive
-                                ? 'bg-gradient-to-r from-green-accent to-green-secondary text-white animate-pulse'
-                                : 'bg-gradient-to-r from-green-secondary to-green-accent text-white'
-                                }`}
+                    {/* CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                    >
+                        <a
+                            href={rushPeriod.isActive ? '#rush-events' : '#interest-form'}
+                            className="inline-block px-7 py-3.5 bg-heritage-900 text-white font-semibold text-sm rounded-sm transition-colors duration-200 hover:bg-heritage-800"
                         >
                             {rushPeriod.isActive ? 'View Rush Events' : 'Register Your Interest'}
-                        </motion.button>
-                    </a>
-                </motion.div>
+                        </a>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

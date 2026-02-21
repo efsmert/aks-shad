@@ -16,7 +16,7 @@ interface BrotherGridProps {
 export function BrotherGrid({ brothers }: BrotherGridProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [pledgeClass, setPledgeClass] = useState('all');
-    const [statusFilter, setStatusFilter] = useState('active'); // Default to showing active only
+    const [statusFilter, setStatusFilter] = useState('active');
     const [selectedBrother, setSelectedBrother] = useState<Brother | null>(null);
 
     const filteredBrothers = useMemo(() => {
@@ -39,16 +39,17 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
                 key={filteredBrothers.length}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-green-light/60 text-sm"
+                className="text-stone-500 text-sm"
             >
-                Showing {filteredBrothers.length} {filteredBrothers.length === 1 ? 'brother' : 'brothers'}
+                Showing {filteredBrothers.length}{' '}
+                {filteredBrothers.length === 1 ? 'brother' : 'brothers'}
             </motion.p>
 
-            {/* Grid - wrapped with ImageQueueProvider for sequential loading */}
+            {/* Grid */}
             <ImageQueueProvider concurrency={6}>
                 <motion.div
                     layout
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8"
                 >
                     <AnimatePresence mode="popLayout">
                         {filteredBrothers.map((brother, index) => (
@@ -66,12 +67,12 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
             {/* Empty state */}
             {filteredBrothers.length === 0 && (
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center py-16"
                 >
-                    <p className="text-green-light/60 text-lg mb-2">No brothers found</p>
-                    <p className="text-green-light/40 text-sm">Try adjusting your filters</p>
+                    <p className="text-stone-600 text-lg mb-2">No brothers found</p>
+                    <p className="text-stone-400 text-sm">Try adjusting your filters</p>
                 </motion.div>
             )}
 
@@ -84,4 +85,3 @@ export function BrotherGrid({ brothers }: BrotherGridProps) {
         </div>
     );
 }
-

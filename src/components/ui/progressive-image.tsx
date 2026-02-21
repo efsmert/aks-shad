@@ -92,7 +92,7 @@ export function ProgressiveImage({
             {/* Animated gradient placeholder - visible until image loads */}
             <div
                 className={cn(
-                    'absolute inset-0 bg-gradient-to-br from-green-card via-green-dark-bg to-green-card',
+                    'absolute inset-0 bg-gradient-to-br from-stone-200 via-stone-100 to-stone-200',
                     'transition-opacity duration-500 ease-out',
                     isLoaded ? 'opacity-0' : 'opacity-100'
                 )}

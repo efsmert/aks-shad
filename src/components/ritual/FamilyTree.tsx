@@ -115,8 +115,8 @@ export function FamilyTree() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: depth * 0.02 }}
-                    className={`flex items-center gap-3 p-3 hover:bg-green-card/50 rounded-xl cursor-pointer transition-all duration-200 ${isHighlighted ? 'bg-green-accent/20 ring-1 ring-green-accent/50' : ''
-                        } ${selectedMember?.name === name ? 'bg-green-card/70 ring-1 ring-green-accent/30' : ''}`}
+                    className={`flex items-center gap-3 p-3 hover:bg-stone-100 rounded-xl cursor-pointer transition-all duration-200 ${isHighlighted ? 'bg-gold-100 ring-1 ring-gold-500' : ''
+                        } ${selectedMember?.name === name ? 'bg-stone-200 ring-1 ring-gold-400' : ''}`}
                     style={{ paddingLeft: `${depth * 28 + 12}px` }}
                     onClick={() => setSelectedMember(member)}
                 >
@@ -130,17 +130,17 @@ export function FamilyTree() {
                     >
                         {hasChildren ? (
                             isExpanded ? (
-                                <ChevronDown className="w-4 h-4 text-green-accent" />
+                                <ChevronDown className="w-4 h-4 text-gold-600" />
                             ) : (
-                                <ChevronRight className="w-4 h-4 text-green-light/50" />
+                                <ChevronRight className="w-4 h-4 text-stone-400" />
                             )
                         ) : (
-                            <div className="w-2 h-2 rounded-full bg-green-accent/30" />
+                            <div className="w-2 h-2 rounded-full bg-gold-600/30" />
                         )}
                     </button>
 
                     {/* Avatar */}
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-green-card border-2 border-green-accent/20 flex-shrink-0">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-stone-100 border-2 border-stone-200 flex-shrink-0">
                         {brother && !isUnknown ? (
                             <div className="relative w-full h-full">
                                 <ProgressiveImage
@@ -153,8 +153,8 @@ export function FamilyTree() {
                                 />
                             </div>
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-card to-green-dark-bg">
-                                <User className="w-6 h-6 text-green-light/40" />
+                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-100 to-stone-50">
+                                <User className="w-6 h-6 text-stone-400" />
                             </div>
                         )}
                     </div>
@@ -162,7 +162,7 @@ export function FamilyTree() {
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                            <span className={`text-sm font-medium truncate ${isUnknown ? 'text-green-light/50 italic' : 'text-white'}`}>
+                            <span className={`text-sm font-medium truncate ${isUnknown ? 'text-stone-400 italic' : 'text-heritage-900'}`}>
                                 {name}
                             </span>
                             {brother?.positions && brother.positions.length > 0 && (
@@ -171,7 +171,7 @@ export function FamilyTree() {
                                 </Badge>
                             )}
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-green-light/50">
+                        <div className="flex items-center gap-2 text-xs text-stone-400">
                             {brother?.major && (
                                 <span className="truncate max-w-[150px]">{brother.major}</span>
                             )}
@@ -181,12 +181,12 @@ export function FamilyTree() {
                     {/* Right side info */}
                     <div className="flex items-center gap-2 flex-shrink-0">
                         {hasChildren && (
-                            <span className="text-xs text-green-light/40 hidden sm:block">
+                            <span className="text-xs text-stone-400 hidden sm:block">
                                 {lineageCount} {lineageCount === 1 ? 'little' : 'littles'}
                             </span>
                         )}
                         {member.pledgeClass && (
-                            <span className="text-xs px-2 py-1 bg-green-accent/10 rounded-full text-green-accent">
+                            <span className="text-xs px-2 py-1 bg-heritage-50 rounded-full text-gold-600">
                                 {member.pledgeClass}
                             </span>
                         )}
@@ -222,17 +222,17 @@ export function FamilyTree() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="bg-green-card/50 border border-green-accent/20 rounded-2xl p-6 sticky top-24"
+                className="bg-stone-100 border border-stone-200 rounded-2xl p-6 sticky top-24"
             >
                 <button
                     onClick={() => setSelectedMember(null)}
-                    className="absolute top-4 right-4 text-green-light/50 hover:text-white transition-colors"
+                    className="absolute top-4 right-4 text-stone-400 hover:text-heritage-900 transition-colors"
                 >
                     <X className="w-5 h-5" />
                 </button>
 
                 {/* Profile Image */}
-                <div className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-green-dark-bg border-2 border-green-accent/30 mb-4">
+                <div className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-stone-50 border-2 border-stone-300 mb-4">
                     {brother ? (
                         <div className="relative w-full h-full">
                             <Image
@@ -245,17 +245,17 @@ export function FamilyTree() {
                         </div>
                     ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                            <User className="w-12 h-12 text-green-light/40" />
+                            <User className="w-12 h-12 text-stone-400" />
                         </div>
                     )}
                 </div>
 
-                <h3 className="text-xl font-bold text-white text-center mb-1">
+                <h3 className="text-xl font-bold text-heritage-900 text-center mb-1">
                     {selectedMember.name}
                 </h3>
 
                 {selectedMember.pledgeClass && (
-                    <p className="text-green-accent text-center mb-4">
+                    <p className="text-gold-600 text-center mb-4">
                         {formatPledgeClass(selectedMember.pledgeClass)}
                     </p>
                 )}
@@ -276,24 +276,24 @@ export function FamilyTree() {
                     <div className="space-y-3 mb-6">
                         {brother.major && (
                             <div className="flex items-center gap-3 text-sm">
-                                <GraduationCap className="w-4 h-4 text-green-accent flex-shrink-0" />
-                                <span className="text-green-light/80">{brother.major}</span>
+                                <GraduationCap className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                                <span className="text-stone-600">{brother.major}</span>
                             </div>
                         )}
                         {brother.hometown && (
                             <div className="flex items-center gap-3 text-sm">
-                                <MapPin className="w-4 h-4 text-green-accent flex-shrink-0" />
-                                <span className="text-green-light/80">{brother.hometown}</span>
+                                <MapPin className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                                <span className="text-stone-600">{brother.hometown}</span>
                             </div>
                         )}
                         {brother.graduationYear && (
                             <div className="flex items-center gap-3 text-sm">
-                                <Briefcase className="w-4 h-4 text-green-accent flex-shrink-0" />
-                                <span className="text-green-light/80">Class of {brother.graduationYear}</span>
+                                <Briefcase className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                                <span className="text-stone-600">Class of {brother.graduationYear}</span>
                             </div>
                         )}
                         {brother.coopStatus === 'Co-op' && (
-                            <Badge className="bg-blue-500/80 text-white border-0 text-xs">
+                            <Badge className="bg-blue-500/80 text-heritage-900 border-0 text-xs">
                                 Currently on Co-op
                             </Badge>
                         )}
@@ -301,9 +301,9 @@ export function FamilyTree() {
                 )}
 
                 {/* Lineage */}
-                <div className="border-t border-green-accent/10 pt-4">
-                    <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                        <Users className="w-4 h-4 text-green-accent" />
+                <div className="border-t border-stone-200 pt-4">
+                    <h4 className="text-sm font-semibold text-heritage-900 mb-3 flex items-center gap-2">
+                        <Users className="w-4 h-4 text-gold-600" />
                         Lineage
                     </h4>
                     <div className="flex flex-wrap gap-1">
@@ -315,14 +315,14 @@ export function FamilyTree() {
                                         if (member) setSelectedMember(member);
                                     }}
                                     className={`text-xs px-2 py-1 rounded transition-colors ${name === selectedMember.name
-                                        ? 'bg-green-accent text-black font-medium'
-                                        : 'bg-green-card/50 text-green-light/70 hover:bg-green-card hover:text-white'
+                                        ? 'bg-gold-600 text-black font-medium'
+                                        : 'bg-stone-100 text-stone-500 hover:bg-stone-100 hover:text-heritage-900'
                                         }`}
                                 >
                                     {name}
                                 </button>
                                 {i < lineage.length - 1 && (
-                                    <span className="text-green-light/30 mx-1">→</span>
+                                    <span className="text-stone-300 mx-1">→</span>
                                 )}
                             </div>
                         ))}
@@ -331,8 +331,8 @@ export function FamilyTree() {
 
                 {/* Littles */}
                 {littles.length > 0 && (
-                    <div className="border-t border-green-accent/10 pt-4 mt-4">
-                        <h4 className="text-sm font-semibold text-white mb-3">
+                    <div className="border-t border-stone-200 pt-4 mt-4">
+                        <h4 className="text-sm font-semibold text-heritage-900 mb-3">
                             Littles ({littles.length})
                         </h4>
                         <div className="flex flex-wrap gap-2">
@@ -343,7 +343,7 @@ export function FamilyTree() {
                                         const member = familyTreeData.find(m => m.name === name);
                                         if (member) setSelectedMember(member);
                                     }}
-                                    className="text-xs px-2 py-1 bg-green-card/50 text-green-light/70 rounded hover:bg-green-card hover:text-white transition-colors"
+                                    className="text-xs px-2 py-1 bg-stone-100 text-stone-500 rounded hover:bg-stone-100 hover:text-heritage-900 transition-colors"
                                 >
                                     {name}
                                 </button>
@@ -356,19 +356,19 @@ export function FamilyTree() {
     };
 
     return (
-        <main className="min-h-screen bg-green-dark-bg pt-24 pb-20">
+        <main className="min-h-screen bg-stone-50 pt-24 pb-20">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-card rounded-full border border-green-accent/20 mb-6">
-                        <Lock className="w-4 h-4 text-green-accent" />
-                        <span className="text-green-light/80 text-sm">Brothers Only</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-full border border-stone-200 mb-6">
+                        <Lock className="w-4 h-4 text-gold-600" />
+                        <span className="text-stone-600 text-sm">Brothers Only</span>
                     </div>
 
-                    <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-                        Family <span className="text-gradient">Tree</span>
+                    <h1 className="font-display text-4xl md:text-5xl font-bold text-heritage-900 mb-4">
+                        Family <span className="text-gold-600">Tree</span>
                     </h1>
 
-                    <p className="text-green-light/70 text-lg max-w-2xl mx-auto">
+                    <p className="text-stone-500 text-lg max-w-2xl mx-auto">
                         The lineage of bigs and littles that makes our brotherhood strong.
                         Click on any brother to see their full profile and family connections.
                     </p>
@@ -377,18 +377,18 @@ export function FamilyTree() {
                 {/* Controls */}
                 <div className="flex flex-wrap justify-center gap-4 mb-8">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-light/40" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                         <input
                             type="text"
                             placeholder="Search by name or pledge class..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 pr-4 py-2 bg-green-card/50 border border-green-accent/20 rounded-xl text-white placeholder-green-light/40 focus:outline-none focus:ring-2 focus:ring-green-accent/30 w-72"
+                            className="pl-10 pr-4 py-2 bg-stone-100 border border-stone-200 rounded-xl text-heritage-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-gold-400 w-72"
                         />
                         {searchQuery && (
                             <button
                                 onClick={() => setSearchQuery('')}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-green-light/40 hover:text-white"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-heritage-900"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -396,8 +396,8 @@ export function FamilyTree() {
                         
                         {/* Search Results Dropdown */}
                         {searchQuery && matchingMembers.size > 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-green-card border border-green-accent/20 rounded-xl shadow-xl z-20 max-h-64 overflow-y-auto">
-                                <div className="p-2 border-b border-green-accent/10 text-xs text-green-light/50">
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-stone-100 border border-stone-200 rounded-xl shadow-xl z-20 max-h-64 overflow-y-auto">
+                                <div className="p-2 border-b border-stone-200 text-xs text-stone-400">
                                     {matchingMembers.size} result{matchingMembers.size !== 1 ? 's' : ''} found
                                 </div>
                                 {Array.from(matchingMembers).slice(0, 10).map(name => {
@@ -413,9 +413,9 @@ export function FamilyTree() {
                                                     setSearchQuery('');
                                                 }
                                             }}
-                                            className="w-full flex items-center gap-3 p-3 hover:bg-green-dark-bg transition-colors text-left"
+                                            className="w-full flex items-center gap-3 p-3 hover:bg-stone-50 transition-colors text-left"
                                         >
-                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-green-dark-bg flex items-center justify-center">
+                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-stone-50 flex items-center justify-center">
                                                 {brother ? (
                                                     <Image
                                                         src={getBrotherPhotoPath(brother.slug)}
@@ -425,18 +425,18 @@ export function FamilyTree() {
                                                         className="object-cover w-full h-full"
                                                     />
                                                 ) : (
-                                                    <User className="w-4 h-4 text-green-light/40" />
+                                                    <User className="w-4 h-4 text-stone-400" />
                                                 )}
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-white text-sm truncate">{name}</p>
-                                                <p className="text-green-light/50 text-xs">{member?.pledgeClass}</p>
+                                                <p className="text-heritage-900 text-sm truncate">{name}</p>
+                                                <p className="text-stone-400 text-xs">{member?.pledgeClass}</p>
                                             </div>
                                         </button>
                                     );
                                 })}
                                 {matchingMembers.size > 10 && (
-                                    <div className="p-2 text-center text-xs text-green-light/40">
+                                    <div className="p-2 text-center text-xs text-stone-400">
                                         +{matchingMembers.size - 10} more results
                                     </div>
                                 )}
@@ -444,20 +444,20 @@ export function FamilyTree() {
                         )}
                         
                         {searchQuery && matchingMembers.size === 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-green-card border border-green-accent/20 rounded-xl shadow-xl z-20 p-4 text-center">
-                                <p className="text-green-light/50 text-sm">No brothers found</p>
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-stone-100 border border-stone-200 rounded-xl shadow-xl z-20 p-4 text-center">
+                                <p className="text-stone-400 text-sm">No brothers found</p>
                             </div>
                         )}
                     </div>
                     <button
                         onClick={() => setExpandedNodes(new Set(familyTreeData.map(m => m.name)))}
-                        className="px-4 py-2 text-sm text-green-light/70 hover:text-white bg-green-card/50 hover:bg-green-card rounded-xl transition-colors"
+                        className="px-4 py-2 text-sm text-stone-500 hover:text-heritage-900 bg-stone-100 hover:bg-stone-100 rounded-xl transition-colors"
                     >
                         Expand All
                     </button>
                     <button
                         onClick={() => setExpandedNodes(new Set())}
-                        className="px-4 py-2 text-sm text-green-light/70 hover:text-white bg-green-card/50 hover:bg-green-card rounded-xl transition-colors"
+                        className="px-4 py-2 text-sm text-stone-500 hover:text-heritage-900 bg-stone-100 hover:bg-stone-100 rounded-xl transition-colors"
                     >
                         Collapse All
                     </button>
@@ -465,27 +465,27 @@ export function FamilyTree() {
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-3xl mx-auto">
-                    <div className="bg-green-card/30 border border-green-accent/10 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-green-accent">{familyTreeData.length}</div>
-                        <div className="text-xs text-green-light/50">Total Members</div>
+                    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-gold-600">{familyTreeData.length}</div>
+                        <div className="text-xs text-stone-400">Total Members</div>
                     </div>
-                    <div className="bg-green-card/30 border border-green-accent/10 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-green-accent">
+                    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-gold-600">
                             {familyTreeData.filter(m => m.brotherId).length}
                         </div>
-                        <div className="text-xs text-green-light/50">Active Brothers</div>
+                        <div className="text-xs text-stone-400">Active Brothers</div>
                     </div>
-                    <div className="bg-green-card/30 border border-green-accent/10 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-green-accent">
+                    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-gold-600">
                             {new Set(familyTreeData.map(m => m.pledgeClass).filter(Boolean)).size}
                         </div>
-                        <div className="text-xs text-green-light/50">Pledge Classes</div>
+                        <div className="text-xs text-stone-400">Pledge Classes</div>
                     </div>
-                    <div className="bg-green-card/30 border border-green-accent/10 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-green-accent">
+                    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-gold-600">
                             {Math.max(...familyTreeData.map(m => getLineagePath(familyTreeData, m.name).length))}
                         </div>
-                        <div className="text-xs text-green-light/50">Deepest Lineage</div>
+                        <div className="text-xs text-stone-400">Deepest Lineage</div>
                     </div>
                 </div>
 
@@ -494,7 +494,7 @@ export function FamilyTree() {
                     {/* Tree */}
                     <div className="lg:col-span-2">
                         <ImageQueueProvider concurrency={6}>
-                            <div className="bg-green-card/30 border border-green-accent/10 rounded-2xl p-4">
+                            <div className="bg-stone-100 border border-stone-200 rounded-2xl p-4">
                                 {roots.map(root => {
                                     const imageIndex = { current: 0 };
                                     return renderNode(root.name, 0, imageIndex);
@@ -512,10 +512,10 @@ export function FamilyTree() {
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="bg-green-card/20 border border-green-accent/10 rounded-2xl p-8 text-center sticky top-24"
+                                    className="bg-stone-50 border border-stone-200 rounded-2xl p-8 text-center sticky top-24"
                                 >
-                                    <User className="w-16 h-16 text-green-light/20 mx-auto mb-4" />
-                                    <p className="text-green-light/50">
+                                    <User className="w-16 h-16 text-stone-200 mx-auto mb-4" />
+                                    <p className="text-stone-400">
                                         Click on a brother to view their profile and family connections.
                                     </p>
                                 </motion.div>

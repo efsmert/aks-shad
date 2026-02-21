@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: 'class',
     content: [
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,172 +7,78 @@ export default {
     theme: {
         extend: {
             colors: {
-                'green-dark-bg': '#0a0f0d',
-                'green-primary': '#0d4d2b',
-                'green-secondary': '#1a7d4e',
-                'green-accent': '#2ecc71',
-                'green-light': '#a8e6cf',
-                'green-card': '#0f1a14',
+                // Heritage greens
+                'heritage': {
+                    900: 'oklch(22% 0.06 155)',
+                    800: 'oklch(28% 0.07 155)',
+                    700: 'oklch(34% 0.08 155)',
+                    600: 'oklch(40% 0.08 155)',
+                    500: 'oklch(46% 0.07 155)',
+                    400: 'oklch(55% 0.06 155)',
+                    300: 'oklch(65% 0.04 155)',
+                    200: 'oklch(80% 0.02 155)',
+                    100: 'oklch(90% 0.01 155)',
+                    50: 'oklch(96% 0.005 155)',
+                },
+                // Antique gold accents
+                'gold': {
+                    700: 'oklch(52% 0.12 80)',
+                    600: 'oklch(58% 0.13 80)',
+                    500: 'oklch(64% 0.14 78)',
+                    400: 'oklch(72% 0.11 78)',
+                    300: 'oklch(80% 0.07 78)',
+                    200: 'oklch(88% 0.04 78)',
+                    100: 'oklch(94% 0.02 78)',
+                },
+                // Warm stone neutrals
+                'stone': {
+                    900: 'oklch(18% 0.01 60)',
+                    800: 'oklch(25% 0.01 60)',
+                    700: 'oklch(35% 0.01 60)',
+                    600: 'oklch(45% 0.01 60)',
+                    500: 'oklch(55% 0.01 60)',
+                    400: 'oklch(65% 0.01 60)',
+                    300: 'oklch(78% 0.01 60)',
+                    200: 'oklch(88% 0.008 60)',
+                    100: 'oklch(94% 0.005 60)',
+                    50: 'oklch(97% 0.003 60)',
+                },
+                // Backward compat aliases used in existing code
+                'green-dark-bg': 'oklch(97% 0.003 60)',
+                'green-primary': 'oklch(22% 0.06 155)',
+                'green-secondary': 'oklch(34% 0.08 155)',
+                'green-accent': 'oklch(58% 0.13 80)',
+                'green-light': 'oklch(45% 0.01 60)',
+                'green-card': 'oklch(94% 0.005 60)',
             },
             fontFamily: {
-                sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-                display: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+                sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
+                display: ['var(--font-display)', 'Georgia', 'serif'],
+                body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+            },
+            fontSize: {
+                'hero': ['clamp(2.5rem, 5vw + 1rem, 5rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+                'section': ['clamp(2rem, 3vw + 0.5rem, 3.5rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
+                'subsection': ['clamp(1.25rem, 2vw + 0.25rem, 1.75rem)', { lineHeight: '1.3' }],
+            },
+            spacing: {
+                '18': '4.5rem',
+                '22': '5.5rem',
             },
             animation: {
-                'float': 'float 4s ease-in-out infinite',
-                'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-                'shimmer': 'shimmer 2s linear infinite',
-                'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
-                'particle-drift': 'particle-drift ease-in-out infinite',
-                'orb-drift-1': 'orb-drift-1 25s ease-in-out infinite',
-                'orb-drift-2': 'orb-drift-2 30s ease-in-out infinite',
-                'orb-drift-3': 'orb-drift-3 28s ease-in-out infinite',
-                'orb-drift-4': 'orb-drift-4 22s ease-in-out infinite',
-                'letter-glow-1': 'letter-glow-1 3s ease-in-out infinite',
-                'letter-glow-2': 'letter-glow-2 4s ease-in-out infinite',
-                'letter-aura': 'letter-aura 5s ease-in-out infinite',
-                // Breathing animations for Greek letters - each slightly different timing
-                'breathe-1': 'breathe-1 4s ease-in-out infinite',
-                'breathe-2': 'breathe-2 4.5s ease-in-out infinite',
-                'breathe-3': 'breathe-3 5s ease-in-out infinite',
-                // Vignette shift animation
-                'vignette-shift': 'vignette-shift 12s ease-in-out infinite',
-                // Particle fly-in animation - 'both' ensures particles start at their off-screen position
-                'particle-fly-in': 'particle-fly-in 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+                'reveal': 'reveal-up 0.7s cubic-bezier(0.25, 1, 0.5, 1) both',
             },
             keyframes: {
-                float: {
-                    '0%, 100%': { transform: 'translateY(0px)' },
-                    '50%': { transform: 'translateY(-10px)' },
-                },
-                'pulse-glow': {
-                    '0%, 100%': { boxShadow: '0 0 20px rgba(46, 204, 113, 0.3)' },
-                    '50%': { boxShadow: '0 0 40px rgba(46, 204, 113, 0.6)' },
-                },
-                shimmer: {
-                    '0%': { backgroundPosition: '-200% 0' },
-                    '100%': { backgroundPosition: '200% 0' },
-                },
-                fadeIn: {
-                    from: { opacity: '0', transform: 'translateY(10px)' },
+                'reveal-up': {
+                    from: { opacity: '0', transform: 'translateY(1.5rem)' },
                     to: { opacity: '1', transform: 'translateY(0)' },
                 },
-                'glow-pulse': {
-                    '0%, 100%': { opacity: '0' },
-                    '50%': { opacity: '0.6' },
-                },
-                'particle-drift': {
-                    '0%, 100%': { transform: 'translate(0, 0)', opacity: '0.5' },
-                    '25%': { transform: 'translate(8px, -12px)', opacity: '0.6' },
-                    '50%': { transform: 'translate(-5px, 10px)', opacity: '0.5' },
-                    '75%': { transform: 'translate(10px, 5px)', opacity: '0.55' },
-                },
-                'orb-drift-1': {
-                    '0%, 100%': { transform: 'translate(0, 0)' },
-                    '25%': { transform: 'translate(25px, -18px)' },
-                    '50%': { transform: 'translate(-12px, 22px)' },
-                    '75%': { transform: 'translate(18px, 8px)' },
-                },
-                'orb-drift-2': {
-                    '0%, 100%': { transform: 'translate(0, 0)' },
-                    '25%': { transform: 'translate(-22px, 12px)' },
-                    '50%': { transform: 'translate(18px, -25px)' },
-                    '75%': { transform: 'translate(-10px, -12px)' },
-                },
-                'orb-drift-3': {
-                    '0%, 100%': { transform: 'translate(0, 0)' },
-                    '25%': { transform: 'translate(18px, 22px)' },
-                    '50%': { transform: 'translate(-22px, -8px)' },
-                    '75%': { transform: 'translate(12px, -18px)' },
-                },
-                'orb-drift-4': {
-                    '0%, 100%': { transform: 'translate(0, 0)' },
-                    '25%': { transform: 'translate(-18px, -22px)' },
-                    '50%': { transform: 'translate(12px, 18px)' },
-                    '75%': { transform: 'translate(-22px, 8px)' },
-                },
-                'letter-glow-1': {
-                    '0%, 100%': { opacity: '0' },
-                    '50%': { opacity: '0.8' },
-                },
-                'letter-glow-2': {
-                    '0%, 100%': { opacity: '0' },
-                    '40%': { opacity: '0.5' },
-                    '60%': { opacity: '0.5' },
-                },
-                'letter-aura': {
-                    '0%, 100%': { opacity: '0.1' },
-                    '50%': { opacity: '0.5' },
-                },
-                // Breathing keyframes - GPU-optimized using only transform + opacity
-                // The glow is handled by a static text-shadow/drop-shadow, only scale animates
-                'breathe-1': {
-                    '0%, 100%': {
-                        transform: 'scale(1)',
-                        opacity: '1',
-                    },
-                    '50%': {
-                        transform: 'scale(1.02)',
-                        opacity: '0.92',
-                    },
-                },
-                'breathe-2': {
-                    '0%, 100%': {
-                        transform: 'scale(1)',
-                        opacity: '1',
-                    },
-                    '50%': {
-                        transform: 'scale(1.025)',
-                        opacity: '0.9',
-                    },
-                },
-                'breathe-3': {
-                    '0%, 100%': {
-                        transform: 'scale(1)',
-                        opacity: '1',
-                    },
-                    '50%': {
-                        transform: 'scale(1.018)',
-                        opacity: '0.94',
-                    },
-                },
-                // Vignette shift - GPU-accelerated using transform
-                'vignette-shift': {
-                    '0%, 100%': {
-                        transform: 'translate(0, 0)',
-                        opacity: '1'
-                    },
-                    '25%': {
-                        transform: 'translate(3%, 3%)',
-                        opacity: '0.95'
-                    },
-                    '50%': {
-                        transform: 'translate(-3%, -3%)',
-                        opacity: '1'
-                    },
-                    '75%': {
-                        transform: 'translate(1%, -1%)',
-                        opacity: '0.97'
-                    },
-                },
-                // Particle fly-in from random directions
-                'particle-fly-in': {
-                    '0%': {
-                        opacity: '0',
-                        transform: 'translate(var(--fly-x, 0), var(--fly-y, 100px)) scale(0)'
-                    },
-                    '60%': {
-                        opacity: '0.6',
-                        transform: 'translate(0, 0) scale(1.2)'
-                    },
-                    '100%': {
-                        opacity: '0.5',
-                        transform: 'translate(0, 0) scale(1)'
-                    },
-                },
+            },
+            transitionTimingFunction: {
+                'out-quart': 'cubic-bezier(0.25, 1, 0.5, 1)',
+                'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
             },
         },
     },
     plugins: [],
 }
-

@@ -1,53 +1,41 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { History, Calendar, Users, Award, BookOpen, MapPin } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import Link from 'next/link';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { CHAPTER_INFO } from '@/lib/constants';
-import { Timeline } from '@/components/shared/Timeline';
 
 const timelineEvents = [
     {
-        id: '1',
         year: 1919,
         title: 'Foundation',
-        description: 'Alpha Kappa Sigma was founded at Northeastern University by a group of seven visionary students who believed in the power of brotherhood and the advancement of kindred sympathy.',
-        icon: BookOpen,
+        description: 'Alpha Kappa Sigma was founded at Northeastern University by seven visionary students who believed in the power of brotherhood and the advancement of kindred sympathy.',
     },
     {
-        id: '2',
         year: 1925,
         title: 'First Chapter House',
         description: 'The fraternity acquired its first official chapter house near the Northeastern campus, providing a home for brothers and a center for fraternity activities.',
-        icon: MapPin,
     },
     {
-        id: '3',
         year: 1945,
         title: 'Post-War Growth',
         description: 'Following World War II, Alpha Kappa Sigma experienced significant growth as returning veterans joined the brotherhood, bringing diverse experiences and perspectives.',
-        icon: Users,
     },
     {
-        id: '4',
         year: 1969,
         title: '50th Anniversary',
         description: 'The fraternity celebrated its golden anniversary with a grand reunion, bringing together generations of brothers to honor our founding principles.',
-        icon: Award,
     },
     {
-        id: '5',
         year: 1994,
         title: '75th Anniversary',
         description: 'Three-quarters of a century of brotherhood was commemorated with the establishment of the AKΣ Alumni Foundation to support current and future members.',
-        icon: Calendar,
     },
     {
-        id: '6',
         year: 2019,
         title: 'Centennial Celebration',
         description: 'Alpha Kappa Sigma celebrated 100 years of brotherhood, service, and the advancement of kindred sympathy at Northeastern University.',
-        icon: History,
     },
 ];
 
@@ -71,144 +59,164 @@ const foundingValues = [
 ];
 
 export default function HistoryPage() {
+    const timelineRef = useRef<HTMLDivElement>(null);
+    const timelineInView = useInView(timelineRef, { once: true, margin: '-100px' });
+    const foundingRef = useRef<HTMLDivElement>(null);
+    const foundingInView = useInView(foundingRef, { once: true, margin: '-100px' });
+    const statsRef = useRef<HTMLDivElement>(null);
+    const statsInView = useInView(statsRef, { once: true, margin: '-50px' });
+
     return (
-        <div className="min-h-screen pt-24">
-            {/* Hero Section */}
-            <section className="relative py-20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-green-primary/20 to-transparent" />
-
-                <div className="container mx-auto px-4 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        className="text-center max-w-4xl mx-auto"
-                    >
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-accent/10 border border-green-accent/30 text-green-accent text-sm font-medium mb-6"
+        <div className="min-h-screen">
+            {/* Hero */}
+            <section className="pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="max-w-3xl">
+                        <motion.p
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                            className="text-gold-600 text-sm font-semibold tracking-[0.2em] uppercase mb-6"
                         >
-                            <History className="w-4 h-4" />
                             Est. {CHAPTER_INFO.foundingYear}
-                        </motion.div>
+                        </motion.p>
 
-                        <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-                            Our <span className="text-gradient">History</span>
-                        </h1>
+                        <motion.h1
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1, duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                            className="font-display text-hero font-bold text-heritage-900 mb-6"
+                        >
+                            Our History
+                        </motion.h1>
 
-                        <p className="text-xl text-green-light/70 leading-relaxed">
-                            For over a century, Alpha Kappa Sigma has been shaping leaders, fostering brotherhood,
-                            and advancing kindred sympathy at Northeastern University.
-                        </p>
-                    </motion.div>
+                        <motion.p
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="text-stone-600 text-xl leading-relaxed max-w-2xl"
+                        >
+                            For over a century, Alpha Kappa Sigma has been shaping leaders, fostering
+                            brotherhood, and advancing kindred sympathy at Northeastern University.
+                        </motion.p>
+                    </div>
                 </div>
             </section>
 
             {/* Founding Story */}
-            <section className="py-20 relative">
-                <div className="container mx-auto px-4 relative z-10">
+            <section ref={foundingRef} className="py-20 lg:py-28 px-6 lg:px-8 bg-stone-50">
+                <div className="max-w-7xl mx-auto">
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
-                        whileInView="animate"
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+                        animate={foundingInView ? 'animate' : 'initial'}
+                        className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12"
                     >
-                        <motion.div variants={fadeInUp}>
-                            <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
-                                Founded in <span className="text-gradient">1919</span>
+                        <motion.div variants={fadeInUp} className="lg:col-span-6">
+                            <div className="w-12 h-[2px] bg-gold-600 mb-6" />
+                            <h2 className="font-display text-section font-bold text-heritage-900 mb-8">
+                                Founded in 1919
                             </h2>
-                            <div className="space-y-4 text-green-light/70 text-lg leading-relaxed">
+                            <div className="space-y-5 text-stone-600 text-lg leading-relaxed">
                                 <p>
-                                    In the aftermath of World War I, seven students at Northeastern University came together
-                                    with a shared vision: to create a brotherhood built on mutual respect, academic excellence,
-                                    and the advancement of kindred sympathy.
+                                    In the aftermath of World War I, seven students at Northeastern University
+                                    came together with a shared vision: to create a brotherhood built on
+                                    mutual respect, academic excellence, and the advancement of kindred sympathy.
                                 </p>
                                 <p>
-                                    These founding fathers believed that true brotherhood transcended social boundaries and
-                                    that by supporting one another, they could achieve greatness both individually and collectively.
+                                    These founding fathers believed that true brotherhood transcended social
+                                    boundaries and that by supporting one another, they could achieve greatness.
                                 </p>
                                 <p>
-                                    They chose the name Alpha Kappa Sigma—with ΑΚΣ representing &quot;Advancement of Kindred Sympathy&quot;—to
-                                    embody their mission of fostering genuine connections and understanding among brothers.
+                                    They chose the name Alpha Kappa Sigma—with ΑΚΣ representing &ldquo;Advancement
+                                    of Kindred Sympathy&rdquo;—to embody their mission of fostering genuine
+                                    connections and understanding among brothers.
                                 </p>
                             </div>
                         </motion.div>
 
-                        <motion.div
-                            variants={fadeInUp}
-                            className="relative"
-                        >
-                            <div className="bg-green-card border border-green-accent/20 rounded-2xl p-8">
-                                <h3 className="font-display text-2xl font-bold text-white mb-6">
-                                    Our Founding Values
-                                </h3>
-                                <div className="space-y-4">
-                                    {foundingValues.map((value, index) => (
-                                        <motion.div
-                                            key={value.title}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            viewport={{ once: true }}
-                                            className="flex gap-4"
-                                        >
-                                            <div className="w-2 h-2 rounded-full bg-green-accent mt-2 flex-shrink-0" />
-                                            <div>
-                                                <h4 className="text-white font-semibold mb-1">{value.title}</h4>
-                                                <p className="text-green-light/60 text-sm">{value.description}</p>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                        <motion.div variants={fadeInUp} className="lg:col-span-6 lg:pt-12">
+                            <h3 className="font-display text-xl font-bold text-heritage-900 mb-8">
+                                Our Founding Values
+                            </h3>
+                            <div className="space-y-6">
+                                {foundingValues.map((value, index) => (
+                                    <motion.div
+                                        key={value.title}
+                                        initial={{ opacity: 0, y: 12 }}
+                                        animate={foundingInView ? { opacity: 1, y: 0 } : {}}
+                                        transition={{ delay: 0.2 + index * 0.1, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                                        className="flex gap-4"
+                                    >
+                                        <span className="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span className="w-2 h-2 rounded-full bg-gold-600" />
+                                        </span>
+                                        <div>
+                                            <h4 className="text-heritage-900 font-semibold mb-1">{value.title}</h4>
+                                            <p className="text-stone-500 text-sm leading-relaxed">{value.description}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
                         </motion.div>
                     </motion.div>
                 </div>
-
-                {/* Bottom gradient fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-green-card/30 to-transparent pointer-events-none z-0" />
             </section>
 
             {/* Timeline */}
-            <section className="py-20 bg-green-card/30 relative">
-                <div className="container mx-auto px-4 relative z-10">
+            <section ref={timelineRef} className="py-20 lg:py-28 px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={timelineInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                        className="mb-16"
                     >
-                        <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-                            A Century of <span className="text-gradient">Brotherhood</span>
+                        <div className="w-12 h-[2px] bg-gold-600 mb-6" />
+                        <h2 className="font-display text-section font-bold text-heritage-900 mb-4">
+                            A Century of Brotherhood
                         </h2>
-                        <p className="text-green-light/70 text-lg max-w-2xl mx-auto">
+                        <p className="text-stone-600 text-lg max-w-xl">
                             Key moments that have shaped Alpha Kappa Sigma over the past 100+ years.
                         </p>
                     </motion.div>
 
-                    <Timeline
-                        events={timelineEvents}
-                        dateFormat="year"
-                    />
+                    {/* Editorial timeline — alternating, clean */}
+                    <div className="space-y-0">
+                        {timelineEvents.map((event, index) => (
+                            <motion.div
+                                key={event.year}
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={timelineInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ delay: 0.1 + index * 0.08, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                                className="grid grid-cols-12 gap-4 lg:gap-8 py-8 border-b border-stone-200 group"
+                            >
+                                <div className="col-span-3 lg:col-span-2">
+                                    <span className="font-display text-2xl lg:text-3xl font-bold text-heritage-800 tabular-nums">
+                                        {event.year}
+                                    </span>
+                                </div>
+                                <div className="col-span-9 lg:col-span-10">
+                                    <h3 className="font-display text-lg lg:text-xl font-bold text-heritage-900 mb-2 group-hover:text-gold-700 transition-colors duration-200">
+                                        {event.title}
+                                    </h3>
+                                    <p className="text-stone-600 leading-relaxed max-w-2xl">
+                                        {event.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
-
-                {/* Bottom gradient fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
             </section>
 
-            {/* Stats Section */}
-            <section className="py-20 relative">
-                {/* Top gradient fade */}
-                <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-card/30 to-transparent pointer-events-none z-0" />
-
-                <div className="container mx-auto px-4 relative z-10">
+            {/* Stats */}
+            <section ref={statsRef} className="py-16 lg:py-20 px-6 lg:px-8 bg-heritage-900">
+                <div className="max-w-7xl mx-auto">
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
-                        whileInView="animate"
-                        viewport={{ once: true }}
+                        animate={statsInView ? 'animate' : 'initial'}
                         className="grid grid-cols-2 md:grid-cols-4 gap-8"
                     >
                         {[
@@ -222,45 +230,41 @@ export default function HistoryPage() {
                                 variants={fadeInUp}
                                 className="text-center"
                             >
-                                <div className="text-4xl md:text-5xl font-display font-bold text-gradient mb-2">
+                                <div className="text-3xl lg:text-4xl font-display font-bold text-white mb-2 tabular-nums">
                                     {stat.value}
                                 </div>
-                                <div className="text-green-light/60 text-sm uppercase tracking-wider">
+                                <div className="text-heritage-400 text-sm uppercase tracking-wider">
                                     {stat.label}
                                 </div>
                             </motion.div>
                         ))}
                     </motion.div>
                 </div>
-
-                {/* Bottom gradient fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
             </section>
 
-            {/* Legacy CTA */}
-            <section className="py-20 relative">
-                <div className="container mx-auto px-4 relative z-10">
+            {/* CTA */}
+            <section className="py-20 lg:py-28 px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="bg-gradient-to-r from-green-primary/40 to-green-secondary/40 rounded-3xl p-8 md:p-12 text-center"
+                        transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                        className="max-w-2xl"
                     >
-                        <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+                        <h2 className="font-display text-section font-bold text-heritage-900 mb-6">
                             Become Part of Our Story
                         </h2>
-                        <p className="text-green-light/70 text-lg max-w-2xl mx-auto mb-8">
-                            For over a century, Alpha Kappa Sigma has been building leaders and fostering lifelong connections.
-                            Join us and add your chapter to our history.
+                        <p className="text-stone-600 text-lg leading-relaxed mb-8">
+                            For over a century, Alpha Kappa Sigma has been building leaders and
+                            fostering lifelong connections. Join us and add your chapter to our history.
                         </p>
-                        <motion.a
+                        <Link
                             href="/rush"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-green-secondary to-green-accent text-white font-bold rounded-full text-lg"
+                            className="inline-block px-8 py-4 bg-heritage-900 text-white font-semibold rounded-sm transition-colors duration-200 hover:bg-heritage-800"
                         >
-                            Rush ΑΚΣ Today
-                        </motion.a>
+                            Rush ΑΚΣ Today →
+                        </Link>
                     </motion.div>
                 </div>
             </section>

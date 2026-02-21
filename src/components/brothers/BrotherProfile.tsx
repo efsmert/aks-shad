@@ -2,10 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { X, MapPin, GraduationCap, BookOpen, User, Briefcase } from 'lucide-react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
-import { Badge } from '@/components/ui/badge';
 import { ProgressiveImage } from '@/components/ui/progressive-image';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { modalContent } from '@/lib/animations';
@@ -18,10 +16,7 @@ interface BrotherProfileProps {
 }
 
 export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps) {
-    // Use brother.id as part of the state key to auto-reset imageError when brother changes
     const [errorState, setErrorState] = useState<{ id: string | null; hasError: boolean }>({ id: null, hasError: false });
-
-    // If the brother changed, reset the error state without useEffect
     const imageError = errorState.id === brother?.id ? errorState.hasError : false;
     const handleImageError = () => setErrorState({ id: brother?.id ?? null, hasError: true });
 
@@ -29,9 +24,17 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
 
     const photoPath = getBrotherPhotoPath(brother.slug);
 
+    const details = [
+        { label: 'Major', value: brother.major },
+        brother.graduationYear ? { label: 'Class of', value: String(brother.graduationYear) } : null,
+        brother.hometown ? { label: 'Hometown', value: brother.hometown } : null,
+        { label: 'Status', value: brother.coopStatus === 'Co-op' ? 'On Co-op' : 'Taking Classes' },
+        { label: 'Pledge Class', value: formatPledgeClass(brother.pledgeClass) },
+    ].filter(Boolean) as { label: string; value: string }[];
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-2xl bg-green-card border-green-accent/20 p-0 overflow-hidden" showCloseButton={false}>
+            <DialogContent className="max-w-2xl bg-white border-stone-200 p-0 overflow-hidden rounded-sm" showCloseButton={false}>
                 <VisuallyHidden>
                     <DialogTitle>{brother.name} Profile</DialogTitle>
                 </VisuallyHidden>
@@ -43,8 +46,8 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                     exit="exit"
                     className="relative"
                 >
-                    {/* Header with image - taller to show more of the face */}
-                    <div className="relative h-96 md:h-[500px] bg-green-dark-bg">
+                    {/* Image */}
+                    <div className="relative h-80 md:h-[420px] bg-stone-100">
                         {!imageError ? (
                             <ProgressiveImage
                                 src={photoPath}
@@ -57,132 +60,68 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 quality={100}
                             />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-card to-green-dark-bg">
-                                <div className="w-32 h-32 rounded-full bg-green-accent/10 flex items-center justify-center">
-                                    <User className="w-16 h-16 text-green-accent/40" />
+                            <div className="w-full h-full flex items-center justify-center bg-stone-100">
+                                <div className="w-24 h-24 rounded-full bg-stone-200 flex items-center justify-center">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="oklch(55% 0.01 60)" strokeWidth="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
                                 </div>
                             </div>
                         )}
-                        {/* Gradient overlay - only covers bottom 40% for name readability */}
-                        <div
-                            className="absolute bottom-0 left-0 right-0 h-[40%] bg-gradient-to-t from-green-card via-green-card/70 to-transparent"
-                        />
 
                         {/* Close button */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
+                        <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-green-dark-bg/80 backdrop-blur-sm border border-green-accent/20 flex items-center justify-center text-white hover:text-green-accent transition-colors duration-300"
+                            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-heritage-900 hover:bg-white transition-colors duration-200"
+                            aria-label="Close profile"
                         >
-                            <X className="w-5 h-5" />
-                        </motion.button>
-
-                        {/* Name overlay */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="font-display text-3xl md:text-4xl font-bold text-white mb-2"
-                            >
-                                {brother.name}
-                            </motion.h2>
-                            <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="flex flex-wrap items-center gap-2"
-                            >
-                                <Badge className="bg-gradient-to-r from-green-secondary to-green-accent text-white border-0 font-medium">
-                                    {formatPledgeClass(brother.pledgeClass)}
-                                </Badge>
-                                {brother.positions && brother.positions.map((position, idx) => (
-                                    <Badge
-                                        key={idx}
-                                        className="bg-amber-500/90 text-black border-0 font-semibold"
-                                    >
-                                        {position}
-                                    </Badge>
-                                ))}
-                                {brother.status !== 'Active' && (
-                                    <Badge
-                                        className={`font-medium ${brother.status === 'Inactive'
-                                            ? 'bg-red-500/80 text-white border-0'
-                                            : 'bg-yellow-500/80 text-black border-0'
-                                            }`}
-                                    >
-                                        {brother.status}
-                                    </Badge>
-                                )}
-                                {brother.coopStatus === 'Co-op' && (
-                                    <Badge className="bg-blue-500/80 text-white border-0 font-medium">
-                                        On Co-op
-                                    </Badge>
-                                )}
-                            </motion.div>
-                        </div>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                                <path d="M4 4l8 8M12 4l-8 8" />
+                            </svg>
+                        </button>
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 space-y-6">
-                        {/* Info grid */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                        >
-                            {/* Major */}
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-green-accent/10 flex items-center justify-center flex-shrink-0">
-                                    <BookOpen className="w-5 h-5 text-green-accent" />
-                                </div>
-                                <div>
-                                    <p className="text-green-light/50 text-xs uppercase tracking-wide">Major</p>
-                                    <p className="text-white text-sm font-medium">{brother.major}</p>
-                                </div>
-                            </div>
-
-                            {/* Graduation Year */}
-                            {brother.graduationYear && (
-                                <div className="flex items-start gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-green-accent/10 flex items-center justify-center flex-shrink-0">
-                                        <GraduationCap className="w-5 h-5 text-green-accent" />
-                                    </div>
-                                    <div>
-                                        <p className="text-green-light/50 text-xs uppercase tracking-wide">Class of</p>
-                                        <p className="text-white text-sm font-medium">{brother.graduationYear}</p>
-                                    </div>
-                                </div>
+                    <div className="p-6 lg:p-8">
+                        {/* Name and badges */}
+                        <div className="flex flex-wrap items-center gap-2 mb-6">
+                            <h2 className="font-display text-2xl lg:text-3xl font-bold text-heritage-900 mr-2">
+                                {brother.name}
+                            </h2>
+                            {brother.positions?.map((position, idx) => (
+                                <span key={idx} className="bg-gold-100 text-gold-700 text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                                    {position}
+                                </span>
+                            ))}
+                            {brother.status !== 'Active' && (
+                                <span className={`text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${brother.status === 'Inactive'
+                                        ? 'bg-stone-200 text-stone-600'
+                                        : 'bg-gold-100 text-gold-700'
+                                    }`}>
+                                    {brother.status}
+                                </span>
                             )}
-
-                            {/* Hometown */}
-                            {brother.hometown && (
-                                <div className="flex items-start gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-green-accent/10 flex items-center justify-center flex-shrink-0">
-                                        <MapPin className="w-5 h-5 text-green-accent" />
-                                    </div>
-                                    <div>
-                                        <p className="text-green-light/50 text-xs uppercase tracking-wide">Hometown</p>
-                                        <p className="text-white text-sm font-medium">{brother.hometown}</p>
-                                    </div>
-                                </div>
+                            {brother.coopStatus === 'Co-op' && (
+                                <span className="bg-heritage-50 text-heritage-700 text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                                    Co-op
+                                </span>
                             )}
+                        </div>
 
-                            {/* Current Status */}
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-green-accent/10 flex items-center justify-center flex-shrink-0">
-                                    <Briefcase className="w-5 h-5 text-green-accent" />
-                                </div>
-                                <div>
-                                    <p className="text-green-light/50 text-xs uppercase tracking-wide">Current Status</p>
-                                    <p className="text-white text-sm font-medium">
-                                        {brother.coopStatus === 'Co-op' ? 'On Co-op' : 'Taking Classes'}
+                        {/* Details grid */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {details.map((detail) => (
+                                <div key={detail.label}>
+                                    <p className="text-stone-400 text-xs uppercase tracking-wider mb-1">
+                                        {detail.label}
+                                    </p>
+                                    <p className="text-heritage-900 text-sm font-medium">
+                                        {detail.value}
                                     </p>
                                 </div>
-                            </div>
-                        </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
             </DialogContent>

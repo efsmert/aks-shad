@@ -2,64 +2,64 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import { CHAPTER_INFO, NAV_LINKS } from '@/lib/constants';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
-const socialLinks = [
-    { icon: Instagram, href: CHAPTER_INFO.socialMedia.instagram, label: 'Instagram' },
-    { icon: Linkedin, href: CHAPTER_INFO.socialMedia.linkedin, label: 'LinkedIn' },
-];
-
 export function Footer() {
-    return (
-        <footer className="relative bg-green-dark-bg border-t border-green-accent/10">
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-green-primary/5 to-transparent pointer-events-none" />
+    const ref = useRef<HTMLElement>(null);
+    const isInView = useInView(ref, { once: true, margin: '-50px' });
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    return (
+        <footer
+            ref={ref}
+            className="relative bg-heritage-900"
+        >
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
                 <motion.div
                     variants={staggerContainer}
                     initial="initial"
-                    whileInView="animate"
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
+                    animate={isInView ? 'animate' : 'initial'}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8"
                 >
                     {/* Chapter Info */}
                     <motion.div variants={fadeInUp} className="lg:col-span-1">
                         <div className="flex items-center gap-3 mb-6">
                             <Image
                                 src="/metal-rounded.png"
-                                alt="Alpha Kappa Sigma Logo"
-                                width={48}
-                                height={48}
+                                alt="Alpha Kappa Sigma crest"
+                                width={40}
+                                height={40}
                                 className="rounded-full"
                             />
                             <div>
-                                <h3 className="font-display font-bold text-white text-lg">{CHAPTER_INFO.name}</h3>
-                                <p className="text-xs text-green-light/70">{CHAPTER_INFO.greekLetters}</p>
+                                <h3 className="font-display font-bold text-white text-base">
+                                    {CHAPTER_INFO.name}
+                                </h3>
+                                <p className="text-xs text-heritage-400 tracking-wide">
+                                    {CHAPTER_INFO.greekLetters}
+                                </p>
                             </div>
                         </div>
-                        <p className="text-green-light/80 text-sm leading-relaxed mb-4">
-                            {CHAPTER_INFO.tagline}
-                        </p>
-                        <p className="text-green-light/60 text-sm">
-                            Established <Link href="/ritual" className="text-green-light/60 cursor-text select-text" style={{ textDecoration: 'none' }}>{CHAPTER_INFO.foundingYear}</Link>
+                        <p className="text-heritage-300 text-sm leading-relaxed max-w-xs">
+                            {CHAPTER_INFO.tagline}. Building brotherhood at{' '}
+                            {CHAPTER_INFO.university} since {CHAPTER_INFO.foundingYear}.
                         </p>
                     </motion.div>
 
                     {/* Quick Links */}
                     <motion.div variants={fadeInUp}>
-                        <h4 className="font-display font-semibold text-white mb-6">Quick Links</h4>
+                        <h4 className="font-display font-semibold text-white text-sm tracking-wide uppercase mb-6">
+                            Navigate
+                        </h4>
                         <ul className="space-y-3">
                             {NAV_LINKS.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-green-light/70 hover:text-green-accent transition-colors duration-300 text-sm flex items-center gap-2 group"
+                                        className="text-heritage-300 hover:text-gold-400 transition-colors duration-200 text-sm"
                                     >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-accent/50 group-hover:bg-green-accent transition-colors duration-300" />
                                         {link.label}
                                     </Link>
                                 </li>
@@ -67,81 +67,89 @@ export function Footer() {
                         </ul>
                     </motion.div>
 
-                    {/* Contact Info */}
+                    {/* Contact */}
                     <motion.div variants={fadeInUp}>
-                        <h4 className="font-display font-semibold text-white mb-6">Contact</h4>
-                        <ul className="space-y-4">
+                        <h4 className="font-display font-semibold text-white text-sm tracking-wide uppercase mb-6">
+                            Contact
+                        </h4>
+                        <ul className="space-y-3 text-sm text-heritage-300">
                             <li>
                                 <a
                                     href={`mailto:${CHAPTER_INFO.email}`}
-                                    className="text-green-light/70 hover:text-green-accent transition-colors duration-300 text-sm flex items-start gap-3 group"
+                                    className="hover:text-gold-400 transition-colors duration-200"
                                 >
-                                    <Mail className="w-4 h-4 mt-0.5 text-green-accent/70 group-hover:text-green-accent transition-colors duration-300" />
                                     {CHAPTER_INFO.email}
                                 </a>
                             </li>
                             <li>
                                 <a
                                     href={`tel:${CHAPTER_INFO.phone}`}
-                                    className="text-green-light/70 hover:text-green-accent transition-colors duration-300 text-sm flex items-start gap-3 group"
+                                    className="hover:text-gold-400 transition-colors duration-200"
                                 >
-                                    <Phone className="w-4 h-4 mt-0.5 text-green-accent/70 group-hover:text-green-accent transition-colors duration-300" />
                                     {CHAPTER_INFO.phone}
                                 </a>
                             </li>
-                            <li className="text-green-light/70 text-sm flex items-start gap-3">
-                                <MapPin className="w-4 h-4 mt-0.5 text-green-accent/70 flex-shrink-0" />
-                                <span>{CHAPTER_INFO.address}</span>
+                            <li className="leading-relaxed">
+                                {CHAPTER_INFO.address}
                             </li>
                         </ul>
                     </motion.div>
 
-                    {/* Social Links */}
+                    {/* Connect */}
                     <motion.div variants={fadeInUp}>
-                        <h4 className="font-display font-semibold text-white mb-6">Connect With Us</h4>
-                        <div className="flex gap-3">
-                            {socialLinks.map((social) => (
-                                <motion.a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    whileHover={{ scale: 1.1, y: -3 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="w-10 h-10 rounded-full bg-green-card border border-green-accent/20 flex items-center justify-center text-green-light/70 hover:text-green-accent hover:border-green-accent/50 hover:bg-green-accent/10 transition-all duration-300"
-                                    aria-label={social.label}
-                                >
-                                    <social.icon className="w-4 h-4" />
-                                </motion.a>
-                            ))}
-                        </div>
-                        <div className="mt-8">
-                            <Link
-                                href="/rush"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-secondary to-green-accent text-white font-semibold rounded-full text-sm hover:shadow-lg hover:shadow-green-accent/30 transition-all duration-300"
+                        <h4 className="font-display font-semibold text-white text-sm tracking-wide uppercase mb-6">
+                            Connect
+                        </h4>
+                        <div className="flex gap-4 mb-8">
+                            <a
+                                href={CHAPTER_INFO.socialMedia.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-heritage-300 hover:text-gold-400 transition-colors duration-200"
+                                aria-label="Instagram"
                             >
-                                Rush ΑΚΣ
-                                <span className="text-lg">→</span>
-                            </Link>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                                    <circle cx="12" cy="12" r="5" />
+                                    <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+                                </svg>
+                            </a>
+                            <a
+                                href={CHAPTER_INFO.socialMedia.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-heritage-300 hover:text-gold-400 transition-colors duration-200"
+                                aria-label="LinkedIn"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                    <rect x="2" y="9" width="4" height="12" />
+                                    <circle cx="4" cy="4" r="2" />
+                                </svg>
+                            </a>
                         </div>
+                        <Link
+                            href="/rush"
+                            className="inline-block px-5 py-2.5 bg-gold-600 text-heritage-900 font-semibold text-sm rounded-sm transition-colors duration-200 hover:bg-gold-500"
+                        >
+                            Rush ΑΚΣ →
+                        </Link>
                     </motion.div>
                 </motion.div>
 
                 {/* Bottom bar */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-12 pt-8 border-t border-green-accent/10 flex flex-col sm:flex-row items-center justify-between gap-4"
-                >
-                    <p className="text-green-light/50 text-sm">
+                <div className="mt-12 pt-8 border-t border-heritage-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-heritage-400 text-xs">
                         © {new Date().getFullYear()} Alpha Kappa Sigma. All rights reserved.
                     </p>
-                    <p className="text-green-light/50 text-sm">
-                        Founded <Link href="/ritual" className="text-green-light/50 cursor-text select-text" style={{ textDecoration: 'none' }}>{CHAPTER_INFO.foundingYear}</Link> • {CHAPTER_INFO.university}
+                    <p className="text-heritage-400 text-xs">
+                        Founded{' '}
+                        <Link href="/ritual" className="text-heritage-400 hover:text-heritage-300" style={{ textDecoration: 'none' }}>
+                            {CHAPTER_INFO.foundingYear}
+                        </Link>{' '}
+                        · {CHAPTER_INFO.university}
                     </p>
-                </motion.div>
+                </div>
             </div>
         </footer>
     );

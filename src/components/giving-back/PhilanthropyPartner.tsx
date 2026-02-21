@@ -2,13 +2,11 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ExternalLink, Heart, Music, Calendar, Users } from 'lucide-react';
 import { MATT_FISHMAN_SCHOLARSHIP, PHILANTHROPY_PARTNERS } from '@/lib/constants';
 import { fishFestEvents } from '@/data/philanthropy';
 import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
-import { Button } from '@/components/ui/button';
 
 export function PhilanthropyPartner() {
     const ref = useRef<HTMLDivElement>(null);
@@ -21,11 +19,8 @@ export function PhilanthropyPartner() {
     ];
 
     return (
-        <section ref={ref} className="py-24 px-4 relative">
-            {/* Top gradient fade */}
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
-
-            <div className="max-w-7xl mx-auto relative z-10">
+        <section ref={ref} className="py-24 lg:py-32 px-6 lg:px-8 bg-stone-50">
+            <div className="max-w-7xl mx-auto">
                 <SectionHeading
                     title="The Matt Fishman Scholarship"
                     subtitle="Honoring our brother's memory through music and supporting students impacted by cancer."
@@ -35,107 +30,87 @@ export function PhilanthropyPartner() {
                     variants={staggerContainer}
                     initial="initial"
                     animate={isInView ? 'animate' : 'initial'}
-                    className="mt-16 space-y-8"
+                    className="mt-12 space-y-12"
                 >
-                    {/* Main scholarship card */}
-                    <motion.div
-                        variants={fadeInUp}
-                        className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-green-card to-green-dark-bg border border-green-accent/10 relative overflow-hidden"
-                    >
-                        {/* Background decoration */}
-                        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-green-accent/5 blur-3xl" />
-                        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-green-primary/10 blur-3xl" />
+                    {/* Main content */}
+                    <motion.div variants={fadeInUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                        <div className="lg:col-span-7">
+                            <h3 className="font-display text-xl font-bold text-heritage-900 mb-2">
+                                {MATT_FISHMAN_SCHOLARSHIP.name}
+                            </h3>
+                            <p className="text-stone-500 text-sm mb-6">
+                                {MATT_FISHMAN_SCHOLARSHIP.subtitle}
+                            </p>
 
-                        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                            {/* Content */}
-                            <div>
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-secondary to-green-accent flex items-center justify-center shadow-lg shadow-green-accent/20">
-                                        <Heart className="w-8 h-8 text-white" />
+                            <p className="text-stone-600 text-lg leading-relaxed mb-6">
+                                {MATT_FISHMAN_SCHOLARSHIP.description}
+                            </p>
+
+                            <p className="text-stone-600 leading-relaxed mb-8">
+                                {MATT_FISHMAN_SCHOLARSHIP.about}
+                            </p>
+
+                            <div className="flex flex-wrap gap-3">
+                                <a
+                                    href={MATT_FISHMAN_SCHOLARSHIP.links.scholarship}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-heritage-900 text-white text-sm font-semibold rounded-sm transition-colors duration-200 hover:bg-heritage-800"
+                                >
+                                    View Scholarship
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                                        <path d="M5 3h8v8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </a>
+                                <a
+                                    href={MATT_FISHMAN_SCHOLARSHIP.links.neuArticle}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-stone-300 text-heritage-900 text-sm font-semibold rounded-sm transition-colors duration-200 hover:bg-stone-100"
+                                >
+                                    Read NEU Article
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                                        <path d="M5 3h8v8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Impact & Fish Fest */}
+                        <div className="lg:col-span-5 space-y-8">
+                            {/* Impact stats */}
+                            <div className="grid grid-cols-3 gap-4">
+                                {impactItems.map((item) => (
+                                    <div key={item.label} className="text-center">
+                                        <div className="text-2xl font-display font-bold text-heritage-900 mb-1 tabular-nums">
+                                            <AnimatedCounter end={item.value} prefix={item.prefix} suffix={item.suffix} />
+                                        </div>
+                                        <p className="text-stone-500 text-xs font-medium uppercase tracking-wide">
+                                            {item.label}
+                                        </p>
                                     </div>
-                                    <div>
-                                        <h3 className="font-display text-2xl font-bold text-white">
-                                            {MATT_FISHMAN_SCHOLARSHIP.name}
-                                        </h3>
-                                        <p className="text-green-light/60 text-sm">{MATT_FISHMAN_SCHOLARSHIP.subtitle}</p>
-                                    </div>
-                                </div>
-
-                                <p className="text-green-light/80 text-lg leading-relaxed mb-6">
-                                    {MATT_FISHMAN_SCHOLARSHIP.description}
-                                </p>
-
-                                <p className="text-green-light/70 leading-relaxed mb-8">
-                                    {MATT_FISHMAN_SCHOLARSHIP.about}
-                                </p>
-
-                                <div className="flex flex-wrap gap-3">
-                                    <a
-                                        href={MATT_FISHMAN_SCHOLARSHIP.links.scholarship}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Button className="bg-gradient-to-r from-green-secondary to-green-accent hover:shadow-lg hover:shadow-green-accent/30 transition-all duration-300">
-                                            View Scholarship
-                                            <ExternalLink className="w-4 h-4 ml-2" />
-                                        </Button>
-                                    </a>
-                                    <a
-                                        href={MATT_FISHMAN_SCHOLARSHIP.links.neuArticle}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Button variant="outline" className="border-green-accent/30 text-green-light hover:bg-green-accent/10">
-                                            Read NEU Article
-                                            <ExternalLink className="w-4 h-4 ml-2" />
-                                        </Button>
-                                    </a>
-                                </div>
+                                ))}
                             </div>
 
-                            {/* Impact stats */}
-                            <div className="space-y-6">
-                                <div className="grid grid-cols-3 gap-4">
-                                    {impactItems.map((item) => (
-                                        <div
-                                            key={item.label}
-                                            className="p-4 rounded-2xl bg-green-dark-bg/50 border border-green-accent/10 text-center"
-                                        >
-                                            <div className="text-2xl md:text-3xl font-display font-bold text-gradient mb-1">
-                                                <AnimatedCounter end={item.value} prefix={item.prefix} suffix={item.suffix} />
+                            {/* Fish Fest history */}
+                            <div>
+                                <h4 className="font-display text-base font-semibold text-heritage-900 mb-4">
+                                    Fish Fest History
+                                </h4>
+                                <div className="border-t border-stone-200">
+                                    {fishFestEvents.map((event) => (
+                                        <div key={event.id} className="flex items-center justify-between py-3 border-b border-stone-200 text-sm">
+                                            <span className="text-stone-600">{event.season}</span>
+                                            <div className="flex items-center gap-6">
+                                                <span className="font-semibold text-heritage-900 tabular-nums">
+                                                    ${event.amountRaised.toLocaleString()}
+                                                </span>
+                                                <span className="text-stone-400 text-xs tabular-nums">
+                                                    {event.guests} guests
+                                                </span>
                                             </div>
-                                            <p className="text-green-light/60 text-xs font-medium uppercase tracking-wide">
-                                                {item.label}
-                                            </p>
                                         </div>
                                     ))}
-                                </div>
-
-                                {/* Fish Fest history */}
-                                <div className="p-6 rounded-2xl bg-green-dark-bg/30 border border-green-accent/10">
-                                    <h4 className="font-display text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                                        <Music className="w-5 h-5 text-green-accent" />
-                                        Fish Fest History
-                                    </h4>
-                                    <div className="space-y-3">
-                                        {fishFestEvents.map((event) => (
-                                            <div key={event.id} className="flex items-center justify-between text-sm">
-                                                <div className="flex items-center gap-2">
-                                                    <Calendar className="w-3.5 h-3.5 text-green-accent/70" />
-                                                    <span className="text-green-light/70">{event.season}</span>
-                                                </div>
-                                                <div className="flex items-center gap-4">
-                                                    <span className="text-green-accent font-semibold">
-                                                        ${event.amountRaised.toLocaleString()}
-                                                    </span>
-                                                    <span className="text-green-light/50 flex items-center gap-1">
-                                                        <Users className="w-3 h-3" />
-                                                        {event.guests}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,22 +118,22 @@ export function PhilanthropyPartner() {
 
                     {/* Partner organizations */}
                     <motion.div variants={fadeInUp}>
-                        <h3 className="font-display text-xl font-semibold text-white mb-6 text-center">
-                            Our Community Partners
+                        <h3 className="font-display text-lg font-semibold text-heritage-900 mb-6">
+                            Community Partners
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {PHILANTHROPY_PARTNERS.map((partner) => (
                                 <a
                                     key={partner.name}
                                     href={partner.website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group p-6 rounded-2xl bg-green-card border border-green-accent/10 hover:border-green-accent/30 transition-all duration-300"
+                                    className="group py-5 border-b border-stone-200 md:border-b-0 md:pr-6"
                                 >
-                                    <h4 className="font-semibold text-white mb-2 group-hover:text-green-accent transition-colors">
+                                    <h4 className="font-semibold text-heritage-900 mb-2 group-hover:text-gold-700 transition-colors duration-200">
                                         {partner.name}
                                     </h4>
-                                    <p className="text-green-light/60 text-sm leading-relaxed">
+                                    <p className="text-stone-500 text-sm leading-relaxed">
                                         {partner.description}
                                     </p>
                                 </a>
@@ -167,9 +142,6 @@ export function PhilanthropyPartner() {
                     </motion.div>
                 </motion.div>
             </div>
-
-            {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none z-0" />
         </section>
     );
 }

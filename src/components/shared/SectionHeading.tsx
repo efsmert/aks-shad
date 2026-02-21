@@ -2,7 +2,6 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { textReveal } from '@/lib/animations';
 
 interface SectionHeadingProps {
     title: string;
@@ -14,7 +13,7 @@ interface SectionHeadingProps {
 export function SectionHeading({
     title,
     subtitle,
-    centered = true,
+    centered = false,
     className = '',
 }: SectionHeadingProps) {
     const ref = useRef<HTMLDivElement>(null);
@@ -23,33 +22,33 @@ export function SectionHeading({
     return (
         <div
             ref={ref}
-            className={`mb-12 ${centered ? 'text-center' : ''} ${className}`}
+            className={`mb-12 lg:mb-16 ${centered ? 'text-center' : ''} ${className}`}
         >
+            {/* Gold accent rule */}
+            <motion.div
+                initial={{ scaleX: 0, originX: centered ? 0.5 : 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+                transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                className={`w-12 h-[2px] bg-gold-600 mb-6 ${centered ? 'mx-auto' : ''}`}
+            />
             <motion.h2
-                variants={textReveal}
-                initial="hidden"
-                animate={isInView ? 'visible' : 'hidden'}
-                className="font-display text-4xl md:text-5xl font-bold text-white mb-4"
+                initial={{ opacity: 0, y: 16 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.1, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                className="font-display text-section font-bold text-heritage-900 mb-4"
             >
                 {title}
             </motion.h2>
             {subtitle && (
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-green-light/70 text-lg max-w-2xl mx-auto"
+                    transition={{ delay: 0.2, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                    className={`text-stone-600 text-lg leading-relaxed ${centered ? 'max-w-2xl mx-auto' : 'max-w-xl'}`}
                 >
                     {subtitle}
                 </motion.p>
             )}
-            <motion.div
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className={`h-1 w-24 bg-gradient-to-r from-green-accent to-green-secondary rounded-full mt-6 ${centered ? 'mx-auto' : ''
-                    }`}
-            />
         </div>
     );
 }

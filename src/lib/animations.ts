@@ -1,161 +1,172 @@
 import { Variants, Transition } from 'framer-motion';
 
-// Liquid transition - smooth, organic feel (used internally)
-const liquidTransition: Transition = {
-    type: "spring",
-    stiffness: 100,
-    damping: 20,
-    mass: 1
-};
+// ── Easing curves (per motion-design reference) ──
+// Use exponential curves for natural deceleration
+const easeOutQuart = [0.25, 1, 0.5, 1] as const;
+const easeOutExpo = [0.16, 1, 0.3, 1] as const;
+const easeInOut = [0.65, 0, 0.35, 1] as const;
 
-// Faster liquid transition for quick interactions (used internally)
-const quickLiquidTransition: Transition = {
-    type: "spring",
-    stiffness: 200,
-    damping: 25,
-    mass: 0.8
-};
-
-// Smooth ease transition (used internally)
-const smoothTransition: Transition = {
+// ── Transitions ──
+const enterTransition: Transition = {
     duration: 0.6,
-    ease: [0.22, 1, 0.36, 1]
+    ease: easeOutQuart,
 };
 
-// Fade in up animation
+const quickTransition: Transition = {
+    duration: 0.35,
+    ease: easeOutQuart,
+};
+
+const exitTransition: Transition = {
+    duration: 0.25,
+    ease: easeOutQuart,
+};
+
+// ── Fade in variants ──
 export const fadeInUp: Variants = {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 24 },
     animate: {
         opacity: 1,
         y: 0,
-        transition: liquidTransition
+        transition: enterTransition,
     },
     exit: {
         opacity: 0,
-        y: -10,
-        transition: quickLiquidTransition
-    }
+        y: -12,
+        transition: exitTransition,
+    },
 };
 
-// Fade in down animation
 export const fadeInDown: Variants = {
     initial: { opacity: 0, y: -20 },
     animate: {
         opacity: 1,
         y: 0,
-        transition: liquidTransition
+        transition: enterTransition,
     },
     exit: {
         opacity: 0,
         y: 10,
-        transition: quickLiquidTransition
-    }
+        transition: exitTransition,
+    },
 };
 
-// Stagger container
+export const fadeIn: Variants = {
+    initial: { opacity: 0 },
+    animate: {
+        opacity: 1,
+        transition: { duration: 0.5, ease: easeOutQuart },
+    },
+};
+
+// ── Stagger container ──
 export const staggerContainer: Variants = {
     initial: {},
     animate: {
         transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.2
-        }
-    }
-};
-
-// Card hover animation
-export const cardHover = {
-    rest: {
-        y: 0,
-        boxShadow: "0 4px 20px rgba(46, 204, 113, 0.1)",
-        transition: liquidTransition
+            staggerChildren: 0.08,
+            delayChildren: 0.1,
+        },
     },
-    hover: {
-        y: -8,
-        boxShadow: "0 20px 40px rgba(46, 204, 113, 0.2)",
-        transition: liquidTransition
-    }
 };
 
-// Image zoom animation
-export const imageZoom = {
-    rest: {
-        scale: 1,
-        transition: smoothTransition
-    },
-    hover: {
-        scale: 1.05,
-        transition: smoothTransition
-    }
-};
-
-// Modal animation
-export const modalContent: Variants = {
-    initial: { opacity: 0, y: 50, scale: 0.95 },
+export const staggerContainerSlow: Variants = {
+    initial: {},
     animate: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: liquidTransition
+        transition: {
+            staggerChildren: 0.12,
+            delayChildren: 0.2,
+        },
     },
-    exit: {
-        opacity: 0,
-        y: 30,
-        scale: 0.95,
-        transition: quickLiquidTransition
-    }
 };
 
-// Nav link underline animation
-export const navUnderline: Variants = {
-    initial: { scaleX: 0, originX: 0 },
-    hover: {
-        scaleX: 1,
-        transition: quickLiquidTransition
-    }
-};
-
-// Text reveal animation (for headlines)
-// Note: clipPath extends to 120% at bottom to prevent clipping of letter descenders (y, g, p, etc.)
+// ── Text reveal (for headlines — clip-path approach) ──
 export const textReveal: Variants = {
     hidden: {
         opacity: 0,
-        y: 30,
-        clipPath: "polygon(0 -20%, 100% -20%, 100% 0%, 0 0%)"
+        y: 20,
     },
     visible: {
         opacity: 1,
         y: 0,
-        clipPath: "polygon(0 -20%, 100% -20%, 100% 120%, 0 120%)",
         transition: {
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1]
-        }
-    }
+            duration: 0.7,
+            ease: easeOutExpo,
+        },
+    },
 };
 
-// Letter stagger for text
+// ── Letter-by-letter stagger ──
 export const letterStagger: Variants = {
     hidden: {},
     visible: {
         transition: {
-            staggerChildren: 0.03
-        }
-    }
+            staggerChildren: 0.04,
+        },
+    },
 };
 
 export const letterAnimation: Variants = {
     hidden: {
         opacity: 0,
-        y: 20
+        y: 16,
     },
     visible: {
         opacity: 1,
         y: 0,
         transition: {
             duration: 0.4,
-            ease: [0.22, 1, 0.36, 1]
-        }
-    }
+            ease: easeOutQuart,
+        },
+    },
 };
 
+// ── Nav link underline ──
+export const navUnderline: Variants = {
+    initial: { scaleX: 0, originX: 0 },
+    hover: {
+        scaleX: 1,
+        transition: quickTransition,
+    },
+};
+
+// ── Modal ──
+export const modalContent: Variants = {
+    initial: { opacity: 0, y: 40, scale: 0.97 },
+    animate: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: enterTransition,
+    },
+    exit: {
+        opacity: 0,
+        y: 20,
+        scale: 0.97,
+        transition: exitTransition,
+    },
+};
+
+// ── Card hover (subtle lift) ──
+export const cardHover = {
+    rest: {
+        y: 0,
+        transition: quickTransition,
+    },
+    hover: {
+        y: -4,
+        transition: quickTransition,
+    },
+};
+
+// ── Image zoom ──
+export const imageZoom = {
+    rest: {
+        scale: 1,
+        transition: quickTransition,
+    },
+    hover: {
+        scale: 1.03,
+        transition: quickTransition,
+    },
+};

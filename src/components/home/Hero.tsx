@@ -1,101 +1,152 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { letterStagger, letterAnimation } from '@/lib/animations';
 import Link from 'next/link';
-
-// Breathing animation classes for each letter - different timings for organic feel
-const breatheClasses = [
-    'animate-breathe-1', // Α - 4s cycle
-    'animate-breathe-2', // Κ - 4.5s cycle  
-    'animate-breathe-3', // Σ - 5s cycle
-];
+import Image from 'next/image';
 
 export function Hero() {
-    const greekLetters = 'ΑΚΣ'.split('');
-
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Hero content */}
-            <div className="relative z-10 text-center px-4">
-                {/* Greek Letters - with breathing animation */}
-                <motion.div
-                    variants={letterStagger}
-                    initial="hidden"
-                    animate="visible"
-                    className="flex justify-center gap-4 md:gap-8 mb-6 relative"
-                >
-                    {greekLetters.map((letter, index) => (
-                        <motion.span
-                            key={letter}
-                            variants={letterAnimation}
-                            className={`text-[8rem] md:text-[12rem] lg:text-[16rem] font-display font-black text-gradient leading-none relative ${breatheClasses[index]}`}
-                            style={{
-                                // Stagger the animation start for each letter
-                                animationDelay: `${index * 0.8}s`,
-                                // Static glow effect (not animated - much cheaper)
-                                filter: 'drop-shadow(0 0 50px rgba(46, 204, 113, 0.5))',
-                                // GPU layer promotion for smooth animations
-                                willChange: 'transform, opacity',
-                            }}
-                        >
-                            {letter}
-                        </motion.span>
-                    ))}
-                </motion.div>
+        <section className="relative min-h-screen flex items-end pb-20 lg:pb-28 overflow-hidden">
+            {/* Subtle background texture */}
+            <div
+                className="absolute inset-0 opacity-[0.03]"
+                style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                }}
+            />
 
-                {/* Tagline */}
-                <motion.p
+
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end">
+                    {/* Left: Main content — left-aligned, editorial */}
+                    <div className="lg:col-span-7 pt-32 lg:pt-40">
+                        {/* Overline */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                            className="text-gold-600 text-sm font-semibold tracking-[0.2em] uppercase mb-6"
+                        >
+                            Northeastern University · Est. 1919
+                        </motion.p>
+
+                        {/* Title — Large, serif, left-aligned */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1, duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                            className="font-display font-black text-heritage-900 leading-[0.95] mb-8"
+                            style={{ fontSize: 'clamp(3.5rem, 8vw, 8rem)' }}
+                        >
+                            <span className="block">Alpha</span>
+                            <span className="block">Kappa</span>
+                            <span className="block text-gold-600">Sigma</span>
+                        </motion.h1>
+
+                        {/* Greek letters — refined, integrated */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.25, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="flex items-center gap-6 mb-8"
+                        >
+                            <span className="font-display text-5xl lg:text-6xl font-black text-heritage-900 tracking-[0.15em]">
+                                ΑΚΣ
+                            </span>
+                            <div className="h-12 w-[1px] bg-stone-300" />
+                            <p className="text-stone-500 text-base lg:text-lg font-light italic">
+                                Advancement of Kindred Sympathy
+                            </p>
+                        </motion.div>
+
+                        {/* Description */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.35, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="text-stone-600 text-lg leading-relaxed max-w-lg mb-10"
+                        >
+                            Over a century of building lifelong bonds, developing leaders, and creating
+                            a community rooted in genuine care and mutual growth.
+                        </motion.p>
+
+                        {/* CTA — asymmetric, intentional hierarchy */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.45, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="flex flex-wrap items-center gap-4"
+                        >
+                            <Link
+                                href="/rush"
+                                className="px-7 py-3.5 bg-heritage-900 text-white font-semibold text-sm rounded-sm transition-all duration-200 hover:bg-heritage-800"
+                            >
+                                Rush ΑΚΣ
+                            </Link>
+                            <Link
+                                href="/brothers"
+                                className="px-7 py-3.5 border border-heritage-900 text-heritage-900 font-semibold text-sm rounded-sm transition-all duration-200 hover:bg-heritage-900 hover:text-white"
+                            >
+                                Meet Our Brothers
+                            </Link>
+                        </motion.div>
+                    </div>
+
+                    {/* Right: Crest / visual anchor */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+                        className="lg:col-span-5 flex justify-center lg:justify-end"
+                    >
+                        <div className="relative">
+                            {/* Decorative ring */}
+                            <div className="absolute -inset-6 rounded-full border border-stone-200" />
+                            <div className="absolute -inset-12 rounded-full border border-stone-100" />
+                            <Image
+                                src="/metal-rounded.png"
+                                alt="Alpha Kappa Sigma chapter crest"
+                                width={320}
+                                height={320}
+                                className="rounded-full relative z-10"
+                                priority
+                            />
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Stats strip — beneath the hero fold */}
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-green-light/60 text-lg md:text-xl tracking-widest uppercase mb-8 font-light"
+                    transition={{ delay: 0.7, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                    className="mt-16 pt-8 border-t border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-8"
                 >
-                    Advancement of Kindred Sympathy
-                </motion.p>
-
-                {/* CTA Buttons */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                >
-                    <Link href="/rush">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="px-8 py-4 bg-gradient-to-r from-green-secondary to-green-accent text-white font-semibold rounded-full text-lg transition-shadow duration-300 hover:shadow-lg hover:shadow-green-accent/30"
+                    {[
+                        { value: '1919', label: 'Year Founded' },
+                        { value: '46+', label: 'Active Brothers' },
+                        { value: '500+', label: 'Alumni Network' },
+                        { value: '100+', label: 'Years of Brotherhood' },
+                    ].map((stat, i) => (
+                        <motion.div
+                            key={stat.label}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                delay: 0.8 + i * 0.08,
+                                duration: 0.5,
+                                ease: [0.25, 1, 0.5, 1],
+                            }}
                         >
-                            Rush ΑΚΣ
-                        </motion.button>
-                    </Link>
-                    <Link href="/brothers">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="px-8 py-4 border-2 border-green-accent/50 text-green-light font-semibold rounded-full text-lg hover:bg-green-accent/10 transition-all duration-300"
-                        >
-                            Meet Our Brothers
-                        </motion.button>
-                    </Link>
+                            <p className="font-display text-3xl lg:text-4xl font-bold text-heritage-900 tabular-nums">
+                                {stat.value}
+                            </p>
+                            <p className="text-stone-500 text-sm mt-1">{stat.label}</p>
+                        </motion.div>
+                    ))}
                 </motion.div>
             </div>
-
-            {/* Scroll indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-green-light/50"
-            >
-                <span className="text-sm">Scroll to explore</span>
-                <ChevronDown className="w-6 h-6 animate-bounce" />
-            </motion.div>
-
-            {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-green-dark-bg to-transparent" />
         </section>
     );
 }

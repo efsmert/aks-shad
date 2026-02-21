@@ -2,103 +2,243 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════
+   AKΣ Design System — Editorial Collegiate Heritage
+   
+   Palette:
+     - Background:  warm stone/cream (light mode)
+     - Primary:     deep forest green (#1a3a2a)
+     - Accent:      antique gold (#b8860b → refined)
+     - Text:        deep warm charcoal
+     - Surface:     warm whites and tinted neutrals
+   
+   Typography:
+     - Display:  Fraunces (variable serif, editorial)
+     - Body:     Plus Jakarta Sans (geometric humanist)
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #0a0f0d;
-  --foreground: #a8e6cf;
-  --radius: 0.5rem;
+  /* ── Primitive Tokens (OKLCH) ── */
+  --green-900: oklch(22% 0.06 155);
+  --green-800: oklch(28% 0.07 155);
+  --green-700: oklch(34% 0.08 155);
+  --green-600: oklch(40% 0.08 155);
+  --green-500: oklch(46% 0.07 155);
+  --green-400: oklch(55% 0.06 155);
+  --green-300: oklch(65% 0.04 155);
+  --green-200: oklch(80% 0.02 155);
+  --green-100: oklch(90% 0.01 155);
+  --green-50: oklch(96% 0.005 155);
+
+  --gold-700: oklch(52% 0.12 80);
+  --gold-600: oklch(58% 0.13 80);
+  --gold-500: oklch(64% 0.14 78);
+  --gold-400: oklch(72% 0.11 78);
+  --gold-300: oklch(80% 0.07 78);
+  --gold-200: oklch(88% 0.04 78);
+  --gold-100: oklch(94% 0.02 78);
+
+  --stone-900: oklch(18% 0.01 60);
+  --stone-800: oklch(25% 0.01 60);
+  --stone-700: oklch(35% 0.01 60);
+  --stone-600: oklch(45% 0.01 60);
+  --stone-500: oklch(55% 0.01 60);
+  --stone-400: oklch(65% 0.01 60);
+  --stone-300: oklch(78% 0.01 60);
+  --stone-200: oklch(88% 0.008 60);
+  --stone-100: oklch(94% 0.005 60);
+  --stone-50: oklch(97% 0.003 60);
+
+  /* ── Semantic Tokens ── */
+  --color-bg: var(--stone-50);
+  --color-bg-elevated: oklch(99% 0.002 60);
+  --color-bg-inset: var(--stone-100);
+  --color-surface: oklch(98% 0.003 60);
+  --color-surface-hover: var(--stone-100);
+
+  --color-primary: var(--green-900);
+  --color-primary-mid: var(--green-700);
+  --color-primary-soft: var(--green-200);
+
+  --color-accent: var(--gold-600);
+  --color-accent-soft: var(--gold-200);
+  --color-accent-muted: var(--gold-300);
+
+  --color-text: var(--stone-900);
+  --color-text-secondary: var(--stone-600);
+  --color-text-muted: var(--stone-500);
+
+  --color-border: var(--stone-200);
+  --color-border-subtle: oklch(92% 0.005 60);
+
+  /* ── Typography ── */
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ── Spacing (4pt base) ── */
+  --space-xs: 0.25rem;
+  /* 4px */
+  --space-sm: 0.5rem;
+  /* 8px */
+  --space-md: 1rem;
+  /* 16px */
+  --space-lg: 1.5rem;
+  /* 24px */
+  --space-xl: 2rem;
+  /* 32px */
+  --space-2xl: 3rem;
+  /* 48px */
+  --space-3xl: 4rem;
+  /* 64px */
+  --space-4xl: 6rem;
+  /* 96px */
+  --space-5xl: 8rem;
+  /* 128px */
+
+  /* ── Motion ── */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Radius ── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
 }
 
-.dark {
-  --background: #0a0f0d;
-  --foreground: #a8e6cf;
-}
-
+/* ── Base Resets ── */
 @layer base {
   * {
-    @apply border-green-accent/20;
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-kerning: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-green-dark-bg text-green-light;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+    font-optical-sizing: auto;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 3vw + 0.5rem, 3.5rem);
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2vw + 0.25rem, 1.75rem);
+  }
+
+  p {
+    max-width: 65ch;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Focus visible */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
-/* Hide scrollbar but keep scrolling functional */
-/* This completely eliminates layout shift when modals open */
-html {
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE and Edge */
+/* ── Utility: section divider ── */
+.section-divider {
+  width: 3rem;
+  height: 2px;
+  background: var(--color-accent);
 }
 
-html::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera */
+/* ── Utility: editorial rule line ── */
+.rule-line {
+  border: none;
+  height: 1px;
+  background: var(--color-border);
 }
 
-/* Text gradient utility - dark forest green AKS vibe */
-.text-gradient {
-  background: linear-gradient(135deg, #0d4d2b 0%, #1a7d4e 35%, #2ecc71 65%, #1a7d4e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glass effect */
-.glass {
-  background: rgba(15, 26, 20, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(46, 204, 113, 0.1);
-}
-
-/* Liquid button effect */
-.liquid-button {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.liquid-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.liquid-button:hover::before {
-  left: 100%;
-}
-
-/* Shimmer animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+/* ── Animation: stagger reveal ── */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
   }
 
-  100% {
-    background-position: 200% 0;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.1), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
+.animate-reveal {
+  animation: reveal-up 0.7s var(--ease-out-quart) both;
 }
 
-/* Gradient mesh background */
-.gradient-mesh {
-  background:
-    radial-gradient(at 40% 20%, rgba(13, 77, 43, 0.3) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgba(26, 125, 78, 0.2) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(46, 204, 113, 0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, rgba(13, 77, 43, 0.2) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(26, 125, 78, 0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 100%, rgba(46, 204, 113, 0.1) 0px, transparent 50%);
+@media (prefers-reduced-motion: reduce) {
+  .animate-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Tabular numbers for data ── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Custom scrollbar (subtle) ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--stone-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--stone-400);
 }

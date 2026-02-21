@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { PasswordScreen } from './PasswordScreen';
 
-// Lazy load FamilyTree to prevent it from blocking password screen
 const FamilyTree = dynamic(() => import('./FamilyTree').then(mod => ({ default: mod.FamilyTree })), {
     loading: () => (
-        <div className="min-h-screen bg-green-dark-bg flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-green-accent border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-heritage-900 border-t-transparent rounded-full animate-spin" />
         </div>
     ),
 });
@@ -27,8 +26,8 @@ export function RitualContent() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-green-dark-bg flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-green-accent border-t-transparent rounded-full animate-spin" />
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-heritage-900 border-t-transparent rounded-full animate-spin" />
             </div>
         );
     }

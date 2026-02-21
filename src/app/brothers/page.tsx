@@ -1,26 +1,24 @@
-import { Metadata } from 'next';
-import { BrotherGrid } from '@/components/brothers/BrotherGrid';
-import { SectionHeading } from '@/components/shared/SectionHeading';
+import type { Metadata } from 'next';
 import { brothers } from '@/data/brothers';
+import { BrotherGrid } from '@/components/brothers/BrotherGrid';
+import { BrothersHero } from '@/components/brothers/BrothersHero';
 
 export const metadata: Metadata = {
     title: 'Our Brothers | Alpha Kappa Sigma',
-    description: 'Get to know the brothers of Alpha Kappa Sigma at Northeastern University. Our members come from diverse backgrounds, united by shared values and lifelong bonds.',
+    description: 'Meet the brothers of Alpha Kappa Sigma at Northeastern University.',
 };
 
 export default function BrothersPage() {
     return (
-        <div className="pt-32 pb-24 px-4">
-            <div className="max-w-7xl mx-auto">
-                <SectionHeading
-                    title="Our Brothers"
-                    subtitle="Get to know the brothers who make AKΣ what it is today. Our members come from diverse backgrounds, united by shared values and a commitment to excellence."
-                />
+        <div className="min-h-screen">
+            <BrothersHero />
 
-                <div className="mt-12">
+            {/* Grid */}
+            <section className="pb-24 px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
                     <BrotherGrid brothers={brothers} />
                 </div>
-            </div>
+            </section>
         </div>
     );
 }

@@ -2,80 +2,72 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { CHAPTER_STATS } from '@/lib/constants';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
-import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
-import { SectionHeading } from '@/components/shared/SectionHeading';
 
 export function About() {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-    const stats = [
-        { value: CHAPTER_STATS.foundingYear, label: 'Year Founded', prefix: '', formatNumber: false },
-        { value: CHAPTER_STATS.activeBrothers, label: 'Active Brothers', suffix: '+' },
-        { value: CHAPTER_STATS.totalChapters, label: 'Chapter Nationwide' },
-        { value: CHAPTER_STATS.alumni, label: 'Alumni', suffix: '+' },
-    ];
-
     return (
-        <section ref={ref} className="py-24 px-4 relative">
-            {/* Top gradient fade for seamless transition from previous section */}
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-green-dark-bg to-transparent pointer-events-none z-0" />
-
-            <div className="max-w-7xl mx-auto relative z-10 pt-8">
-                <SectionHeading
-                    title="Our Legacy"
-                    subtitle="Founded in 1919 at Northeastern University, Alpha Kappa Sigma has been building brotherhood, developing leaders, and creating lifelong connections for over a century."
-                />
-
+        <section ref={ref} className="py-24 lg:py-32 px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
                 <motion.div
                     variants={staggerContainer}
                     initial="initial"
                     animate={isInView ? 'animate' : 'initial'}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16"
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12"
                 >
-                    {/* Text content */}
-                    <motion.div variants={fadeInUp} className="space-y-6">
-                        <p className="text-green-light/80 text-lg leading-relaxed">
-                            Since our founding in 1919 at Northeastern University, Alpha Kappa Sigma has been more than just
-                            a fraternity—we&apos;re a brotherhood built on camaraderie, leadership, and lifelong connections.
-                        </p>
-                        <p className="text-green-light/80 text-lg leading-relaxed">
-                            Our members come from diverse backgrounds, united by shared values and a commitment to excellence
-                            in academics, service, personal growth, as well as the advancement of kindred sympathy.
-                        </p>
-                        <p className="text-green-light/80 text-lg leading-relaxed">
-                            Whether we&apos;re organizing campus events, giving back to the community, or just enjoying time
-                            together, the bonds we forge here last a lifetime. Get to know the brothers who make AKΣ what it is today.
+                    {/* Left column — editorial heading */}
+                    <motion.div variants={fadeInUp} className="lg:col-span-5">
+                        <div className="section-divider mb-6" />
+                        <h2 className="font-display text-section font-bold text-heritage-900 mb-6">
+                            Our Legacy
+                        </h2>
+                        <p className="text-stone-500 text-lg leading-relaxed">
+                            Founded in 1919 at Northeastern University, Alpha Kappa Sigma has been
+                            building brotherhood, developing leaders, and creating lifelong
+                            connections for over a century.
                         </p>
                     </motion.div>
 
-                    {/* Stats grid */}
-                    <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-6">
-                        {stats.map((stat) => (
-                            <motion.div
-                                key={stat.label}
-                                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(46, 204, 113, 0.2)' }}
-                                className="p-6 rounded-2xl bg-green-card border border-green-accent/10 text-center transition-all duration-300"
-                            >
-                                <div className="text-4xl md:text-5xl font-display font-bold text-gradient mb-2">
-                                    <AnimatedCounter
-                                        end={stat.value}
-                                        prefix={stat.prefix}
-                                        suffix={stat.suffix}
-                                        formatNumber={stat.formatNumber}
-                                    />
-                                </div>
-                                <p className="text-green-light/70 text-sm">{stat.label}</p>
-                            </motion.div>
-                        ))}
+                    {/* Right column — body text, asymmetric */}
+                    <motion.div variants={fadeInUp} className="lg:col-span-7 lg:pt-4">
+                        <div className="space-y-6">
+                            <p className="text-stone-600 text-lg leading-relaxed">
+                                Since our founding in 1919 at Northeastern University, Alpha Kappa Sigma
+                                has been more than just a fraternity—we&apos;re a brotherhood built on
+                                camaraderie, leadership, and lifelong connections.
+                            </p>
+                            <p className="text-stone-600 text-lg leading-relaxed">
+                                Our members come from diverse backgrounds, united by shared values and a
+                                commitment to excellence in academics, service, personal growth, as well
+                                as the advancement of kindred sympathy.
+                            </p>
+                            <p className="text-stone-600 text-lg leading-relaxed">
+                                Whether we&apos;re organizing campus events, giving back to the community,
+                                or simply enjoying time together, the bonds we forge here last a lifetime.
+                                Get to know the brothers who make AKΣ what it is today.
+                            </p>
+                        </div>
+
+                        {/* Inline quote */}
+                        <motion.blockquote
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ delay: 0.4, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                            className="mt-10 pl-6 border-l-2 border-gold-600"
+                        >
+                            <p className="text-heritage-800 text-xl font-display italic leading-relaxed">
+                                &ldquo;The advancement of kindred sympathy—genuine care and understanding
+                                that strengthens our lifelong connections.&rdquo;
+                            </p>
+                            <cite className="block text-stone-500 text-sm mt-3 not-italic">
+                                — Founding principle, 1919
+                            </cite>
+                        </motion.blockquote>
                     </motion.div>
                 </motion.div>
             </div>
-
-            {/* Bottom gradient fade for seamless transition to next section */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-dark-bg to-transparent pointer-events-none" />
         </section>
     );
 }

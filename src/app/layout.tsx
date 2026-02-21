@@ -1,31 +1,53 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { GradientBackground } from "@/components/shared/GradientBackground";
 
-const inter = Inter({
-  variable: "--font-inter",
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["opsz"],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-  description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
-  keywords: ["fraternity", "Alpha Kappa Sigma", "AKS", "Greek life", "brotherhood", "leadership", "Northeastern University", "Boston"],
+  title: "Alpha Kappa Sigma | ΑΚΣ at Northeastern University",
+  description:
+    "Alpha Kappa Sigma — Advancement of Kindred Sympathy. A brotherhood built on shared values since 1919 at Northeastern University.",
+  keywords: [
+    "fraternity",
+    "Alpha Kappa Sigma",
+    "AKS",
+    "Greek life",
+    "brotherhood",
+    "Northeastern University",
+    "Boston",
+  ],
   authors: [{ name: "Alpha Kappa Sigma" }],
   openGraph: {
-    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-    description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
+    title: "Alpha Kappa Sigma | ΑΚΣ at Northeastern University",
+    description:
+      "Alpha Kappa Sigma — Advancement of Kindred Sympathy. A brotherhood built on shared values since 1919 at Northeastern University.",
     type: "website",
     siteName: "Alpha Kappa Sigma",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alpha Kappa Sigma | ΑΚΣ Fraternity at Northeastern University",
-    description: "Alpha Kappa Sigma fraternity at Northeastern University - Advancement of Kindred Sympathy. Join a brotherhood built on shared values and the advancement of kindred sympathy since 1919.",
+    title: "Alpha Kappa Sigma | ΑΚΣ at Northeastern University",
+    description:
+      "Alpha Kappa Sigma — Advancement of Kindred Sympathy. A brotherhood built on shared values since 1919 at Northeastern University.",
   },
 };
 
@@ -35,13 +57,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} font-sans antialiased bg-green-dark-bg text-white min-h-screen`}
+        className={`${fraunces.variable} ${plusJakarta.variable} font-body antialiased`}
       >
-        <GradientBackground />
         <Header />
-        <main className="relative z-0">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>
