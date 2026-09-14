@@ -175,7 +175,12 @@ const getBrotherRolePriority = (brother: Brother): number => {
         return 999; // No role = lowest priority
     }
 
-    const priorities = brother.positions.map(pos => ROLE_PRIORITY[pos.replace(/ \(Head\)$/, '')] ?? 100);
+    const priorities = brother.positions.map(pos => {
+        const isHead = pos.endsWith(' (Head)');
+        const rolePriority = ROLE_PRIORITY[pos.replace(/ \(Head\)$/, '')] ?? 100;
+        // Preserve the role hierarchy, placing each chair's head before its members.
+        return rolePriority * 2 + (isHead ? 0 : 1);
+    });
     return Math.min(...priorities);
 };
 
