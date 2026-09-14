@@ -16,6 +16,7 @@ export interface Brother {
 }
 
 export interface RushEvent {
+    inviteOnly?: boolean;
     id: string;
     title: string;
     date: string;

@@ -20,8 +20,8 @@ function getRushPeriod(now: Date): RushPeriod {
     const year = now.getFullYear();
     const springRushStart = new Date(year, 0, 8);
     const springRushEnd = new Date(year, 0, 30, 23, 59, 59);
-    const fallRushStart = new Date(year, 8, 12);
-    const fallRushEnd = new Date(year, 9, 9, 23, 59, 59);
+    const fallRushStart = new Date(year, 8, 12, 15);
+    const fallRushEnd = new Date(year, 8, 25, 23, 59, 59);
     const nextSpringRushStart = new Date(year + 1, 0, 8);
 
     if (now < springRushStart) {

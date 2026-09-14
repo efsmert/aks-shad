@@ -19,8 +19,8 @@ export function Timeline() {
         <section id="rush-events" ref={ref} className="py-24 lg:py-32 px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <SectionHeading
-                    title="Rush Schedule"
-                    subtitle="Mark your calendar for these events."
+                    title="Fall 2026 Rush Schedule"
+                    subtitle="All events meet at Centennial Flagpole at the listed time. Times are Eastern."
                 />
 
                 <motion.div
@@ -46,10 +46,17 @@ export function Timeline() {
                             <div className="col-span-8 lg:col-span-9">
                                 <h3 className="font-display text-base font-bold text-heritage-900 mb-1 group-hover:text-gold-700 transition-colors duration-200">
                                     {event.title}
+                                    {event.inviteOnly && (
+                                        <span className="inline-block ml-2 px-2 py-0.5 bg-gold-100 text-gold-700 text-xs font-semibold rounded-sm">
+                                            Invite only
+                                        </span>
+                                    )}
                                 </h3>
-                                <p className="text-stone-600 text-sm leading-relaxed mb-1">
-                                    {event.description}
-                                </p>
+                                {event.description && (
+                                    <p className="text-stone-600 text-sm leading-relaxed mb-1">
+                                        {event.description}
+                                    </p>
+                                )}
                                 <p className="text-stone-400 text-xs">
                                     {event.location}
                                 </p>
