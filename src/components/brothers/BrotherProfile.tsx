@@ -25,10 +25,12 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
     const photoPath = getBrotherPhotoPath(brother.slug);
 
     const details = [
-        { label: 'Major', value: brother.major },
+        { label: 'Major', value: brother.major || 'Not provided' },
+        brother.status !== 'Graduated' && brother.currentYear ? { label: 'Current Year', value: `${brother.currentYear} year` } : null,
         brother.graduationYear ? { label: 'Class of', value: String(brother.graduationYear) } : null,
         brother.hometown ? { label: 'Hometown', value: brother.hometown } : null,
-        { label: 'Status', value: brother.coopStatus === 'Co-op' ? 'On Co-op' : 'Taking Classes' },
+        { label: 'Membership', value: brother.status },
+        brother.status !== 'Graduated' ? { label: 'Classes / Co-op', value: brother.coopStatus === 'Co-op' ? 'On Co-op' : brother.coopStatus === 'Classes' ? 'Taking Classes' : 'Not Sure' } : null,
         { label: 'Pledge Class', value: formatPledgeClass(brother.pledgeClass) },
     ].filter(Boolean) as { label: string; value: string }[];
 
@@ -95,14 +97,14 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 </span>
                             ))}
                             {brother.status !== 'Active' && (
-                                <span className={`text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${brother.status === 'Inactive'
+                                <span className={`text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${(brother.status === 'Inactive' || brother.status === 'Graduated')
                                         ? 'bg-stone-200 text-stone-600'
                                         : 'bg-gold-100 text-gold-700'
                                     }`}>
                                     {brother.status}
                                 </span>
                             )}
-                            {brother.coopStatus === 'Co-op' && (
+                            {brother.status !== 'Graduated' && brother.coopStatus === 'Co-op' && (
                                 <span className="bg-heritage-50 text-heritage-700 text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                                     Co-op
                                 </span>

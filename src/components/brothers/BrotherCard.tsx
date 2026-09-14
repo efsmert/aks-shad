@@ -58,11 +58,11 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
 
                 {/* Position badges */}
                 {brother.positions && brother.positions.length > 0 && (
-                    <div className="absolute top-2 left-2 flex flex-col gap-1">
+                    <div className="absolute top-2 left-2 right-2 flex flex-col items-start gap-1">
                         {brother.positions.map((position, idx) => (
                             <span
                                 key={idx}
-                                className="bg-gold-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider"
+                                className="max-w-full break-words bg-gold-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider"
                             >
                                 {position}
                             </span>
@@ -71,16 +71,16 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
                 )}
 
                 {/* Status badges */}
-                <div className="absolute top-2 right-2 flex flex-col gap-1">
+                <div className="absolute bottom-2 right-2 flex flex-col gap-1">
                     {brother.status !== 'Active' && (
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${brother.status === 'Inactive'
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${(brother.status === 'Inactive' || brother.status === 'Graduated')
                                 ? 'bg-stone-600 text-white'
                                 : 'bg-gold-400 text-heritage-900'
                             }`}>
                             {brother.status}
                         </span>
                     )}
-                    {brother.coopStatus === 'Co-op' && (
+                    {brother.status !== 'Graduated' && brother.coopStatus === 'Co-op' && (
                         <span className="bg-heritage-700 text-white text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                             Co-op
                         </span>

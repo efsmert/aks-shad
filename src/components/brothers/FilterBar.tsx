@@ -74,9 +74,10 @@ export function FilterBar({
                     <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border-stone-200">
-                    <SelectItem value="all" className="text-heritage-900">All Brothers</SelectItem>
+                    <SelectItem value="all" className="text-heritage-900">Current Brothers</SelectItem>
                     <SelectItem value="active" className="text-heritage-900">Active</SelectItem>
                     <SelectItem value="inactive" className="text-heritage-900">Inactive</SelectItem>
+                    <SelectItem value="graduated" className="text-heritage-900">Graduated</SelectItem>
                     <SelectItem value="coop" className="text-heritage-900">On Co-op</SelectItem>
                 </SelectContent>
             </Select>

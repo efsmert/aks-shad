@@ -1,16 +1,17 @@
-import { Brother, createSlug } from '@/types';
+import { Brother, BrotherStatus, CoopStatus, createSlug } from '@/types';
 
 // Helper to create brother entries
 function createBrother(
     id: number,
     name: string,
-    coopStatus: 'Classes' | 'Co-op',
-    status: 'Active' | 'Inactive' | 'Maybe',
+    coopStatus: CoopStatus,
+    status: BrotherStatus,
     major: string,
     graduationYear: number | null,
     hometown: string | null,
     pledgeClass: string,
-    positions?: string[]
+    positions?: string[],
+    currentYear: string | null = null
 ): Brother {
     return {
         id: String(id),
@@ -23,70 +24,85 @@ function createBrother(
         hometown,
         pledgeClass,
         positions,
+        currentYear,
     };
 }
 
 export const brothers: Brother[] = [
-    // Active Brothers
-    createBrother(1, 'Adrian Patel', 'Classes', 'Active', 'Mechanical Engineering and Physics', 2029, 'Boston, MA', 'S25', ['Vice President']),
-    createBrother(2, 'Aidan Gowadia', 'Co-op', 'Active', 'International Business and Finance', 2028, 'Berwyn, PA', 'F25'),
-    createBrother(3, 'Alexander Heyman', 'Classes', 'Active', 'Data Science and Business: SCM', 2028, 'San Francisco, CA', 'F25'),
-    createBrother(4, 'Anthony Min', 'Classes', 'Active', 'Economics', 2026, 'Seoul', 'S23'),
-    createBrother(5, 'Anukrit Sharma', 'Classes', 'Active', 'Computer Engineering and Computer Science', 2028, 'Aldie, VA', 'F25', ['Secretary', 'Dance']),
-    createBrother(6, 'Arya Venkat', 'Classes', 'Active', 'Computer Science', 2028, null, 'S25'),
-    createBrother(7, 'Blake Curl', 'Classes', 'Active', 'Business Administration', 2029, 'Boulder, CO', 'F25'),
-    createBrother(8, 'Carter Horiye', 'Classes', 'Active', 'Business Administration', 2026, 'San Diego', 'F22'),
-    createBrother(9, 'Chase Myers', 'Classes', 'Active', 'Computer Engineering', 2029, 'Broomfield, CO', 'F25'),
-    createBrother(10, 'Conor Brennan', 'Classes', 'Active', 'BA: Finance and Accounting with DS Minor', 2027, 'Winchester, MA', 'S24', ['Philanthropy Chair', 'Social Media', 'Social Programming']),
-    createBrother(11, 'Daschel Knuff', 'Classes', 'Active', 'Music Technology', 2027, null, 'S25', ['Grand Marshall']),
-    createBrother(12, 'David Fridman', 'Classes', 'Active', 'Business Administration: BAC', 2028, 'Weston, CT', 'F25', ['Community Service Chair']),
-    createBrother(13, 'Diego Froehner', 'Classes', 'Active', 'Health Science', 2028, 'Potomac, MD', 'F25', ['Dance']),
-    createBrother(14, 'Finnian Groshek', 'Classes', 'Active', 'Business Administration (Finance)', 2029, 'Bethlehem, NH', 'F25'),
-    createBrother(15, 'Gavin Sarno', 'Classes', 'Active', 'Mechanical Engineering', 2027, 'Whippany, NJ', 'F24'),
-    createBrother(16, 'Gencay Padir', 'Classes', 'Active', 'Business Administration, Supply Chain Management', 2026, 'Westborough, MA', 'F22', ['SEC Chair', 'Formal Chair']),
-    createBrother(17, 'Griffin Fromm', 'Classes', 'Active', 'Business Administration (Finance) and Psychology', 2029, 'Bethesda, MD', 'F25'),
-    createBrother(18, 'Henrik Zahl-Batlle', 'Classes', 'Active', 'Mechanical Engineering', 2026, 'Bethlehem', 'S22', ['Brotherhood Engagement Chair']),
-    createBrother(19, 'Jack Edwards', 'Classes', 'Active', 'Business', 2027, null, 'S25'),
-    createBrother(20, 'Jaesuh Lee', 'Classes', 'Active', 'Mechanical Engineering', 2028, 'Newton, MA', 'F24', ['Social Programming Chair']),
-    createBrother(21, 'Jake Wade', 'Classes', 'Active', 'Biology', 2027, 'Glen Mills, PA', 'F23', ['Alumni Outreach Chair']),
-    createBrother(22, 'James Hughes', 'Co-op', 'Active', 'Civil Engineering', 2027, 'Oradell, NJ', 'F24', ['Risk Manager']),
-    createBrother(23, 'John Rotondo', 'Classes', 'Active', 'Computer Science and Business', 2026, 'Arlington, VA', 'F22'),
-    createBrother(24, 'Karan Doshi', 'Classes', 'Active', 'Economics and Business', 2027, 'Mumbai', 'F24'),
-    createBrother(25, 'Kareem Fawaz', 'Classes', 'Active', 'Computer Science (AI)', 2027, 'Agoura Hills, CA', 'F25'),
-    createBrother(26, 'Liam Collins', 'Classes', 'Active', 'Biology', 2028, null, 'S25'),
-    createBrother(27, 'Luca Bastide-Weissman', 'Classes', 'Active', 'Business Administration', 2028, null, 'S25'),
-    createBrother(28, 'Max Klayman', 'Classes', 'Active', 'International Business, Finance, Journalism', 2027, 'Mendham, NJ', 'S24', ['President', 'Ritual Chair']),
-    createBrother(29, 'Mohammad Yaseen', 'Classes', 'Active', 'International Business Management', 2028, 'New Hyde Park, NY', 'F25'),
-    createBrother(30, 'Oscar Chen', 'Classes', 'Active', 'Business Administration', 2027, 'Winchester, MA', 'F24', ['Brotherhood Engagement Chair']),
-    createBrother(31, 'Perry Yung', 'Co-op', 'Active', 'Finance and Accounting', 2027, 'West Greenwich, RI', 'F24', ['Social Media Chair']),
-    createBrother(32, 'Peter Lin', 'Classes', 'Active', 'Business Administration', 2028, 'Los Angeles', 'F24'),
-    createBrother(33, 'Philippe Jansen-Kollerie', 'Classes', 'Active', 'Mechanical Engineering', 2028, 'Coppet', 'F24', ['New Member Educator']),
-    createBrother(34, 'Ryan Marshall', 'Classes', 'Active', 'Computer Science', 2029, 'Scarborough, ME', 'F25', ['Webmaster']),
-    createBrother(35, 'Sami Areski', 'Classes', 'Active', 'Computer Science', 2028, 'Kingston, MA', 'F24', ['Webmaster']),
-    createBrother(36, 'Sawyer Carlson', 'Co-op', 'Active', 'Mechanical Engineering', 2028, 'Monroe, CT', 'F25', ['SVP & Wellness Chair']),
-    createBrother(37, 'Sebastian de la Torre', 'Classes', 'Active', 'Economics and Business Administration', 2027, 'Mexico City, Mexico', 'S24'),
-    createBrother(38, 'Sebastian Kalus', 'Classes', 'Active', 'Politics, Philosophy & Economics', 2027, 'Shanghai, China', 'S24', ['Treasurer']),
-    createBrother(39, 'Simon Fleischer', 'Co-op', 'Active', 'Business Administration', 2027, 'Ossining, NY', 'F22', ['Ritual Chair']),
-    createBrother(40, 'Stephen Huang', 'Co-op', 'Active', 'Industrial Engineering and Business Administration', 2028, 'Woodcliff Lake, NJ', 'F24', ['Merch Chair', 'Dance']),
-    createBrother(41, 'Thaddeus (Teddy) Curry', 'Classes', 'Active', 'Explore', 2029, 'San Francisco, CA', 'F25'),
-    createBrother(42, 'Walter Goodenough', 'Classes', 'Active', 'Mechanical Engineering', 2026, 'Southington, CT', 'F21'),
-    createBrother(43, 'Xavier Galanes', 'Classes', 'Active', 'Computer Science', 2026, 'Kirkland', 'S23'),
-    createBrother(44, 'Zac Meyer', 'Classes', 'Active', 'Business', 2026, 'Seattle', 'F23'),
-    createBrother(45, 'Zachary Banin', 'Classes', 'Active', 'Business Administration: Marketing', 2028, 'Miami', 'F24'),
-    createBrother(46, 'Zachary Cohen', 'Classes', 'Active', 'Business Administration & Political Science', 2027, 'New York City', 'S24'),
+    // F26 Brotherhood Mastersheet, main roster (page 1). Attendance tabs are historical.
+    createBrother(1, "Adrian Patel", "Co-op", "Active", "Mechanical Engineering and Physics", 2029, "Boston, MA", "S25", ["Vice President"], "Third"),
+    createBrother(2, "Aidan Gowadia", "Classes", "Active", "International Business and Finance", 2028, "Berwyn, PA", "F25", [], "Third"),
+    createBrother(56, "Aidan Rivas", "Classes", "Active", "Mechanical Engineering", 2029, "Providence, RI", "S26", ["Grand Marshall"], "Second"),
+    createBrother(47, "Aiden Benson-Armer", "Classes", "Active", "International Business", 2026, "New York City", "S23", [], "Fifth"),
+    createBrother(57, "Akarsh Subramaniam", "Classes", "Active", "Finance", 2028, "Cupertino, CA", "S26", [], "Second"),
+    createBrother(58, "Alexander Finch", "Classes", "Active", "Computer Science and Business Administration", 2029, "Tampa, FL", "S26", [], "Second"),
+    createBrother(3, "Alexander Heyman", "Classes", "Active", "Business: Finance", 2028, "San Francisco, CA", "F25", [], "Third"),
+    createBrother(48, "Andrew Murphy", "Classes", "Active", "Business Admin: Finance", 2027, "Falls Church, VA", "S23", [], "Fifth"),
+    createBrother(4, "Anthony Min", "Classes", "Active", "Economics", 2026, "Seoul", "S23", [], "Fifth"),
+    createBrother(5, "Anukrit Sharma", "Co-op", "Active", "Computer Engineering and Computer Science", 2028, "Aldie, VA", "F25", [], "Third"),
+    createBrother(59, "Arnav Deshpande", "Classes", "Active", "CS and Business", 2029, "Wisconsin", "S26", [], "Second"),
+    createBrother(6, "Arya Venkat", "Not Sure", "Active", "Computer Science", 2028, null, "S25", [], "Third"),
+    createBrother(7, "Blake Curl", "Classes", "Active", "Business Administration", 2029, "Boulder, CO", "F25", [], "Second"),
+    createBrother(60, "Brian Miller", "Classes", "Active", "Business", 2028, "Alexandria", "S26", [], "Third"),
+    createBrother(61, "Caden Bell", "Classes", "Active", "Economics and Business Administration", 2028, "Boulder, CO", "S26", [], "Third"),
+    createBrother(62, "Cem Yilmaz", "Classes", "Active", "Business Adminstration", 2028, "Izmir, Turkey", "S26", [], "Third"),
+    createBrother(54, "Charlie Rubin", "Co-op", "Active", "Computer Science and Business Administration ; Finance and Entrepreneurial Startups", 2028, "Cedar Rapids, Iowa", "F24", [], "Third"),
+    createBrother(9, "Chase Myers", "Classes", "Active", "Computer Engineering", 2029, "Broomfield, CO", "F25", ["Treasurer"], "Second"),
+    createBrother(11, "Daschel Knuff", "Co-op", "Active", "Music Technology", 2027, null, "S25", [], "Fourth"),
+    createBrother(13, "Diego Froehner", "Classes", "Active", "Health Science", 2028, "Potomac, MD", "F25", [], "Third"),
+    createBrother(63, "Ethan Cin Chung", "Classes", "Active", "Cellular and Molecular Biology", 2029, "Manhattan, NY", "S26", ["Secretary"], "Second"),
+    createBrother(64, "Ethan Liu", "Classes", "Active", "Cybersecurity", 2029, "Brooklyn, NY", "S26", [], "Second"),
+    createBrother(50, "Étienne Griffon", "Classes", "Active", "Finance", 2027, "Upland Ca", "S24", ["Risk Manager", "SVP & Wellness (Head)"], "Fourth"),
+    createBrother(14, "Finnian Groshek", "Classes", "Active", "Business Administration (Finance Concentration)", 2029, "Bethlehem, NH", "F25", [], "Second"),
+    createBrother(15, "Gavin Sarno", "Not Sure", "Active", "Mechanical Engineering", 2027, "Whippany NK", "F24", [], "Fourth"),
+    createBrother(17, "Griffin Fromm", "Co-op", "Active", "Business Administration (Finance Concentration) and Psychology", 2029, "Bethesda, MD", "F25", [], "Third"),
+    createBrother(20, "Jaesuh Lee", "Co-op", "Active", "Mechanical engineering", 2028, "Newton MA", "F24", [], "Fourth"),
+    createBrother(21, "Jake Wade", "Co-op", "Active", "Biology", 2027, "Glen Mills, PA", "F23", ["Pledgemaster"], "Fourth"),
+    createBrother(22, "James Hughes", "Classes", "Active", "Civil Engineering", 2027, "Oradell, NJ", "F24", ["Dance Dad (Head)", "Philanthropy (Head)"], "Fourth"),
+    createBrother(65, "Jason Rivilis", "Classes", "Active", "Mechanical Engineering", 2029, "Somers, Westchester", "S26", [], "Second"),
+    createBrother(66, "Jory Leach", "Classes", "Active", "Econ and International Business", 2029, "Walnut Creek, California", "S26", ["Dance Dad"], "Second"),
+    createBrother(67, "Kai Mehlman", "Classes", "Active", "Environmental and Sustainability Sciences", 2028, "Northampton, MA", "S26", [], null),
+    createBrother(24, "Karan Doshi", "Not Sure", "Active", "Econ and Bs", 2027, "Mumbai", "F24", [], "Fourth"),
+    createBrother(25, "Kareem Fawaz", "Not Sure", "Active", "CS (AI)", 2027, "Agoura Hills, CA", "F25", ["Merch (Head)"], "Fourth"),
+    createBrother(26, "Liam Collins", "Not Sure", "Active", "Biology", 2028, null, "S25", [], "Third"),
+    createBrother(27, "Luca Bastide-Weissman", "Not Sure", "Active", "Business Administration", 2028, null, "S25", [], "Third"),
+    createBrother(68, "Marcus Ashcraft", "Classes", "Active", "Mech E", 2028, "Darien, CT", "S26", [], "Third"),
+    createBrother(28, "Max Klayman", "Co-op", "Active", "International Business, Finance, Journalism Combined", 2027, "Mendham New Jersey", "S24", ["President", "Social Media (Head)"], "Fourth"),
+    createBrother(29, "Mohammad Yaseen", "Classes", "Active", "International Business Management", 2028, "New Hyde Park, NY / Bangladesh", "F25", ["Social Programming (Head)"], "Third"),
+    createBrother(30, "Oscar Chen", "Classes", "Active", "Business Admin", 2027, "Winchester MA", "F24", [], "Fourth"),
+    createBrother(31, "Perry Yung", "Classes", "Active", "Finance and Accounting", 2027, "West Greenwich RI", "F24", [], "Fourth"),
+    createBrother(33, "Philippe Jansen-Kollerie", "Co-op", "Inactive", "Mechanical engineering", 2028, "Coppet", "F24", [], "Third"),
+    createBrother(34, "Ryan Marshall", "Classes", "Active", "Computer Science", 2029, "Scarborough, ME", "F25", [], "Second"),
+    createBrother(35, "Sami Areski", "Not Sure", "Active", "Computer Science", 2028, "Kingston, MA", "F24", ["Webmaster (Head)"], "Third"),
+    createBrother(36, "Sawyer Carlson", "Classes", "Active", "Mechanical Engineering", 2028, "Monroe, CT", "F25", [], "Second"),
+    createBrother(69, "Sebastian Bujarski", "Classes", "Active", "mechanical engineering", 2029, "Lyme, NH", "S26", [], "Second"),
+    createBrother(38, "Sebastian Kalus", "Co-op", "Active", "Politics, Philosophy & Economics", 2027, "Shanghai, China", "S24", ["Alumni Outreach and Engagement (Head)", "Ritual (Head)"], "Fourth"),
+    createBrother(70, "Shawnuk Ballal", "Classes", "Active", "Marketing Psych", 2029, "San Jose, CA", "S26", [], "Second"),
+    createBrother(39, "Simon Fleischer", "Classes", "Active", "business admin", 2027, "Ossining, ny", "F22", [], "Fifth"),
+    createBrother(40, "Stephen Huang", "Classes", "Active", "Combined Industrial Engineering and Business Admin", 2028, "Woodcliff Lake, NJ", "F24", ["Dance Dad"], "Third"),
+    createBrother(71, "Tanay das", "Classes", "Active", "Nursing", 2028, "Stoughton", "S26", [], "Third"),
+    createBrother(41, "Thaddeus (Teddy) Curry", "Classes", "Active", "Explore", 2029, "San Francisco, CA", "F25", ["Brotherhood Engagement (Head)"], "Second"),
+    createBrother(55, "Willis Donaghy", "Co-op", "Active", "Business and Economics", 2027, "Lake Oswego, OR", "F24", [], "Fourth"),
+    createBrother(44, "Zac Meyer", "Classes", "Active", "Business", 2026, "Seattle", "F23", [], "Fifth"),
+    createBrother(46, "Zachary Cohen", "Co-op", "Active", "Business Administration & Political Science", 2027, "New York City", "S24", ["Formal (Head)"], "Fourth"),
+    createBrother(10, "Conor Brennan", "Co-op", "Inactive", "BA: Finance and Accounting and a DS Minor", 2027, "Winchester, Massachusetts", "S24", [], "Fourth"),
+    createBrother(49, "Daniyal Khalid", "Not Sure", "Inactive", "", null, null, "S23", [], "Fifth"),
+    createBrother(12, "David Fridman", "Classes", "Inactive", "Business Administration: BAC", 2028, "Weston, CT", "F25", ["Community Service (Head)"], "Third"),
+    createBrother(19, "Jack Edwards", "Co-op", "Inactive", "Business", 2027, null, "S25", [], "Fourth"),
+    createBrother(32, "Peter Lin", "Classes", "Inactive", "Business admin", 2028, "Los Angeles", "F24", [], "Fourth"),
+    createBrother(37, "Sebastian de la Torre", "Co-op", "Inactive", "Economics and Business Administration", 2027, "Mexico City, Mexico", "S24", [], "Fourth"),
+    createBrother(51, "Tj Kalapatapu", "Classes", "Inactive", "Data Science", 2027, "Fremont, Ca", "S24", [], "Fourth"),
+    createBrother(45, "Zachary Banin", "Co-op", "Inactive", "Business Administration: Marketing", 2028, "Miami", "F24", [], "Third"),
 
-    // Inactive Brothers
-    createBrother(47, 'Aiden Benson-Armer', 'Co-op', 'Inactive', 'International Business', 2026, 'New York City', 'S23'),
-    createBrother(48, 'Andrew Murphy', 'Co-op', 'Inactive', 'Business Admin: Finance', 2027, 'Falls Church, VA', 'S23'),
-    createBrother(49, 'Daniyal Khalid', 'Classes', 'Inactive', 'Undeclared', null, null, 'S23'),
-    createBrother(50, 'Etienne Griffon', 'Co-op', 'Inactive', 'Finance', 2027, 'Upland, CA', 'S24', ['French Chair (Head of Heads)']),
-    createBrother(51, 'Tj Kalapatapu', 'Classes', 'Inactive', 'Data Science', 2027, 'Fremont, CA', 'S24'),
-    createBrother(52, 'Cameron Lee', 'Classes', 'Inactive', 'Economics', 2026, 'Larchmont', 'S23'),
-    createBrother(53, 'Jason Lo', 'Co-op', 'Inactive', 'Undeclared', 2026, null, 'S23'),
-
-    // Maybe Status
-    createBrother(54, 'Charlie Rubin', 'Classes', 'Maybe', 'Computer Science and Business Administration', 2028, 'Cedar Rapids, IA', 'F24'),
-    createBrother(55, 'Willis Donaghy', 'Classes', 'Maybe', 'Business and Economics', 2027, 'Lake Oswego, OR', 'F24'),
+    // Absent from the F26 roster; retained as graduated brothers.
+    createBrother(8, 'Carter Horiye', 'Classes', 'Graduated', 'Business Administration', 2026, 'San Diego', 'F22'),
+    createBrother(16, 'Gencay Padir', 'Classes', 'Graduated', 'Business Administration, Supply Chain Management', 2026, 'Westborough, MA', 'F22'),
+    createBrother(18, 'Henrik Zahl-Batlle', 'Classes', 'Graduated', 'Mechanical Engineering', 2026, 'Bethlehem', 'S22'),
+    createBrother(23, 'John Rotondo', 'Classes', 'Graduated', 'Computer Science and Business', 2026, 'Arlington, VA', 'F22'),
+    createBrother(42, 'Walter Goodenough', 'Classes', 'Graduated', 'Mechanical Engineering', 2026, 'Southington, CT', 'F21'),
+    createBrother(43, 'Xavier Galanes', 'Classes', 'Graduated', 'Computer Science', 2026, 'Kirkland', 'S23'),
+    createBrother(52, 'Cameron Lee', 'Classes', 'Graduated', 'Economics', 2026, 'Larchmont', 'S23'),
+    createBrother(53, 'Jason Lo', 'Co-op', 'Graduated', 'Undeclared', 2026, null, 'S23'),
 ];
 
 // Get unique pledge classes for filtering
@@ -123,6 +139,16 @@ const ROLE_PRIORITY: Record<string, number> = {
     'Secretary': 3,
     'Treasurer': 4,
     'New Member Educator': 5,
+    'Pledgemaster': 5,
+    'Ritual': 9,
+    'Brotherhood Engagement': 10,
+    'Philanthropy': 11,
+    'Community Service': 12,
+    'Alumni Outreach and Engagement': 15,
+    'Formal': 17,
+    'SVP & Wellness': 20,
+    'Merch': 21,
+    'Dance Dad': 22,
     'Risk Manager': 6,
     'Webmaster': 7,
     'Grand Marshall': 8,
@@ -149,9 +175,12 @@ const getBrotherRolePriority = (brother: Brother): number => {
         return 999; // No role = lowest priority
     }
 
-    const priorities = brother.positions.map(pos => ROLE_PRIORITY[pos] ?? 100);
+    const priorities = brother.positions.map(pos => ROLE_PRIORITY[pos.replace(/ \(Head\)$/, '')] ?? 100);
     return Math.min(...priorities);
 };
+
+const normalizeSearch = (value: string): string =>
+    value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 // Filter and sort brothers
 export const filterBrothers = (
@@ -159,18 +188,19 @@ export const filterBrothers = (
     pledgeClass: string,
     statusFilter: string
 ): Brother[] => {
+    const query = normalizeSearch(searchQuery).trim();
     const filtered = brothers.filter(brother => {
-        const matchesSearch = searchQuery === '' ||
-            brother.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            brother.major.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (brother.hometown?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
+        const matchesSearch = query === '' ||
+            [brother.name, brother.major, brother.hometown ?? ''].some(value =>
+                normalizeSearch(value).includes(query));
 
         const matchesPledgeClass = pledgeClass === 'all' || brother.pledgeClass === pledgeClass;
 
-        const matchesStatus = statusFilter === 'all' ||
+        const matchesStatus = (statusFilter === 'all' && brother.status !== 'Graduated') ||
+            (statusFilter === 'graduated' && brother.status === 'Graduated') ||
             (statusFilter === 'active' && brother.status === 'Active') ||
             (statusFilter === 'inactive' && (brother.status === 'Inactive' || brother.status === 'Maybe')) ||
-            (statusFilter === 'coop' && brother.coopStatus === 'Co-op');
+            (statusFilter === 'coop' && brother.status !== 'Graduated' && brother.coopStatus === 'Co-op');
 
         return matchesSearch && matchesPledgeClass && matchesStatus;
     });

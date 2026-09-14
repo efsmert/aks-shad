@@ -1,5 +1,5 @@
-export type BrotherStatus = 'Active' | 'Inactive' | 'Maybe';
-export type CoopStatus = 'Classes' | 'Co-op';
+export type BrotherStatus = 'Active' | 'Inactive' | 'Maybe' | 'Graduated';
+export type CoopStatus = 'Classes' | 'Co-op' | 'Not Sure';
 
 export interface Brother {
     id: string;
@@ -9,6 +9,7 @@ export interface Brother {
     status: BrotherStatus;
     major: string;
     graduationYear: number | null;
+    currentYear?: string | null;
     hometown: string | null;
     pledgeClass: string; // e.g., "F24", "S25"
     positions?: string[]; // Executive/committee positions (e.g., "President", "SEC Chair")
@@ -67,6 +68,8 @@ export function formatPledgeClass(pc: string): string {
 // Helper function to create slug from name (for photo filenames)
 export function createSlug(name: string): string {
     return name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase()
         .replace(/[()]/g, '')
         .replace(/\s+/g, '-')
