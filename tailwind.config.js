@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     content: [
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,6 +8,21 @@ export default {
     theme: {
         extend: {
             colors: {
+                background: 'var(--color-bg)',
+                foreground: 'var(--color-text)',
+                popover: 'var(--color-bg-elevated)',
+                'popover-foreground': 'var(--color-text)',
+                muted: 'var(--color-bg-inset)',
+                'muted-foreground': 'var(--color-text-secondary)',
+                border: 'var(--color-border)',
+                input: 'var(--color-border)',
+                ring: 'var(--color-accent)',
+                primary: 'var(--color-primary)',
+                'primary-foreground': 'var(--color-bg)',
+                secondary: 'var(--color-surface)',
+                'secondary-foreground': 'var(--color-text)',
+                accent: 'var(--color-surface-hover)',
+                'accent-foreground': 'var(--color-text)',
                 // Heritage greens
                 'heritage': {
                     900: 'oklch(22% 0.06 155)',

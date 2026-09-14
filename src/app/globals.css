@@ -242,3 +242,53 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--stone-400);
 }
+/* Midnight forest: warm ivory type, layered green surfaces, antique gold. */
+:root { color-scheme: light; }
+:root.dark {
+  color-scheme: dark;
+  --color-bg: #0c1511;
+  --color-bg-elevated: #19271f;
+  --color-bg-inset: #101d16;
+  --color-surface: #142219;
+  --color-surface-hover: #22382a;
+  --color-primary: #f0eadb;
+  --color-primary-mid: #c3d5bf;
+  --color-primary-soft: #304737;
+  --color-accent: #d4b36b;
+  --color-accent-soft: #3a3220;
+  --color-accent-muted: #bea36b;
+  --color-text: #ece9df;
+  --color-text-secondary: #b3bdb3;
+  --color-text-muted: #9da99e;
+  --color-border: #334438;
+  --color-border-subtle: #233328;
+}
+
+.header-surface {
+  background: color-mix(in srgb, var(--color-bg) 95%, transparent);
+}
+.dark .header-surface { box-shadow: 0 8px 32px #00000024; }
+.dark .theme-toggle { color: var(--color-accent); border-color: #695b38; }
+::selection { background: var(--color-accent); color: #102218; }
+
+/* Adapt existing palette utilities without altering photographs or dark hero panels. */
+@layer utilities {
+  .dark .bg-white, .dark .bg-white\/90 { background-color: var(--color-bg-elevated); }
+  .dark .bg-stone-50, .dark .bg-green-dark-bg { background-color: var(--color-bg); }
+  .dark .bg-stone-100, .dark .bg-green-card, .dark .bg-heritage-50 { background-color: var(--color-bg-inset); }
+  .dark .bg-stone-200, .dark .bg-stone-300 { background-color: var(--color-border); }
+  .dark .bg-gold-100 { background-color: var(--color-accent-soft); }
+  .dark .text-heritage-900, .dark .text-heritage-800, .dark .text-black { color: var(--color-primary); }
+  .dark .text-heritage-700 { color: var(--color-primary-mid); }
+  .dark .text-stone-600, .dark .text-stone-500, .dark .text-green-light\/60 { color: var(--color-text-secondary); }
+  .dark .text-gold-600, .dark .text-gold-700 { color: var(--color-accent); }
+  .dark .border-stone-100, .dark .border-stone-200, .dark .border-stone-300 { border-color: var(--color-border); }
+  .dark .border-heritage-900 { border-color: var(--color-primary-soft); }
+  .dark .from-stone-100, .dark .from-stone-200 { --tw-gradient-from: var(--color-bg-inset) var(--tw-gradient-from-position); --tw-gradient-to: transparent var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+  .dark .via-stone-100 { --tw-gradient-stops: var(--tw-gradient-from), var(--color-bg-inset) var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .dark .to-stone-50, .dark .to-stone-200 { --tw-gradient-to: var(--color-bg) var(--tw-gradient-to-position); }
+  .dark .hover\:bg-stone-50:hover, .dark .hover\:bg-stone-100:hover, .dark .hover\:bg-heritage-50:hover, .dark .hover\:bg-white:hover { background-color: var(--color-surface-hover); }
+  .dark .hover\:text-heritage-900:hover { color: var(--color-primary); }
+  .dark .hover\:text-gold-700:hover { color: #ead09a; }
+  .dark .bg-gold-600.text-heritage-900 { color: #102218; }
+}

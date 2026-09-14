@@ -51,6 +51,24 @@ export const metadata: Metadata = {
   },
 };
 
+// Apply before paint so saved or system themes never flash the opposite palette.
+const themeScript = `(() => {
+  let preference;
+  const system = matchMedia('(prefers-color-scheme: dark)');
+  const readPreference = () => {
+    try { preference = localStorage.getItem('aks-theme'); } catch {}
+  };
+  const apply = () => document.documentElement.classList.toggle(
+    'dark', preference === 'dark' || (preference !== 'light' && system.matches)
+  );
+  readPreference();
+  apply();
+  system.addEventListener('change', () => { readPreference(); apply(); });
+  window.addEventListener('storage', event => {
+    if (event.key === 'aks-theme' || event.key === null) { readPreference(); apply(); }
+  });
+})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,6 +76,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${fraunces.variable} ${plusJakarta.variable} font-body antialiased`}
       >
