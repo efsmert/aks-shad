@@ -8,7 +8,6 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
-import { CrestGlints } from './CrestGlints';
 
 type Lighting = 'showcase' | 'studio' | 'warm' | 'cool';
 
@@ -35,6 +34,15 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 0.95;
         renderer.domElement.setAttribute('aria-hidden', 'true');
+        // Capture the silhouette only on resize, not every animation frame.
+        // This gives daylight a shaped shadow without another 3D render pass.
+        const shadow = hero ? document.createElement('canvas') : null;
+        const shadowContext = shadow?.getContext('2d');
+        if (shadow) {
+            shadow.className = 'crest-object-shadow';
+            shadow.setAttribute('aria-hidden', 'true');
+            host.appendChild(shadow);
+        }
         host.appendChild(renderer.domElement);
         const scene = new THREE.Scene();
         // An orthographic view keeps the flat chapter mark optically centered.
@@ -67,12 +75,15 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
         const fill = new THREE.RectAreaLight(0xcbdcff, 1.2, 4, 5);
         const teal = new THREE.RectAreaLight(0x32dc9b, 7, 1.4, 4);
         const violet = new THREE.RectAreaLight(0xe5a69a, 7, 1.2, 3);
+        // A narrow source on the incoming beam's side gives the metal a real
+        // corresponding reflection; its pulse shares the existing scene clock.
+        const feed = new THREE.RectAreaLight(0xfff5da, 3, 0.45, 1.4);
+        feed.position.set(3.4, 0.7, 3);
+        feed.lookAt(0, 0.7, 0);
         fill.position.set(-3, 1, 5);
         fill.lookAt(0, 0, 0);
-        scene.add(key, fill, teal, violet);
+        scene.add(key, fill, teal, violet, feed);
         const group = new THREE.Group();
-        let glints: CrestGlints | null = null;
-        const glintLights = [key, teal, violet];
         scene.add(group);
         const controls = studio ? new OrbitControls(camera, renderer.domElement) : null;
         if (controls) {
@@ -88,12 +99,15 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
         let night = targetNight;
         const mix = THREE.MathUtils.lerp;
         const palette = {
-            sun: new THREE.Color('#ffdfb3'), sea: new THREE.Color('#a8e6cf'), peach: new THREE.Color('#ffc79e'),
+            sun: new THREE.Color('#ffe2ae'), sea: new THREE.Color('#73cdb4'), peach: new THREE.Color('#f1ae91'),
             gold: new THREE.Color('#dba63c'), roseGold: new THREE.Color('#e5a69a'),
             emerald: new THREE.Color('#32dc9b'), jade: new THREE.Color('#8ce8bc'), pearl: new THREE.Color('#fffaf0'),
             dayFill: new THREE.Color('#fff0d5'), nightFill: new THREE.Color('#f4eee3'),
+            honeyRay: new THREE.Color('#bb873c'), seaRay: new THREE.Color('#438e7c'), roseRay: new THREE.Color('#c18073'),
+            dayFeed: new THREE.Color('#c6a163'), white: new THREE.Color('#ffffff'),
         };
         const nightKey = new THREE.Color(), nightTeal = new THREE.Color(), nightViolet = new THREE.Color();
+        const rayKey = new THREE.Color(), rayTeal = new THREE.Color(), rayRose = new THREE.Color(), rayFeed = new THREE.Color();
         const render = () => {
             const preset = lightingRef.current;
             const showcase = preset === 'showcase';
@@ -109,14 +123,17 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             teal.color.copy(palette.sea).lerp(nightTeal, night);
             violet.color.copy(palette.peach).lerp(nightViolet, night);
             fill.color.copy(palette.dayFill).lerp(palette.nightFill, night);
-            key.intensity = mix(5, 6 + Math.sin(sweep * 1.3) * 0.8, night);
-            teal.intensity = mix(1.6, 7 + Math.sin(sweep * 0.83) * 1.2, night);
-            violet.intensity = mix(2, 6.5 + Math.cos(sweep * 1.17) * 1.2, night);
-            fill.intensity = mix(1.5, 0.65, night);
-            key.width = mix(3.8, 1.4, night);
-            key.height = mix(6, 4.5, night);
-            scene.environmentIntensity = mix(0.5, 0.17, night);
-            renderer.toneMappingExposure = mix(0.9, 1, night);
+            feed.color.copy(palette.sun).lerp(palette.white, night);
+            feed.intensity = mix(2.1, 3.2, night) * (0.9 + 0.1 * Math.sin(sweep * 2.3));
+            feed.visible = !studio && showcase;
+            key.intensity = mix(8.5 + Math.sin(sweep * 1.3), 6 + Math.sin(sweep * 1.3) * 0.8, night);
+            teal.intensity = mix(4.6 + Math.sin(sweep * 0.83) * 0.6, 7 + Math.sin(sweep * 0.83) * 1.2, night);
+            violet.intensity = mix(4.8 + Math.cos(sweep * 1.17) * 0.7, 6.5 + Math.cos(sweep * 1.17) * 1.2, night);
+            fill.intensity = mix(2.2, 0.65, night);
+            key.width = mix(1.6, 1.4, night);
+            key.height = mix(5, 4.5, night);
+            scene.environmentIntensity = mix(0.55, 0.17, night);
+            renderer.toneMappingExposure = mix(0.95, 1, night);
             teal.visible = violet.visible = showcase;
             if (!showcase) {
                 key.color.set(preset === 'warm' ? 0xffd499 : preset === 'cool' ? 0xdcecff : 0xfff4df);
@@ -126,17 +143,17 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             // Blend trajectories without restarting their shared phase. Dark mode
             // adds overlapping, unequal sweeps rather than flashing or strobing.
             key.position.set(
-                mix(2.8 * Math.sin(sweep), 4.7 * Math.sin(sweep) + 0.8 * Math.sin(sweep * 1.73), night),
-                mix(3, 1.4 + 1.6 * Math.sin(sweep * 1.31), night),
-                mix(5.5, 3.8 + 0.5 * Math.cos(sweep * 0.79), night),
+                mix(4.4 * Math.sin(sweep), 4.7 * Math.sin(sweep) + 0.8 * Math.sin(sweep * 1.73), night),
+                mix(1.8 + Math.sin(sweep * 1.31), 1.4 + 1.6 * Math.sin(sweep * 1.31), night),
+                mix(4.1, 3.8 + 0.5 * Math.cos(sweep * 0.79), night),
             );
             key.lookAt(0, 0, 0);
-            teal.position.set(mix(3, 4.2 * Math.cos(sweep * 0.87 + 0.8), night), mix(-0.5, -1 + 1.8 * Math.sin(sweep * 1.19), night), 4);
+            teal.position.set(mix(3.7 * Math.cos(sweep * 0.87 + 0.8), 4.2 * Math.cos(sweep * 0.87 + 0.8), night), mix(-0.5 + Math.sin(sweep * 1.19), -1 + 1.8 * Math.sin(sweep * 1.19), night), 4);
             teal.lookAt(0, 0, 0);
-            violet.position.set(mix(-3, -4 * Math.sin(sweep * 1.13 + 0.7), night), mix(2, 2 * Math.cos(sweep * 0.91), night), 3.8);
+            violet.position.set(mix(-3.6 * Math.sin(sweep * 1.13 + 0.7), -4 * Math.sin(sweep * 1.13 + 0.7), night), mix(1.6 * Math.cos(sweep * 0.91), 2 * Math.cos(sweep * 0.91), night), 3.8);
             violet.lookAt(0, 0, 0);
             const offset = preset === 'warm' ? 0.65 : preset === 'cool' ? -0.65 : 0;
-            scene.environmentRotation.set(0, offset + Math.sin(sweep) * mix(0.1, 0.35, night), Math.sin(sweep * 0.73) * mix(0.04, 0.18, night));
+            scene.environmentRotation.set(0, offset + Math.sin(sweep) * mix(0.22, 0.35, night), Math.sin(sweep * 0.73) * mix(0.1, 0.18, night));
             // The decorative beams use the very same blended light colors and
             // clock as the metal, including during rapid theme reversals.
             hero?.style.setProperty('--beam-key-angle', `${-4 + Math.sin(sweep * 0.73) * mix(1.5, 5, night)}deg`);
@@ -145,12 +162,19 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             hero?.style.setProperty('--beam-key-strength', `${0.75 + 0.2 * Math.sin(sweep * 0.81)}`);
             hero?.style.setProperty('--beam-teal-strength', `${0.7 + 0.25 * Math.sin(sweep * 1.11 + 2)}`);
             hero?.style.setProperty('--beam-violet-strength', `${0.7 + 0.2 * Math.cos(sweep * 0.67 + 0.8)}`);
-            hero?.style.setProperty('--beam-strength', `${mix(0.07, 0.19 + 0.07 * Math.sin(sweep + 0.5) ** 2, night)}`);
-            hero?.style.setProperty('--beam-key', key.color.getStyle());
-            hero?.style.setProperty('--beam-teal', teal.color.getStyle());
-            hero?.style.setProperty('--beam-violet', violet.color.getStyle());
+            // Deeper daylight tints read as refracted color on ivory. At night,
+            // these converge exactly to the existing luminous light palette.
+            rayKey.copy(palette.honeyRay).lerp(palette.roseRay, chroma * 0.3).lerp(key.color, night);
+            rayTeal.copy(palette.seaRay).lerp(teal.color, night);
+            rayRose.copy(palette.roseRay).lerp(palette.honeyRay, pearlCatch * 0.2).lerp(violet.color, night);
+            rayFeed.copy(palette.dayFeed).lerp(palette.white, night);
+            hero?.style.setProperty('--beam-strength', `${mix(0.3 + 0.04 * Math.sin(sweep + 0.5) ** 2, 0.19 + 0.07 * Math.sin(sweep + 0.5) ** 2, night)}`);
+            hero?.style.setProperty('--beam-key', rayKey.getStyle());
+            hero?.style.setProperty('--beam-teal', rayTeal.getStyle());
+            hero?.style.setProperty('--beam-violet', rayRose.getStyle());
+            hero?.style.setProperty('--beam-feed-color', rayFeed.getStyle());
+            hero?.style.setProperty('--day-light-drift', `${Math.sin(sweep * 0.51) * 24}px`);
             hero?.style.setProperty('--crest-night-mix', night.toFixed(4));
-            glints?.update(camera, glintLights, night);
             renderer.render(scene, camera);
         };
         const resize = () => {
@@ -170,7 +194,17 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             camera.top = framing / Math.min(aspect, 1);
             camera.bottom = -camera.top;
             camera.updateProjectionMatrix();
-            if (loaded) render();
+            if (loaded) {
+                render();
+                if (shadow && shadowContext) {
+                    shadow.width = Math.min(Math.round(width * 1.5), 640);
+                    shadow.height = Math.round(shadow.width * height / width);
+                    shadowContext.drawImage(renderer.domElement, 0, 0, shadow.width, shadow.height);
+                    shadowContext.globalCompositeOperation = 'source-in';
+                    shadowContext.fillStyle = 'rgba(76, 55, 29, 0.24)';
+                    shadowContext.fillRect(0, 0, shadow.width, shadow.height);
+                }
+            }
         };
         const animate = (now: number) => {
             if (disposed) return;
@@ -178,7 +212,7 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
                 const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.1) : 0;
                 night = THREE.MathUtils.damp(night, targetNight, 2.6, dt);
                 if (Math.abs(night - targetNight) < 0.001) night = targetNight;
-                if (!reducedMotion.matches) phase += dt * mix(Math.PI * 2 / 24, Math.PI * 2 / 10, night);
+                if (!reducedMotion.matches) phase += dt * mix(Math.PI * 2 / 16, Math.PI * 2 / 10, night);
                 lastFrame = now;
                 if (studio) {
                     if (spinningRef.current) group.rotation.y += dt * 0.28;
@@ -216,7 +250,6 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             const center = new THREE.Box3().setFromObject(gltf.scene).getCenter(new THREE.Vector3());
             gltf.scene.position.sub(center);
             group.add(gltf.scene);
-            glints = new CrestGlints(group, renderer.getPixelRatio());
             loaded = true;
             resize();
             setReady(true);
@@ -245,13 +278,13 @@ export default function Crest3D({ studio = false }: { studio?: boolean }) {
             document.removeEventListener('visibilitychange', resume);
             reducedMotion.removeEventListener('change', resume);
             controls?.dispose();
-            glints?.dispose();
             disposeModel(group);
             environment.dispose();
             renderer.dispose();
             renderer.domElement.remove();
+            shadow?.remove();
             hero?.removeAttribute('data-beams-ready');
-            ['--beam-x', '--beam-y', '--beam-key-angle', '--beam-teal-angle', '--beam-violet-angle', '--beam-key-strength', '--beam-teal-strength', '--beam-violet-strength', '--beam-strength', '--beam-key', '--beam-teal', '--beam-violet', '--crest-night-mix'].forEach(property => hero?.style.removeProperty(property));
+            ['--beam-x', '--beam-y', '--beam-key-angle', '--beam-teal-angle', '--beam-violet-angle', '--beam-key-strength', '--beam-teal-strength', '--beam-violet-strength', '--beam-strength', '--beam-key', '--beam-teal', '--beam-violet', '--beam-feed-color', '--day-light-drift', '--crest-night-mix'].forEach(property => hero?.style.removeProperty(property));
         };
     }, [studio]);
 

@@ -20,6 +20,21 @@ export function Hero() {
     return (
         <section className="home-hero">
             <div className="hero-light-beams" aria-hidden="true">
+                <div className="hero-day-caustics" />
+                <svg className="hero-light-feed" viewBox="0 0 1000 120" preserveAspectRatio="none" fill="none">
+                    <defs>
+                        <linearGradient id="crest-feed-color" x1="0" y1="60" x2="1000" y2="60" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="var(--beam-feed-color, white)" stopOpacity=".95" />
+                            <stop offset=".45" stopColor="var(--beam-feed-color, white)" stopOpacity=".7" />
+                            <stop offset="1" stopColor="var(--beam-feed-color, white)" stopOpacity=".3" />
+                        </linearGradient>
+                        <filter id="crest-feed-soften" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
+                    </defs>
+                    <g filter="url(#crest-feed-soften)" fill="url(#crest-feed-color)">
+                        <path d="M0 60 L1000 18 L1000 102 Z" />
+                        <path d="M0 60 L1000 47 L1000 73 Z" opacity=".35" />
+                    </g>
+                </svg>
                 <svg className="hero-light-fan" viewBox="0 0 1200 400" fill="none">
                     <defs>
                         <linearGradient id="crest-ray-gold"><stop stopColor="var(--beam-key, #f4d699)" /><stop offset=".3" stopColor="var(--beam-violet, #e5a69a)" stopOpacity=".6" /><stop offset=".7" stopColor="var(--beam-teal, #32dc9b)" stopOpacity=".2" /><stop offset="1" stopColor="var(--beam-key, #f4d699)" stopOpacity="0" /></linearGradient>
@@ -47,13 +62,11 @@ export function Hero() {
                             <Link href="/brothers" className="action-secondary">Meet the brothers <ArrowUpRight size={17} /></Link>
                         </div>
                     </motion.div>
-                    <motion.div {...reveal} transition={{ ...reveal.transition, delay: 0.15 }} className="heritage-panel">
-                        <div className="heritage-panel-top"><span>ALPHA KAPPA SIGMA</span><span>BOSTON, MA</span></div>
+                    <div className="hero-emblem">
                         <div className="crest-stage">
                             <Crest3D />
                         </div>
-                        <div className="heritage-panel-bottom"><span className="font-display">ΑΚΣ</span><p>Rooted in tradition.<br />Defined by our brothers.</p></div>
-                    </motion.div>
+                    </div>
                 </div>
                 <motion.div {...reveal} transition={{ ...reveal.transition, delay: 0.3 }} className="hero-stats">
                     {[

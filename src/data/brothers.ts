@@ -83,7 +83,7 @@ export const brothers: Brother[] = [
     createBrother(71, "Tanay Das", "Classes", "Active", "Nursing", 2028, "Stoughton", "S26", [], "Third"),
     createBrother(41, "Thaddeus (Teddy) Curry", "Classes", "Active", "Explore", 2029, "San Francisco, CA", "F25", ["Brotherhood Engagement (Head)"], "Second"),
     createBrother(55, "Willis Donaghy", "Co-op", "Active", "Economics and Business Administration", 2027, "Lake Oswego, OR", "F24", [], "Fourth"),
-    createBrother(44, "Zac Meyer", "Classes", "Active", "Business Administration", 2026, "Seattle", "F23", [], "Fifth"),
+    createBrother(44, "Zac Meyer", "Co-op", "Active", "Business Administration", 2026, "Seattle", "F23", [], "Fifth"),
     createBrother(46, "Zachary Cohen", "Co-op", "Active", "Business Administration and Political Science", 2027, "New York City", "S24", ["Formal (Head)"], "Fourth"),
     createBrother(10, "Conor Brennan", "Co-op", "Inactive", "Business Administration (Finance and Accounting Concentrations); Data Science Minor", 2027, "Winchester, MA", "S24", [], "Fourth"),
     createBrother(49, "Daniyal Khalid", "Not Sure", "Inactive", "", null, null, "S23", [], "Fifth"),

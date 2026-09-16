@@ -52,19 +52,17 @@ export const metadata: Metadata = {
   },
 };
 
-// Apply before paint so saved or system themes never flash the opposite palette.
+// Default to dark before paint, while respecting an explicit saved light choice.
 const themeScript = `(() => {
   let preference;
-  const system = matchMedia('(prefers-color-scheme: dark)');
   const readPreference = () => {
-    try { preference = localStorage.getItem('aks-theme'); } catch {}
+    try { preference = localStorage.getItem('aks-theme'); } catch { preference = null; }
   };
   const apply = () => document.documentElement.classList.toggle(
-    'dark', preference === 'dark' || (preference !== 'light' && system.matches)
+    'dark', preference !== 'light'
   );
   readPreference();
   apply();
-  system.addEventListener('change', () => { readPreference(); apply(); });
   window.addEventListener('storage', event => {
     if (event.key === 'aks-theme' || event.key === null) { readPreference(); apply(); }
   });
@@ -76,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
