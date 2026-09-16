@@ -27,13 +27,13 @@ export function Timeline() {
                     variants={staggerContainer}
                     initial="initial"
                     animate={isInView ? 'animate' : 'initial'}
-                    className="mt-12 border-t border-stone-200"
+                    className="rush-event-list mt-12"
                 >
                     {RUSH_EVENTS.map((event) => (
                         <motion.div
                             key={event.id}
                             variants={fadeInUp}
-                            className="grid grid-cols-12 gap-4 py-6 border-b border-stone-200 group"
+                            className="rush-event grid grid-cols-12 gap-4 group"
                         >
                             <div className="col-span-4 lg:col-span-3">
                                 <p className="font-display font-semibold text-heritage-900 text-sm">

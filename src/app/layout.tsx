@@ -3,6 +3,7 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MotionPreferences } from "@/components/layout/MotionPreferences";
 
 const fraunces = Fraunces({
   variable: "--font-display",
@@ -82,9 +83,12 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${plusJakarta.variable} font-body antialiased`}
       >
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <MotionPreferences>
+          <a className="skip-link" href="#main-content">Skip to content</a>
+          <Header />
+          <main id="main-content">{children}</main>
+          <Footer />
+        </MotionPreferences>
       </body>
     </html>
   );

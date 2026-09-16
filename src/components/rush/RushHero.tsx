@@ -66,7 +66,7 @@ export function RushHero() {
     }, [rushPeriod.state]);
 
     return (
-        <section className="pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
+        <section className="page-hero pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="max-w-3xl">
                     {/* Overline — matches other pages */}
@@ -117,7 +117,7 @@ export function RushHero() {
                             <p className="text-stone-500 text-xs uppercase tracking-wider mb-4 font-medium">
                                 {rushPeriod.countdownLabel}
                             </p>
-                            <div className="flex gap-4 lg:gap-6">
+                            <div className="rush-countdown flex gap-4 lg:gap-6">
                                 {[
                                     { value: timeLeft.days, label: 'Days' },
                                     { value: timeLeft.hours, label: 'Hours' },
@@ -145,7 +145,7 @@ export function RushHero() {
                     >
                         <a
                             href={rushPeriod.isActive ? '#rush-events' : '#interest-form'}
-                            className="inline-block px-7 py-3.5 bg-heritage-900 text-white font-semibold text-sm rounded-sm transition-colors duration-200 hover:bg-heritage-800"
+                            className="action-primary inline-block px-7 py-3.5 bg-heritage-900 text-white font-semibold text-sm rounded-sm transition-colors duration-200 hover:bg-heritage-800"
                         >
                             {rushPeriod.isActive ? 'View Rush Events' : 'Register Your Interest'}
                         </a>

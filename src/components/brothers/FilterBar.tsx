@@ -30,7 +30,7 @@ export function FilterBar({
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-            className="flex flex-col sm:flex-row gap-3 py-4 border-b border-stone-200"
+            className="directory-filters flex flex-col sm:flex-row gap-3"
         >
             {/* Search */}
             <div className="relative flex-1">
@@ -45,6 +45,7 @@ export function FilterBar({
                     <path d="m21 21-4.35-4.35" />
                 </svg>
                 <Input
+                    aria-label="Search brothers"
                     type="text"
                     placeholder="Search by name, major, or hometown…"
                     value={searchQuery}
@@ -55,7 +56,7 @@ export function FilterBar({
 
             {/* Pledge class filter */}
             <Select value={pledgeClass} onValueChange={onPledgeClassChange}>
-                <SelectTrigger className="w-full sm:w-44 border-stone-200 text-heritage-900">
+                <SelectTrigger aria-label="Filter by pledge class" className="w-full sm:w-44 border-stone-200 text-heritage-900">
                     <SelectValue placeholder="Pledge Class" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border-stone-200">
@@ -70,7 +71,7 @@ export function FilterBar({
 
             {/* Status filter */}
             <Select value={statusFilter} onValueChange={onStatusFilterChange}>
-                <SelectTrigger className="w-full sm:w-40 border-stone-200 text-heritage-900">
+                <SelectTrigger aria-label="Filter by status" className="w-full sm:w-40 border-stone-200 text-heritage-900">
                     <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border-stone-200">

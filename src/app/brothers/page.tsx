@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { brothers } from '@/data/brothers';
 import { BrotherGrid } from '@/components/brothers/BrotherGrid';
 import { BrothersHero } from '@/components/brothers/BrothersHero';
+import { DirectoryFog } from '@/components/brothers/DirectoryFog';
 
 export const metadata: Metadata = {
     title: 'Our Brothers | Alpha Kappa Sigma',
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 
 export default function BrothersPage() {
     return (
-        <div className="min-h-screen">
+        <div className="directory-page min-h-screen">
+            <DirectoryFog />
             <BrothersHero />
 
             {/* Grid */}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
+import { BrotherBadge } from './BrotherBadge';
 import { ProgressiveImage } from '@/components/ui/progressive-image';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { modalContent } from '@/lib/animations';
@@ -92,22 +93,13 @@ export function BrotherProfile({ brother, isOpen, onClose }: BrotherProfileProps
                                 {brother.name}
                             </h2>
                             {brother.positions?.map((position, idx) => (
-                                <span key={idx} className="bg-gold-100 text-gold-700 text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                                    {position}
-                                </span>
+                                <BrotherBadge seed={brother.slug} key={idx} label={position} />
                             ))}
                             {brother.status !== 'Active' && (
-                                <span className={`text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${(brother.status === 'Inactive' || brother.status === 'Graduated')
-                                        ? 'bg-stone-200 text-stone-600'
-                                        : 'bg-gold-100 text-gold-700'
-                                    }`}>
-                                    {brother.status}
-                                </span>
+                                <BrotherBadge seed={brother.slug} label={brother.status} kind="status" />
                             )}
                             {brother.status !== 'Graduated' && brother.coopStatus === 'Co-op' && (
-                                <span className="bg-heritage-50 text-heritage-700 text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                                    Co-op
-                                </span>
+                                <BrotherBadge seed={brother.slug} label="Co-op" kind="status" />
                             )}
                         </div>
 

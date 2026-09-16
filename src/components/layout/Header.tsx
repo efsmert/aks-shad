@@ -6,39 +6,38 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { NAV_LINKS, CHAPTER_INFO } from '@/lib/constants';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/components/ui/button';
 
-// Routes where the hero section has a dark background
-const DARK_HERO_ROUTES = ['/giving-back'];
 
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
 
-    // When on a dark-hero page and not scrolled, use light text
-    const hasDarkHero = DARK_HERO_ROUTES.some(route => pathname.startsWith(route));
-    const useLightText = hasDarkHero && !isScrolled;
+    // The floating surface gives navigation a consistent contrast on every route.
+    const useLightText = false;
 
     const handleScroll = useCallback(() => {
         setIsScrolled(window.scrollY > 20);
     }, []);
 
     useEffect(() => {
+        const initialScrollFrame = window.requestAnimationFrame(handleScroll);
         window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            window.cancelAnimationFrame(initialScrollFrame);
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [handleScroll]);
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out-quart ${isScrolled
-                ? 'header-surface border-b border-stone-200 backdrop-blur-sm py-3'
-                : 'bg-transparent py-5'
-                }`}
+            data-scrolled={isScrolled}
+            className="site-header fixed top-0 left-0 right-0 z-50"
         >
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="navigation-shell max-w-7xl mx-auto">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3">
@@ -62,7 +61,7 @@ export function Header() {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-1">
+                    <nav className="hidden lg:flex items-center gap-1">
                         {NAV_LINKS.map((link) => {
                             const isActive =
                                 link.href === '/'
@@ -82,7 +81,7 @@ export function Header() {
                             href="/rush"
                             className={`ml-4 px-5 py-2 text-sm font-semibold rounded-sm transition-colors duration-300 ${useLightText
                                 ? 'bg-white text-heritage-900 hover:bg-stone-100'
-                                : 'bg-heritage-900 text-white hover:bg-heritage-800'
+                                : 'action-primary text-white'
                                 }`}
                         >
                             Rush ΑΚΣ
@@ -93,7 +92,7 @@ export function Header() {
                     <ThemeToggle />
                         {/* Mobile Menu */}
                         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                            <SheetTrigger asChild className="md:hidden">
+                            <SheetTrigger asChild className="lg:hidden">
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -112,6 +111,8 @@ export function Header() {
                                 side="right"
                                 className="w-80 bg-background border-l border-stone-200"
                             >
+                                <SheetTitle className="sr-only">Navigation</SheetTitle>
+                                <SheetDescription className="sr-only">Explore Alpha Kappa Sigma.</SheetDescription>
                                 <div className="flex flex-col h-full py-8">
                                     {/* Logo */}
                                     <div className="flex items-center gap-3 mb-10 pb-8 border-b border-stone-200">
@@ -196,7 +197,8 @@ function NavLink({ href, label, isActive, light }: NavLinkProps) {
     return (
         <Link
             href={href}
-            className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${isActive
+            aria-current={isActive ? "page" : undefined}
+            className={`nav-link relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${isActive
                 ? (light ? 'text-white' : 'text-heritage-900')
                 : (light ? 'text-stone-300 hover:text-white' : 'text-stone-500 hover:text-heritage-900')
                 }`}
@@ -212,4 +214,3 @@ function NavLink({ href, label, isActive, light }: NavLinkProps) {
         </Link>
     );
 }
-

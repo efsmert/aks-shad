@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Brother, formatPledgeClass } from '@/types';
 import { getBrotherPhotoPath } from '@/data/brothers';
+import { BrotherBadge } from './BrotherBadge';
 import { ProgressiveImage } from '@/components/ui/progressive-image';
 
 interface BrotherCardProps {
@@ -24,14 +25,23 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
             exit={{ opacity: 0, y: -8 }}
             transition={{
                 duration: 0.4,
-                delay: index * 0.03,
+                delay: Math.min(index * 0.025, 0.2),
                 ease: [0.25, 1, 0.5, 1],
             }}
             onClick={onClick}
-            className="cursor-pointer group"
+            role="button"
+            tabIndex={0}
+            aria-label={`View ${brother.name}’s profile`}
+            onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onClick();
+                }
+            }}
+            className="brother-card cursor-pointer group"
         >
             {/* Image */}
-            <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-3 bg-stone-100">
+            <div className="portrait-frame relative aspect-[3/4] overflow-hidden rounded-sm mb-3 bg-stone-100">
                 {!imageError ? (
                     <div className="w-full h-full relative">
                         <ProgressiveImage
@@ -58,32 +68,20 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
 
                 {/* Position badges */}
                 {brother.positions && brother.positions.length > 0 && (
-                    <div className="absolute top-2 left-2 right-2 flex flex-col items-start gap-1">
+                    <div className="absolute top-2 left-2 right-2 flex flex-col items-start gap-1.5">
                         {brother.positions.map((position, idx) => (
-                            <span
-                                key={idx}
-                                className="max-w-full break-words bg-gold-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider"
-                            >
-                                {position}
-                            </span>
+                            <BrotherBadge seed={brother.slug} key={idx} label={position} />
                         ))}
                     </div>
                 )}
 
                 {/* Status badges */}
-                <div className="absolute bottom-2 right-2 flex flex-col gap-1">
+                <div className="absolute bottom-2 right-2 flex flex-col items-end gap-1.5">
                     {brother.status !== 'Active' && (
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider ${(brother.status === 'Inactive' || brother.status === 'Graduated')
-                                ? 'bg-stone-600 text-white'
-                                : 'bg-gold-400 text-heritage-900'
-                            }`}>
-                            {brother.status}
-                        </span>
+                        <BrotherBadge seed={brother.slug} label={brother.status} kind="status" />
                     )}
                     {brother.status !== 'Graduated' && brother.coopStatus === 'Co-op' && (
-                        <span className="bg-heritage-700 text-white text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                            Co-op
-                        </span>
+                        <BrotherBadge seed={brother.slug} label="Co-op" kind="status" />
                     )}
                 </div>
             </div>

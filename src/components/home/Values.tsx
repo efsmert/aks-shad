@@ -10,7 +10,7 @@ export function Values() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 lg:py-32 bg-heritage-900 text-white">
+        <section ref={ref} className="values-section py-24 lg:py-32 bg-heritage-900 text-white">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <motion.div
                     variants={staggerContainer}
@@ -35,7 +35,7 @@ export function Values() {
                             <motion.div
                                 key={value.title}
                                 variants={fadeInUp}
-                                className="group"
+                                className="value-item group"
                             >
                                 <div className="flex items-start gap-5">
                                     {/* Number — editorial index */}

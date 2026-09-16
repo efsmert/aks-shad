@@ -1,0 +1,34 @@
+import { badgeMotion } from '@/lib/badge-motion';
+
+const executivePositions = new Set([
+    'vice president', 'secretary', 'treasurer', 'pledgemaster',
+    'risk manager', 'grand marshall', 'grand marshal',
+]);
+
+function getBadgeTone(label: string, kind: 'position' | 'status') {
+    const role = label.trim().toLowerCase();
+    if (kind === 'status') return role === 'co-op' ? 'status' : 'muted';
+    if (role === 'president') return 'president';
+    if (executivePositions.has(role)) return 'executive';
+    if (role.endsWith('(head)')) return 'head';
+    return 'member';
+}
+
+export function BrotherBadge({ label, kind = 'position', seed = label }: {
+    label: string;
+    seed?: string;
+    kind?: 'position' | 'status';
+}) {
+    const tone = getBadgeTone(label, kind);
+    return (
+        <span
+            className={`brother-badge badge-champagne brother-badge--${tone}${tone === 'president' ? ' badge-president' : ''}`}
+            style={badgeMotion(`${seed}:${label}`)}
+        >
+            <span className="badge-surface" aria-hidden="true" />
+            {tone === 'president' && <span className="badge-honor" aria-hidden="true" />}
+            {tone === 'president' && <span className="badge-insignia" aria-hidden="true">✦</span>}
+            <span className="badge-label">{label}</span>
+        </span>
+    );
+}

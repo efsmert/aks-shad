@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export function BrothersHero() {
     return (
-        <section className="pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
+        <section className="page-hero directory-hero pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="max-w-3xl">
                     <motion.p

@@ -14,7 +14,7 @@ export function Footer() {
     return (
         <footer
             ref={ref}
-            className="relative bg-heritage-900"
+            className="site-footer relative bg-heritage-900"
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
                 <motion.div
@@ -79,14 +79,6 @@ export function Footer() {
                                     className="hover:text-gold-400 transition-colors duration-200"
                                 >
                                     {CHAPTER_INFO.email}
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href={`tel:${CHAPTER_INFO.phone}`}
-                                    className="hover:text-gold-400 transition-colors duration-200"
-                                >
-                                    {CHAPTER_INFO.phone}
                                 </a>
                             </li>
                             <li className="leading-relaxed">

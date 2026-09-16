@@ -16,7 +16,6 @@ export const CHAPTER_INFO = {
     university: 'Northeastern University',
     address: '360 Huntington Ave, Boston, MA 02115',
     email: 'contact@alphakappasigma.org',
-    phone: '(555) 123-4567',
     socialMedia: {
         instagram: 'https://instagram.com/alphakappasigma',
         linkedin: 'https://www.linkedin.com/company/alpha-kappa-sigma/',

@@ -9,7 +9,7 @@ export function About() {
     const isInView = useInView(ref, { once: true, margin: '-100px' });
 
     return (
-        <section ref={ref} className="py-24 lg:py-32 px-6 lg:px-8">
+        <section id="our-legacy" ref={ref} className="py-24 lg:py-32 px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     variants={staggerContainer}

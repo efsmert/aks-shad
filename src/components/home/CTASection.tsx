@@ -44,7 +44,7 @@ export function CTASection() {
                             <motion.div key={item.title} variants={fadeInUp}>
                                 <Link
                                     href={item.href}
-                                    className="group grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 lg:py-10 border-b border-stone-200 transition-colors duration-200 hover:bg-stone-50 -mx-4 px-4 md:-mx-6 md:px-6"
+                                    className="pathway-link group grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 lg:py-10 border-b border-stone-200 transition-colors duration-200 hover:bg-stone-50 -mx-4 px-4 md:-mx-6 md:px-6"
                                 >
                                     <h3 className="md:col-span-4 font-display text-xl lg:text-2xl font-bold text-heritage-900 group-hover:text-gold-700 transition-colors duration-200">
                                         {item.title}
@@ -68,7 +68,7 @@ export function CTASection() {
                         initial={{ opacity: 0, y: 24 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-                        className="mt-20 lg:mt-28 max-w-3xl"
+                        className="invitation-panel mt-20 lg:mt-28"
                     >
                         <h2 className="font-display text-section font-bold text-heritage-900 mb-6">
                             Ready to begin your journey?
@@ -79,7 +79,7 @@ export function CTASection() {
                         </p>
                         <Link
                             href="/rush"
-                            className="inline-block px-8 py-4 bg-heritage-900 text-white font-semibold rounded-sm transition-all duration-200 hover:bg-heritage-800 text-base"
+                            className="action-primary inline-block px-8 py-4 bg-heritage-900 text-white font-semibold rounded-sm transition-all duration-200 hover:bg-heritage-800 text-base"
                         >
                             Rush ΑΚΣ Today →
                         </Link>

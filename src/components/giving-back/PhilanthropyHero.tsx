@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export function PhilanthropyHero() {
     return (
-        <section className="pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8 bg-heritage-900">
+        <section className="page-hero pt-32 lg:pt-40 pb-20 lg:pb-28 px-6 lg:px-8 bg-heritage-900">
             <div className="max-w-7xl mx-auto">
                 <div className="max-w-3xl">
                     <motion.p
