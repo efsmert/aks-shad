@@ -1,4 +1,7 @@
+'use client';
+
 import { badgeMotion } from '@/lib/badge-motion';
+import { useBadgeVisibility } from './use-badge-visibility';
 
 const executivePositions = new Set([
     'vice president', 'secretary', 'treasurer', 'pledgemaster',
@@ -19,11 +22,14 @@ export function BrotherBadge({ label, kind = 'position', seed = label }: {
     seed?: string;
     kind?: 'position' | 'status';
 }) {
+    const ref = useBadgeVisibility();
     const tone = getBadgeTone(label, kind);
     return (
         <span
+            ref={ref}
+            data-badge-motion="paused"
             className={`brother-badge badge-champagne brother-badge--${tone}${tone === 'president' ? ' badge-president' : ''}`}
-            style={badgeMotion(`${seed}:${label}`)}
+            style={badgeMotion(`${seed}:${label}`, 9)}
         >
             <span className="badge-surface" aria-hidden="true" />
             {tone === 'president' && <span className="badge-honor" aria-hidden="true" />}

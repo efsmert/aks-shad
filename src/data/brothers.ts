@@ -232,7 +232,12 @@ export const filterBrothers = (
     });
 };
 
-// Get photo path for a brother (returns placeholder if not found)
+const brotherPhotoVersions: Record<string, string> = JSON.parse(
+    process.env.NEXT_PUBLIC_BROTHER_PHOTO_VERSIONS || '{}'
+);
+
+// All portrait consumers share the same content version, including the modal.
 export const getBrotherPhotoPath = (slug: string): string => {
-    return `/brothers/${slug}.png`;
+    const version = brotherPhotoVersions[slug];
+    return `/brothers/${slug}.png${version ? `?v=${version}` : ''}`;
 };

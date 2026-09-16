@@ -7,7 +7,7 @@ import { badgeMotion } from '@/lib/badge-motion';
 
 const concepts = [
     { id: 'silk', name: 'Emerald silk', note: 'Soft folds of green. A quiet, tailored finish.', motion: 'Slow drift', depth: 'Flat', period: '24s' },
-    { id: 'champagne', name: 'Brushed champagne', note: 'Warm metal with a broad, uninterrupted reflection.', motion: 'Polished glide', depth: 'Inset only', period: '16s' },
+    { id: 'champagne', name: 'Brushed champagne', note: 'Warm metal with a broad, uninterrupted reflection.', motion: 'Polished glide', depth: 'Inset only', period: '9s' },
     { id: 'aurora', name: 'Northern lights', note: 'Blue-green light pooling across a deep ink surface.', motion: 'Fluid crossflow', depth: 'Very low', period: '18s' },
     { id: 'halo', name: 'Orbit outline', note: 'The color moves along the edge. The center stays calm.', motion: 'Continuous orbit', depth: 'None', period: '14s' },
     { id: 'porcelain', name: 'Opal porcelain', note: 'A pale, pearlescent wash with crisp, dark lettering.', motion: 'Gentle color shift', depth: 'Flat', period: '28s' },
@@ -69,7 +69,7 @@ export default function StyleLab() {
                                         <span key={role.tone} className={`${styles.badge} ${concept.id === 'champagne' ? 'badge-champagne' : ''} ${role.tone === 'president' ? 'badge-president' : ''}`} data-tone={role.tone} style={badgeMotion(`${concept.id}:${role.tone}`, parseFloat(concept.period))}>
                                             <span className={`${styles.surface} badge-surface`} aria-hidden="true" />
                                             {role.tone === 'president' && <span className="badge-honor" aria-hidden="true" />}
-                                            <span className={styles.ink}>{role.tone === 'president' && <span className={styles.star} aria-hidden="true">✦</span>}{role.label}</span>
+                                            <span className={styles.ink}>{role.tone === 'president' && <span className={`${styles.star} badge-insignia`} aria-hidden="true">✦</span>}{role.label}</span>
                                         </span>
                                     ))}
                                 </div>

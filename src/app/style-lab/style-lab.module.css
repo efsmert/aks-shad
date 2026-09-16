@@ -89,4 +89,4 @@
 @media (prefers-reduced-motion: reduce) { .stage .surface::before,.stage .surface::after { animation: none !important; } }
 @media (max-width: 800px) { .wrap { padding: 28px 20px; } .grid { grid-template-columns: 1fr; } .edition { display: none; } .selection { text-align: left; } .back { margin-bottom: 28px; } }
 @media (max-width: 420px) { .wrap { padding-inline: 14px; } .cardHeader { padding: 20px 17px; gap: 12px; } .stage { padding: 26px 17px; } .cardFooter { padding: 14px 17px; } .cardFooter p { max-width: 17ch; } .longSample { flex-wrap: wrap; gap: 8px; } .controls button { padding: 10px; font-size: 10px; } }
-.lab[data-paused='true'] :global(.badge-president), .lab[data-paused='true'] :global(.badge-honor) { animation-play-state: paused; }
+.lab[data-paused='true'] :global(.badge-insignia) { animation-play-state: paused; }

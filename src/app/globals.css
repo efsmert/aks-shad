@@ -502,32 +502,47 @@ input, textarea, [role="combobox"] { transition: border-color .2s, box-shadow .2
 .badge-champagne.badge-champagne { border-radius: 3px; box-shadow: inset 0 1px 0 #fff4, inset 0 -1px 0 #0002; background: linear-gradient(115deg,var(--a),var(--base),var(--b)); }
 .badge-surface { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; z-index: 0; pointer-events: none; }
 .badge-champagne .badge-surface::before, .badge-champagne .badge-surface::after {
-  /* A width-based square keeps the layer edges outside even the longest label
-     throughout the orbit; a shallow rectangle exposed its edge as it moved. */
-  content: ''; position: absolute; inset: auto; left: 50%; top: 50%; width: 220%; height: auto;
-  aspect-ratio: 1; min-height: 360%; pointer-events: none; transform: translate(-50%,-50%);
-  background: linear-gradient(118deg,transparent 22%,#eedcb21a 34%,#f8eedb99 49%,#eedcb233 63%,transparent 78%);
-  opacity: .7; animation: champagne-flow var(--period,18s) linear infinite; animation-delay: var(--phase,0s);
+  /* Shallow, prepainted reflection layers slide beneath the clip. No rotating
+     width-squared textures, animated gradients, or exposed edges on long tags. */
+  content: ''; position: absolute; inset: auto; left: -50%; top: -100%; width: 200%; height: 300%;
+  pointer-events: none;
+  background: linear-gradient(112deg,transparent 26%,#eedcb200 32%,#f8e6b299 44%,#fff4dabd 50%,#eedcb23d 59%,transparent 70%);
+  opacity: .8; animation: champagne-flow var(--period,12s) linear infinite; animation-delay: var(--phase,0s);
 }
 .badge-champagne .badge-surface::after {
-  background: radial-gradient(ellipse at 35% 42%,#fff2d080,transparent 38%),radial-gradient(ellipse at 68% 60%,var(--a),transparent 44%); opacity: .45;
-  animation-duration: var(--secondary-period,27s); animation-direction: reverse; animation-delay: calc(var(--phase,0s) - 8.3s);
+  background: radial-gradient(ellipse at 40% 45%,#fff0c985,transparent 34%),radial-gradient(ellipse at 65% 55%,var(--a),transparent 40%); opacity: .55;
+  animation-name: champagne-undertow; animation-duration: var(--secondary-period,17s); animation-delay: calc(var(--phase,0s) - 8.3s);
 }
-/* President keeps each material's original finish, with its own warm corona. */
-.badge-president { animation: presidential-glow 8.7s ease-in-out infinite; animation-delay: var(--honor-phase,-3s); }
+/* Keep the corona still and animate a tiny insignia instead of a whole halo. */
+.badge-president.badge-president { overflow: visible; }
+.badge-president::after {
+  content: ''; position: absolute; inset: -1px; z-index: 1; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 0 0 1px #fff0c177,0 0 7px #e8bf6955,0 0 13px #e8bf6926;
+}
 .badge-honor { position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
-  background: radial-gradient(ellipse at 20% 0%,#fff1b777,transparent 52%),radial-gradient(ellipse at 80% 100%,#e9bf6155,transparent 50%);
-  background-size: 180% 180%; mix-blend-mode: screen;
-  animation: presidential-current 11.3s linear infinite; animation-delay: var(--honor-phase,-3s);
+  background: radial-gradient(ellipse at 20% 0%,#fff1b799,transparent 52%),radial-gradient(ellipse at 80% 100%,#e9bf6177,transparent 50%);
+  opacity: .3;
+}
+.badge-president .badge-insignia {
+  display: inline-block; color: #fff1c0; text-shadow: 0 0 4px #ffe5a6;
+  animation: presidential-glint 4.7s ease-in-out infinite; animation-delay: var(--honor-phase,-3s);
 }
 @keyframes champagne-flow {
-  from { transform: translate(-50%,-50%) rotate(0deg) translate(6%,4%); }
-  to { transform: translate(-50%,-50%) rotate(360deg) translate(6%,4%); }
+  /* Both ends are fully outside the clip, so wrapping has no visible seam. */
+  from { transform: translate3d(-80%,-4%,0); }
+  to { transform: translate3d(80%,-4%,0); }
 }
-@keyframes presidential-glow {
-  0%,100% { box-shadow: inset 0 1px 0 #fff7,0 0 7px #e8bf6945,0 0 15px #e8bf6918; }
-  50% { box-shadow: inset 0 1px 0 #fffb,0 0 9px #e8bf6970,0 0 20px #e8bf6938; }
+@keyframes champagne-undertow {
+  from { transform: translate3d(-80%,5%,0); }
+  to { transform: translate3d(80%,5%,0); }
 }
-@keyframes presidential-current { 0%,100% { background-position: 0% 30%; opacity: .45; } 25% { background-position: 50% 0%; opacity: .65; } 50% { background-position: 100% 60%; opacity: .5; } 75% { background-position: 40% 100%; opacity: .7; } }
+@keyframes presidential-glint {
+  0%,100% { opacity: .55; transform: scale(.92); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+/* Directory badges use the shared clock; the design gallery keeps CSS playback. */
+[data-badge-motion] .badge-surface::before,
+[data-badge-motion] .badge-surface::after,
+[data-badge-motion] .badge-insignia { animation-play-state: paused; }
 [role="dialog"] .brother-badge { font-size: 10px; padding: 5px 9px; }
-@media (prefers-reduced-motion: reduce) { .badge-champagne .badge-surface::before,.badge-champagne .badge-surface::after,.badge-president,.badge-honor { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .badge-champagne .badge-surface::before,.badge-champagne .badge-surface::after,.badge-president .badge-insignia { animation: none !important; } }
