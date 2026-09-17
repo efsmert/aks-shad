@@ -5,7 +5,8 @@ import { BufferGeometry, Float32BufferAttribute } from 'three';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const gold = process.argv.includes('--gold');
-const basename = `aks-lion-relief${gold ? '-gold' : ''}`;
+const smoothEdges = process.argv.includes('--smooth');
+const basename = `aks-lion-relief${gold ? '-gold' : ''}${smoothEdges ? '-smooth' : ''}`;
 const crop = { left: 486, top: 125, width: 1136, height: 1660 };
 const width = 600;
 const density = width / 360;
@@ -96,13 +97,85 @@ for (let i = 0; i < frontIndices.length; i += 3) {
     if (boundary.has(key)) boundary.delete(key); else boundary.set(key,[a,b]);
   }
 }
+// Filter only the sampled contour, with a sub-pixel displacement cap.
+// Front sculpting, interior vertices, materials, and relief depth stay intact.
+const rimNormals = new Map();
+if (smoothEdges) {
+  const adjacency = new Map();
+  for (const [a,b] of boundary.values()) {
+    if (!adjacency.has(a)) adjacency.set(a, []);
+    if (!adjacency.has(b)) adjacency.set(b, []);
+    adjacency.get(a).push(b); adjacency.get(b).push(a);
+  }
+  const original = new Map([...adjacency.keys()].map(i => [i, [positions[i*3],positions[i*3+1]]]));
+  const fixed = new Set();
+  // Keep true tips/corners anchored; inspect a wider contour span to ignore pixel chatter.
+  const walk = (start,next,steps) => {
+    let previous=start,current=next;
+    for(let k=1;k<steps;k++) {
+      const links=adjacency.get(current);
+      if(links?.length!==2) break;
+      const follow=links[0]===previous?links[1]:links[0];
+      previous=current;current=follow;
+    }
+    return current;
+  };
+  for(const [i,links] of adjacency) {
+    if(links.length!==2) {fixed.add(i);continue;}
+    const a=walk(i,links[0],5),b=walk(i,links[1],5);
+    const ux=positions[a*3]-positions[i*3],uy=positions[a*3+1]-positions[i*3+1];
+    const vx=positions[b*3]-positions[i*3],vy=positions[b*3+1]-positions[i*3+1];
+    if((ux*vx+uy*vy)/(Math.hypot(ux,uy)*Math.hypot(vx,vy))>-.35) fixed.add(i);
+  }
+  for(let pass=0;pass<8;pass++) {
+    const updates=[];
+    for(const [i,links] of adjacency) {
+      if(fixed.has(i))continue;
+      const [a,b]=links;
+      let x=positions[i*3]+.45*((positions[a*3]+positions[b*3])/2-positions[i*3]);
+      let y=positions[i*3+1]+.45*((positions[a*3+1]+positions[b*3+1])/2-positions[i*3+1]);
+      const [ox,oy]=original.get(i),distance=Math.hypot(x-ox,y-oy),limit=scale*.65;
+      if(distance>limit){x=ox+(x-ox)*limit/distance;y=oy+(y-oy)*limit/distance;}
+      updates.push([i,x,y]);
+    }
+    for(const [i,x,y] of updates){positions[i*3]=x;positions[i*3+1]=y;}
+  }
+  // Clipped contour intersections already sit at 0.025. Grid vertices on that
+  // same rim must share that height, otherwise the wall's top zigzags in depth.
+  for(const i of adjacency.keys()) positions[i*3+2]=0.025;
+  // Share side normals across adjacent wall quads instead of flat-shading every pixel.
+  for(const [a,b] of boundary.values()) {
+    const dx=positions[b*3]-positions[a*3],dy=positions[b*3+1]-positions[a*3+1];
+    for(const i of [a,b]){const n=rimNormals.get(i)||[0,0];n[0]+=dy;n[1]-=dx;rimNormals.set(i,n);}
+  }
+}
+if(smoothEdges) {
+  const neighbors=new Map();
+  for(const [a,b] of boundary.values()) {
+    if(!neighbors.has(a))neighbors.set(a,[]);if(!neighbors.has(b))neighbors.set(b,[]);
+    neighbors.get(a).push(b);neighbors.get(b).push(a);
+  }
+  for(let pass=0;pass<6;pass++) {
+    const next=new Map();
+    for(const [i,n] of rimNormals) {
+      const ns=neighbors.get(i)||[];let x=n[0],y=n[1];
+      for(const j of ns){const a=rimNormals.get(j);x+=a[0];y+=a[1];}
+      const len=Math.hypot(x,y);next.set(i,len?[x/len,y/len]:n);
+    }
+    for(const [i,n] of next)rimNormals.set(i,n);
+  }
+}
+const sideNormals=[];
 const frontIndexCount = indices.length;
 for(let i=0;i<frontCount;i++) positions.push(positions[i*3],positions[i*3+1],-0.065);
 for(let i=0;i<frontIndices.length;i+=3) indices.push(frontIndices[i]+frontCount,frontIndices[i+2]+frontCount,frontIndices[i+1]+frontCount);
 // Separate side vertices keep the polished face and darker machined rim distinct.
 for(const [a,b] of boundary.values()) {
   const base=positions.length/3;
-  for(const [i,z] of [[b,positions[b*3+2]],[a,positions[a*3+2]],[a,-0.065],[b,-0.065]]) positions.push(positions[i*3],positions[i*3+1],z);
+  for(const [i,z] of [[b,positions[b*3+2]],[a,positions[a*3+2]],[a,-0.065],[b,-0.065]]) {
+    if(smoothEdges) sideNormals.push([positions.length/3,...rimNormals.get(i)]);
+    positions.push(positions[i*3],positions[i*3+1],z);
+  }
   indices.push(base,base+1,base+2,base,base+2,base+3);
 }
 // Recessed dark backing follows the source alpha silhouette, including the
@@ -121,6 +194,31 @@ geometry.setIndex(indices); geometry.computeVertexNormals(); geometry.computeBou
 const normalAttribute = geometry.getAttribute('normal');
 for (let i = 0; i < normalAttribute.count; i++) {
   if (Math.hypot(normalAttribute.getX(i), normalAttribute.getY(i), normalAttribute.getZ(i)) < 0.5) normalAttribute.setXYZ(i, 0, 0, 1);
+}
+if(smoothEdges)for(const [i,[x,y]] of rimNormals){const len=Math.hypot(x,y);if(len>0)normalAttribute.setXYZ(i,x/len*.8,y/len*.8,.6);}
+for(const [i,x,y] of sideNormals){const length=Math.hypot(x,y);if(length>0)normalAttribute.setXYZ(i,x/length,y/length,0);}
+if(smoothEdges) {
+  // Smooth only front normals in the few-pixel bevel band. Uneven clipped
+  // triangles otherwise imprint a sawtooth highlight even on a level rim.
+  const band=new Map();
+  for(let i=0;i<frontCount;i++) {
+    const x=Math.max(0,Math.min(width-1,Math.round(positions[i*3]/scale+width/2)));
+    const y=Math.max(0,Math.min(height-1,Math.round(height/2-positions[i*3+1]/scale)));
+    if(distance[y*width+x]<4*density)band.set(i,new Set());
+  }
+  for(let k=0;k<frontIndices.length;k+=3)for(let j=0;j<3;j++) {
+    const i=frontIndices[k+j],neighbors=band.get(i);
+    if(neighbors)for(let q=0;q<3;q++)if(q!==j)neighbors.add(frontIndices[k+q]);
+  }
+  for(let pass=0;pass<6;pass++) {
+    const updates=[];
+    for(const [i,neighbors]of band){
+      let x=normalAttribute.getX(i),y=normalAttribute.getY(i),z=normalAttribute.getZ(i);
+      for(const j of neighbors){x+=normalAttribute.getX(j);y+=normalAttribute.getY(j);z+=normalAttribute.getZ(j);}
+      const len=Math.hypot(x,y,z);if(len)updates.push([i,x/len,y/len,z/len]);
+    }
+    for(const [i,x,y,z]of updates)normalAttribute.setXYZ(i,x,y,z);
+  }
 }
 const pos=new Float32Array(positions), normals=geometry.getAttribute('normal').array, idx=new Uint32Array(indices);
 const chunks=[Buffer.from(pos.buffer),Buffer.from(normals.buffer),Buffer.from(idx.buffer)];

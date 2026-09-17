@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { NAV_LINKS, CHAPTER_INFO } from '@/lib/constants';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { ThemeToggle } from './ThemeToggle';
+import { LIGHT_MODE_ENABLED } from '@/lib/theme';
 import { Button } from '@/components/ui/button';
 
 
@@ -88,8 +89,8 @@ export function Header() {
                         </Link>
                     </nav>
 
-                    <div className="flex items-center gap-2">
-                    <ThemeToggle />
+                    <div className={`flex items-center gap-2 ${LIGHT_MODE_ENABLED ? '' : 'lg:hidden'}`}>
+                        <ThemeToggle />
                         {/* Mobile Menu */}
                         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                             <SheetTrigger asChild className="lg:hidden">

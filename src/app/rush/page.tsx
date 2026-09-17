@@ -3,7 +3,7 @@ import { RushHero } from '@/components/rush/RushHero';
 import { WhyJoin } from '@/components/rush/WhyJoin';
 import { Timeline } from '@/components/rush/Timeline';
 import { RushFAQ } from '@/components/rush/RushFAQ';
-import { InterestForm } from '@/components/rush/InterestForm';
+import { RushContact } from '@/components/rush/RushContact';
 
 export const metadata: Metadata = {
     title: 'Rush ΑΚΣ | Alpha Kappa Sigma',
@@ -17,7 +17,7 @@ export default function RushPage() {
             <WhyJoin />
             <Timeline />
             <RushFAQ />
-            <InterestForm />
+            <RushContact />
         </div>
     );
 }

@@ -1,8 +1,11 @@
 'use client';
 
 import { Moon, Sun } from 'lucide-react';
+import { LIGHT_MODE_ENABLED } from '@/lib/theme';
 
 export function ThemeToggle() {
+    if (!LIGHT_MODE_ENABLED) return null;
+
     function toggleTheme() {
         const dark = document.documentElement.classList.toggle('dark');
         try {

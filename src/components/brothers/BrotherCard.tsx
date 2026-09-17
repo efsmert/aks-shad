@@ -43,7 +43,7 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
             {/* Image */}
             <div className="portrait-frame relative aspect-[3/4] overflow-hidden rounded-sm mb-3 bg-stone-100">
                 {!imageError ? (
-                    <div className="w-full h-full relative">
+                    <div className="w-full h-full relative" style={brother.slug === 'ethan-cin-chung' ? { transform: 'scale(1.3)', transformOrigin: '50% 15%' } : undefined}>
                         <ProgressiveImage
                             src={photoPath}
                             alt={brother.name}
@@ -68,9 +68,9 @@ export function BrotherCard({ brother, onClick, index }: BrotherCardProps) {
 
                 {/* Position badges */}
                 {brother.positions && brother.positions.length > 0 && (
-                    <div className="absolute top-2 left-2 right-2 flex flex-col items-start gap-1.5">
+                    <div className="absolute top-2 left-2 right-2 flex flex-wrap items-start gap-1.5">
                         {brother.positions.map((position, idx) => (
-                            <BrotherBadge seed={brother.slug} key={idx} label={position} />
+                            <BrotherBadge seed={brother.slug} key={idx} label={position} compact />
                         ))}
                     </div>
                 )}

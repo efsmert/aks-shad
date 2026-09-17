@@ -7,6 +7,8 @@ type BadgeAnimation = {
     time: number;
     baseDuration: number | null;
     duration: number;
+    reverse: boolean;
+    passesRemaining: number;
 };
 type BadgeState = { visible: boolean; animations: BadgeAnimation[] };
 
@@ -18,10 +20,14 @@ function prepareAnimation(animation: Animation): BadgeAnimation {
     // Preserve the independently seeded starting phase. Only reflections get
     // new timing each pass; the president's small sparkle keeps its own rhythm.
     const time = isReflection ? ((-(timing.delay ?? 0) % duration) + duration) % duration : 0;
-    if (isReflection) animation.effect!.updateTiming({ delay: 0, fill: 'both' });
+    const reverse = isReflection && Math.random() < .5;
+    const passesRemaining = 2 + Math.floor(Math.random() * 4);
+    if (isReflection) animation.effect!.updateTiming({
+        delay: 0, fill: 'both', direction: reverse ? 'reverse' : 'normal',
+    });
     animation.pause();
     animation.currentTime = time;
-    return { animation, time, baseDuration: isReflection ? duration : null, duration };
+    return { animation, time, baseDuration: isReflection ? duration : null, duration, reverse, passesRemaining };
 }
 
 // One clock for visible badges. Slow reflections need fewer updates than the
@@ -48,12 +54,20 @@ function tick() {
         state.animations.forEach(motion => {
             motion.time += delta;
             if (motion.baseDuration !== null && motion.time >= motion.duration) {
-                // Change speed only after the reflection has left the badge.
-                // A short, independently varied gap hides the reset on the left.
+                // Change speed and direction only while the reflection is outside the clip.
+                // Each layer winds through its own run of 2–5 passes before reversing.
                 const overflow = (motion.time - motion.duration) % motion.duration;
                 motion.duration = motion.baseDuration * (.85 + Math.random() * .3);
                 motion.time = overflow - (200 + Math.random() * 700);
-                motion.animation.effect!.updateTiming({ duration: motion.duration });
+                motion.passesRemaining -= 1;
+                if (motion.passesRemaining === 0) {
+                    motion.reverse = !motion.reverse;
+                    motion.passesRemaining = 2 + Math.floor(Math.random() * 4);
+                }
+                motion.animation.effect!.updateTiming({
+                    duration: motion.duration,
+                    direction: motion.reverse ? 'reverse' : 'normal',
+                });
             }
             motion.animation.currentTime = motion.time;
         });

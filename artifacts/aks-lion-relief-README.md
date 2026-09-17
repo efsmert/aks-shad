@@ -1,17 +1,21 @@
-# Alpha Kappa Sigma — 3D lion relief
+# Alpha Kappa Sigma — 3D relief
 
-- `aks-lion-relief-full.glb`: full-resolution, uncompressed glTF 2.0 model for 3D editors.
-- `../public/models/aks-lion-relief.glb`: compressed website version, with EXT_meshopt_compression and KHR_mesh_quantization.
-- Preview: http://localhost:3000/crest-studio
+The website uses `public/models/aks-lion-relief-gold-smooth.glb`. The letters-only model is `public/models/aks-letters-gold-smooth.glb`. Both are compressed glTF 2.0 assets using Meshopt. Superseded models have been removed.
 
-The geometry reconstructs the lion and Greek-letter silhouettes from `public/metal-rounded.png`. It is a bas-relief with inferred sculpted depth, a closed back, and machined sidewalls; it is not a recovered original 360-degree lion sculpture. The source image is not used as a baked lighting texture.
+The geometry reconstructs the lion and Greek-letter silhouettes from `public/metal-rounded.png`. This is a bas-relief with inferred sculpted depth, a closed back, and smoothed sidewalls, not a recovered 360-degree lion sculpture. The source image is not a baked lighting texture.
 
-Two metallic-roughness PBR materials are embedded: satin silver on the face (metalness 1, roughness 0.26) and darker brushed metal on the back and edges (metalness 1, roughness 0.34). Use studio/environment lighting when opening the model in a 3D editor, since metal reflects its environment.
+Embedded materials are satin gold on the face (metalness 1, roughness 0.30), darker gold on the rim (metalness 1, roughness 0.34), and a matte dark recessed backing. The rim name says “brushed,” but the embedded material has no directional brushing texture.
 
-Rebuild the silver models with `node scripts/build-crest-model.mjs` from the project root. Add `--gold` to generate the separate `aks-lion-relief-gold.glb` web model and `aks-lion-relief-gold-full.glb` editor model. Gold uses a satin face (metalness 1, roughness 0.30), darker brushed gold sides (metalness 1, roughness 0.34), and a matte dark recessed backing following the source alpha silhouette. The current generator samples a finer silhouette and smooths the relief before computing normals, so baked highlights are not exaggerated into surface dents. The existing silver files are preserved from the original generation.
+Rebuild from the project root, in order:
 
-The homepage previews gold with a completely stationary emblem. Its default Chromatic lighting follows the site theme: light mode uses broad sunshine, peach, and sea-glass softboxes with a gentle 24-second base sweep; dark mode combines rich gold, flowing rose gold, luminous emerald/jade, and occasional pearl-white accents with overlapping trajectories and a 10-second base sweep. The emerald is brighter and cooler than the forest-green page backdrop; restrained accent intensities preserve depth in the gold. Ambient intensity, light size, colors, speed, and positions blend continuously when toggling themes without restarting the shared phase. The decorative beams blend multiple live light colors along their length and follow separate angle/intensity trajectories on the shared clock; they represent stylized scattered light, not physical refraction through opaque metal.
+```sh
+node scripts/build-crest-model.mjs --gold --smooth
+node scripts/smooth-crest-edges.mjs
+node scripts/extract-crest-letters.mjs --smooth
+```
 
-Actual geometry bounds are centered in an orthographic view, without an added cast shadow. The panel is forest green in light mode and neutral charcoal-bronze in dark mode. Hardware antialiasing plus 2–3× render resolution smooth the silhouette. The studio retains neutral, warm, and cool comparisons and optional turntable/drag controls. Hidden/offscreen scenes pause. Reduced motion freezes the continuous lighting animation but allows a finite theme crossfade. The original image remains a fallback.
+Uncompressed editor intermediates in `artifacts/*-full.glb` are generated locally and ignored by Git. Only compressed assets belong in deployment.
 
-Sparse pinpoint glints are raycast onto the polished face. Their strength follows the surface normal and light/view half-vector, with a shared brightness limit and softer daylight treatment. These tiny additive camera highlights approximate a polished facet catching light; they are not embedded diamonds or a physical diffraction simulation, and remain a website rendering effect rather than part of the downloadable model.
+The homepage keeps the smoothed crest stationary and animates its lighting, with a short emerald reveal. It uses dark mode and stylized colored beams. The source image appears only if the 3D renderer fails. Decorative beams represent scattered light rather than physical refraction through opaque metal.
+
+`/crest-studio` supports crest/letters selection, lighting and material presets, pause and speed controls, a square background color picker, and one-loop 1080 × 1080 MP4 recording. Material previews are runtime changes; the model download retains its embedded gold finish. Studio lighting cycles are periodic for complete loop exports. Recording finalizes the MP4 before triggering a download. `/letters-studio` redirects to the combined studio.

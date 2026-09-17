@@ -3,10 +3,9 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import { preload } from 'react-dom';
 import { brothers } from '@/data/brothers';
-
-const Crest3D = dynamic(() => import('./Crest3D'), { ssr: false });
+import Crest3D from './Crest3D';
 
 const reveal = {
     initial: { opacity: 0, y: 16 },
@@ -15,6 +14,8 @@ const reveal = {
 };
 
 export function Hero() {
+    // Start fetching with the page, rather than waiting for the 3D effect to mount.
+    preload('/models/aks-lion-relief-gold-smooth.glb', { as: 'fetch', crossOrigin: 'anonymous' });
     const activeCount = brothers.filter(brother => brother.status === 'Active').length;
 
     return (
@@ -51,6 +52,7 @@ export function Hero() {
             </div>
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="hero-composition">
+                    <div className="hero-monogram" aria-hidden="true"><span>ΑΚΣ</span></div>
                     <motion.div {...reveal} className="hero-copy">
                         <p className="eyebrow"><span /> Northeastern University · Est. 1919</p>
                         <h1 className="hero-title">Alpha Kappa<br /><em>Sigma.</em></h1>

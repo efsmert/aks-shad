@@ -25,18 +25,18 @@ function getRushPeriod(now: Date): RushPeriod {
     const nextSpringRushStart = new Date(year + 1, 0, 8);
 
     if (now < springRushStart) {
-        return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: springRushStart, description: 'Get ready for spring rush. Register your interest to be notified when events are announced.', showCountdown: true, isActive: false };
+        return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: springRushStart, description: 'Get ready for spring rush. Contact our Recruitment Chair and follow Instagram for event announcements.', showCountdown: true, isActive: false };
     }
     if (now >= springRushStart && now <= springRushEnd) {
         return { state: 'spring-rush', label: 'Rush Is Live', seasonLabel: `Spring ${year} Rush`, countdownLabel: 'Rush ends in', targetDate: springRushEnd, description: 'Rush is happening now. Come meet the brothers and learn what ΑΚΣ is all about.', showCountdown: true, isActive: true };
     }
     if (now > springRushEnd && now < fallRushStart) {
-        return { state: 'post-spring', label: 'Fall Rush Coming Soon', seasonLabel: `Fall ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: fallRushStart, description: 'Spring rush has concluded. Register your interest for fall rush.', showCountdown: true, isActive: false };
+        return { state: 'post-spring', label: 'Fall Rush Coming Soon', seasonLabel: `Fall ${year} Rush`, countdownLabel: 'Rush begins in', targetDate: fallRushStart, description: 'Spring rush has concluded. Get in touch with our Recruitment Chair about fall rush.', showCountdown: true, isActive: false };
     }
     if (now >= fallRushStart && now <= fallRushEnd) {
         return { state: 'fall-rush', label: 'Rush Is Live', seasonLabel: `Fall ${year} Rush`, countdownLabel: 'Rush ends in', targetDate: fallRushEnd, description: 'Rush is happening now. Come meet the brothers and learn what ΑΚΣ is all about.', showCountdown: true, isActive: true };
     }
-    return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year + 1} Rush`, countdownLabel: 'Rush begins in', targetDate: nextSpringRushStart, description: 'Fall rush has concluded. Register your interest for spring rush.', showCountdown: true, isActive: false };
+    return { state: 'post-fall', label: 'Spring Rush Coming Soon', seasonLabel: `Spring ${year + 1} Rush`, countdownLabel: 'Rush begins in', targetDate: nextSpringRushStart, description: 'Fall rush has concluded. Get in touch with our Recruitment Chair about spring rush.', showCountdown: true, isActive: false };
 }
 
 function calculateTimeRemaining(targetDate: Date) {
@@ -144,10 +144,10 @@ export function RushHero() {
                         transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
                     >
                         <a
-                            href={rushPeriod.isActive ? '#rush-events' : '#interest-form'}
+                            href={rushPeriod.isActive ? '#rush-events' : '#rush-contact'}
                             className="action-primary inline-block px-7 py-3.5 bg-heritage-900 text-white font-semibold text-sm rounded-sm transition-colors duration-200 hover:bg-heritage-800"
                         >
-                            {rushPeriod.isActive ? 'View Rush Events' : 'Register Your Interest'}
+                            {rushPeriod.isActive ? 'View Rush Events' : 'Get in Touch'}
                         </a>
                     </motion.div>
                 </div>

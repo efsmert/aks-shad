@@ -20,6 +20,9 @@
 # production
 /build
 
+# Reproducible, uncompressed model intermediates; deploy public/models instead.
+/artifacts/*-full.glb
+
 # misc
 .DS_Store
 *.pem

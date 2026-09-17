@@ -44,7 +44,7 @@ export const brothers: Brother[] = [
     createBrother(6, "Arya Venkat", "Not Sure", "Active", "Computer Science", 2028, null, "S25", [], "Third"),
     createBrother(7, "Blake Curl", "Classes", "Active", "Business Administration", 2029, "Boulder, CO", "F25", [], "Second"),
     createBrother(60, "Brian Miller", "Classes", "Active", "Business Administration", 2028, "Alexandria", "S26", [], "Third"),
-    createBrother(61, "Caden Bell", "Classes", "Active", "Economics and Business Administration", 2028, "Boulder, CO", "S26", [], "Third"),
+    createBrother(61, "Caden Bell", "Classes", "Active", "Economics and Business Administration", 2028, "Boulder, CO", "S26", ["Alumni Outreach and Engagement"], "Third"),
     createBrother(62, "Cem Yilmaz", "Classes", "Active", "Business Administration", 2028, "Izmir, Turkey", "S26", [], "Third"),
     createBrother(54, "Charlie Rubin", "Co-op", "Active", "Computer Science and Business Administration (Finance and Entrepreneurial Startups Concentrations)", 2028, "Cedar Rapids, IA", "F24", [], "Third"),
     createBrother(9, "Chase Myers", "Classes", "Active", "Computer Engineering", 2029, "Broomfield, CO", "F25", ["Treasurer"], "Second"),
@@ -53,7 +53,7 @@ export const brothers: Brother[] = [
     createBrother(63, "Ethan Cin Chung", "Classes", "Active", "Cellular and Molecular Biology", 2029, "Manhattan, NY", "S26", ["Secretary"], "Second"),
     createBrother(64, "Ethan Liu", "Classes", "Active", "Cybersecurity", 2029, "Brooklyn, NY", "S26", [], "Second"),
     createBrother(50, "Étienne Griffon", "Classes", "Active", "Finance", 2027, "Upland, CA", "S24", ["Risk Manager", "SVP & Wellness (Head)"], "Fourth"),
-    createBrother(14, "Finnian Groshek", "Classes", "Active", "Business Administration (Finance Concentration)", 2029, "Bethlehem, NH", "F25", [], "Second"),
+    createBrother(14, "Finnian Groshek", "Classes", "Active", "Business Administration (Finance Concentration)", 2029, "Bethlehem, NH", "F25", ["Intramural (Head)"], "Second"),
     createBrother(15, "Gavin Sarno", "Not Sure", "Active", "Mechanical Engineering", 2027, "Whippany, NJ", "F24", [], "Fourth"),
     createBrother(17, "Griffin Fromm", "Co-op", "Active", "Business Administration and Psychology (Finance Concentration)", 2029, "Bethesda, MD", "F25", [], "Third"),
     createBrother(20, "Jaesuh Lee", "Co-op", "Active", "Mechanical Engineering", 2028, "Newton, MA", "F24", [], "Fourth"),
@@ -167,6 +167,7 @@ const ROLE_PRIORITY: Record<string, number> = {
     'Merch Chair': 21,
     'Dance': 22,
     'French Chair (Head of Heads)': 23,
+    'Intramural': 24,
 };
 
 // Get the highest priority role for a brother (lowest number)

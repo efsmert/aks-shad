@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MotionPreferences } from "@/components/layout/MotionPreferences";
+import { LIGHT_MODE_ENABLED } from "@/lib/theme";
 
 const fraunces = Fraunces({
   variable: "--font-display",
@@ -52,14 +53,14 @@ export const metadata: Metadata = {
   },
 };
 
-// Default to dark before paint, while respecting an explicit saved light choice.
+// Apply the theme before paint; saved choices are ignored while light mode is disabled.
 const themeScript = `(() => {
   let preference;
   const readPreference = () => {
     try { preference = localStorage.getItem('aks-theme'); } catch { preference = null; }
   };
   const apply = () => document.documentElement.classList.toggle(
-    'dark', preference !== 'light'
+    'dark', !${LIGHT_MODE_ENABLED} || preference !== 'light'
   );
   readPreference();
   apply();
