@@ -12,6 +12,7 @@ import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUnifo
 import { applyStudioLighting, LIGHTING_PRESETS, studioLoopDuration, type Lighting } from './studio-lighting';
 import { StudioSpeedControl } from './StudioSpeedControl';
 import { MATERIAL_PRESETS, prepareStudioMaterials } from './studio-materials';
+import { CREST_SILHOUETTE } from './crest-silhouette';
 import { recordStudioLoop } from './record-studio-loop';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -209,9 +210,10 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             hero?.style.setProperty('--day-light-drift', `${Math.sin(sweep * 0.51) * 24}px`);
             hero?.style.setProperty('--crest-night-mix', night.toFixed(4));
             if (hero) {
-                const settle = THREE.MathUtils.smoothstep(introTime, 0.65, 1.25);
-                const reveal = THREE.MathUtils.smoothstep(introTime, 0.12, 0.4);
-                const sweepProgress = THREE.MathUtils.smoothstep(introTime, 0.12, 1.2);
+                const settle = THREE.MathUtils.smoothstep(introTime, 0.9, introDuration);
+                const ambientReveal = THREE.MathUtils.smoothstep(introTime, 1.3, introDuration);
+                const reveal = THREE.MathUtils.smoothstep(introTime, 0.28, 0.65);
+                const sweepProgress = THREE.MathUtils.smoothstep(introTime, 0.28, 1.4);
                 if (introTime < introDuration) {
                     // A real, narrow softbox travels across the stationary relief,
                     // catching its bevels before blending into the normal rig.
@@ -221,11 +223,11 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                     key.color.lerp(palette.emerald, 1 - settle);
                     key.width = mix(0.65, key.width, settle);
                     key.intensity = mix(13 * reveal, key.intensity, settle);
-                    fill.intensity *= mix(0.025, 1, settle);
+                    fill.intensity *= ambientReveal;
                     teal.intensity *= settle;
                     violet.intensity *= settle;
                     feed.intensity *= settle;
-                    scene.environmentIntensity *= mix(0.015, 1, settle);
+                    scene.environmentIntensity *= ambientReveal;
                 }
                 const incoming = THREE.MathUtils.smoothstep(introTime, 1.02, 1.62);
                 const outgoing = THREE.MathUtils.smoothstep(introTime, 1.28, 1.65);
@@ -372,6 +374,8 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             if (studio) { applyMaterial = prepareStudioMaterials(gltf.scene); applyMaterial(materialRef.current); }
             loaded = true;
             resize();
+            // The first opaque-black frame is already drawn before exchanging the silhouette.
+            host.dataset.ready = 'true';
             setReady(true);
             hero?.setAttribute('data-beams-ready', 'true');
             resume();
@@ -423,6 +427,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
     return (
         <div className={`crest-object ${studio ? 'crest-object--studio' : ''}`}>
             <div ref={hostRef} style={studio ? { backgroundColor: background } : undefined} className="crest-object-viewport" data-ready={ready} role="img" aria-label={variant === 'letters' ? 'Three-dimensional gold ΑΚΣ lettering' : 'Three-dimensional gold Alpha Kappa Sigma lion and ΑΚΣ lettering'}>
+                {!studio && !failed && <svg className="crest-first-frame" viewBox="0 0 1080 1080" aria-hidden="true"><image href={CREST_SILHOUETTE} width="1080" height="1080" /></svg>}
                 {failed && variant === 'letters' && <span className="font-display text-5xl text-gold-400">ΑΚΣ</span>}
                 {failed && variant === 'crest' && <Image src="/metal-rounded.png" alt="" width={300} height={300} className="crest-object-fallback" />}
             </div>

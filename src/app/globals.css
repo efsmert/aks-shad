@@ -583,3 +583,8 @@ input, textarea, [role="combobox"] { transition: border-color .2s, box-shadow .2
 .studio-record-controls button { margin: 0 4px; }
 .studio-record-controls progress { display: block; width: min(100%, 380px); height: 5px; margin: 20px auto; accent-color: var(--color-accent); }
 .crest-studio-controls button:disabled, .studio-model-selector button:disabled { cursor: not-allowed; opacity: .5; }
+
+/* A geometry-matched black silhouette is present in the first HTML paint. */
+.crest-first-frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.crest-object-viewport[data-ready='true'] .crest-first-frame { visibility: hidden; }
+.home-hero .crest-object-viewport canvas { transition: none; }
