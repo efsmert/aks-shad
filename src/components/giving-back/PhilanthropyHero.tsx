@@ -42,7 +42,7 @@ export function PhilanthropyHero() {
                         transition={{ delay: 0.3, duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
                         className="text-heritage-400 text-lg"
                     >
-                        $30,000+ raised for the Matt Fishman Scholarship
+                        Supporting the Matt Fishman Scholarship through music and community
                     </motion.p>
                 </div>
             </div>

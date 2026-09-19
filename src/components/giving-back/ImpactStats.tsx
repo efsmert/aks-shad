@@ -1,52 +1,17 @@
-'use client';
-
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { impactStats } from '@/data/philanthropy';
-import { fadeInUp, staggerContainer } from '@/lib/animations';
-import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
-
-const stats = [
-    { value: impactStats.totalHours, label: 'Volunteer Hours', suffix: '+' },
-    { value: impactStats.eventsHosted, label: 'Events Hosted', suffix: '' },
-    { value: impactStats.moneyRaised, label: 'Raised for Charity', prefix: '$', suffix: '+' },
-    { value: impactStats.communitiesServed, label: 'Communities Served', suffix: '' },
-    { value: impactStats.partnersWorkedWith, label: 'Partner Organizations', suffix: '' },
-    { value: impactStats.studentsmentored, label: 'Students Mentored', suffix: '+' },
-];
-
 export function ImpactStats() {
-    const ref = useRef<HTMLDivElement>(null);
-    const isInView = useInView(ref, { once: true, margin: '-50px' });
-
     return (
-        <section ref={ref} className="py-20 lg:py-24 px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-                <motion.div
-                    variants={staggerContainer}
-                    initial="initial"
-                    animate={isInView ? 'animate' : 'initial'}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8"
-                >
-                    {stats.map((stat) => (
-                        <motion.div
-                            key={stat.label}
-                            variants={fadeInUp}
-                            className="text-center"
-                        >
-                            <div className="text-2xl lg:text-3xl font-display font-bold text-heritage-900 mb-1 tabular-nums">
-                                <AnimatedCounter
-                                    end={stat.value}
-                                    prefix={stat.prefix}
-                                    suffix={stat.suffix}
-                                />
-                            </div>
-                            <p className="text-stone-500 text-xs font-medium uppercase tracking-wide">
-                                {stat.label}
-                            </p>
-                        </motion.div>
-                    ))}
-                </motion.div>
+        <section className="py-16 lg:py-20 px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto border-y border-stone-200 py-10 grid gap-8 md:grid-cols-2">
+                <div>
+                    <p className="text-gold-600 text-xs uppercase tracking-wider mb-3">Fish Fest IV</p>
+                    <h2 className="font-display text-2xl text-heritage-900 mb-3">Results coming soon</h2>
+                    <p className="text-stone-600 text-sm leading-relaxed max-w-lg">Thank you to everyone who supported Fish Fest. We’ll share the updated fundraising and attendance figures once they are confirmed.</p>
+                </div>
+                <div>
+                    <p className="text-gold-600 text-xs uppercase tracking-wider mb-3">Community service</p>
+                    <h2 className="font-display text-2xl text-heritage-900 mb-3">More ways to get involved</h2>
+                    <p className="text-stone-600 text-sm leading-relaxed max-w-lg">New volunteer opportunities and service updates will be posted here as details are finalized. Explore our past highlights and partner organizations below.</p>
+                </div>
             </div>
         </section>
     );

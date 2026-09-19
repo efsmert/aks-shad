@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import { philanthropyEvents, upcomingEvents } from '@/data/philanthropy';
+import { CHAPTER_INFO } from '@/lib/constants';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -26,7 +27,7 @@ export function EventsCarousel() {
                             value="past"
                             className="data-[state=active]:bg-heritage-900 data-[state=active]:text-white text-stone-600 px-6 py-2 text-sm font-medium rounded-sm transition-colors"
                         >
-                            Past Events
+                            Past Highlights
                         </TabsTrigger>
                         <TabsTrigger
                             value="upcoming"
@@ -58,6 +59,17 @@ export function EventsCarousel() {
                             animate="animate"
                             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                         >
+                            {upcomingEvents.length === 0 && (
+                                <div className="md:col-span-2 lg:col-span-3 py-8">
+                                    <h3 className="font-display text-xl text-heritage-900 mb-3">More opportunities to give back</h3>
+                                    <p className="text-stone-600 text-sm leading-relaxed max-w-xl">
+                                        Our next service events are being planned. Dates and details will be posted here once confirmed.
+                                    </p>
+                                    <a href={CHAPTER_INFO.socialMedia.instagram} target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-gold-600 text-sm underline underline-offset-4">
+                                        Follow AKS for updates
+                                    </a>
+                                </div>
+                            )}
                             {upcomingEvents.map((event) => (
                                 <motion.div key={event.id} variants={fadeInUp}>
                                     <EventCard event={event} />
@@ -83,7 +95,7 @@ interface EventCardProps {
 }
 
 function EventCard({ event }: EventCardProps) {
-    const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
+    const formattedDate = new Date(`${event.date}T12:00:00`).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
         year: 'numeric',

@@ -4,19 +4,12 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { MATT_FISHMAN_SCHOLARSHIP, PHILANTHROPY_PARTNERS } from '@/lib/constants';
 import { fishFestEvents } from '@/data/philanthropy';
-import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 export function PhilanthropyPartner() {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-    const impactItems = [
-        { value: MATT_FISHMAN_SCHOLARSHIP.impact.totalRaised, label: 'Raised', prefix: '$', suffix: '+' },
-        { value: MATT_FISHMAN_SCHOLARSHIP.impact.scholarshipYears, label: 'Years Funded', suffix: '+' },
-        { value: MATT_FISHMAN_SCHOLARSHIP.impact.guestsReached, label: 'Guests Reached', suffix: '' },
-    ];
 
     return (
         <section ref={ref} className="py-24 lg:py-32 px-6 lg:px-8 bg-stone-50">
@@ -78,19 +71,10 @@ export function PhilanthropyPartner() {
 
                         {/* Impact & Fish Fest */}
                         <div className="lg:col-span-5 space-y-8">
-                            {/* Impact stats */}
-                            <div className="grid grid-cols-3 gap-4">
-                                {impactItems.map((item) => (
-                                    <div key={item.label} className="text-center">
-                                        <div className="text-2xl font-display font-bold text-heritage-900 mb-1 tabular-nums">
-                                            <AnimatedCounter end={item.value} prefix={item.prefix} suffix={item.suffix} />
-                                        </div>
-                                        <p className="text-stone-500 text-xs font-medium uppercase tracking-wide">
-                                            {item.label}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
+                            <p className="text-stone-500 text-sm leading-relaxed">
+                                Updated fundraising and attendance totals will be shared once confirmed.
+                                The figures below are historical results from Fish Fest I–III.
+                            </p>
 
                             {/* Fish Fest history */}
                             <div>
@@ -99,14 +83,17 @@ export function PhilanthropyPartner() {
                                 </h4>
                                 <div className="border-t border-stone-200">
                                     {fishFestEvents.map((event) => (
-                                        <div key={event.id} className="flex items-center justify-between py-3 border-b border-stone-200 text-sm">
-                                            <span className="text-stone-600">{event.season}</span>
+                                        <div key={event.id} className="flex items-center justify-between gap-4 py-3 border-b border-stone-200 text-sm">
+                                            <div className="min-w-0">
+                                                <p className="font-medium text-heritage-900">{event.name}</p>
+                                                <p className="text-stone-500 text-xs mt-1">{event.season}</p>
+                                            </div>
                                             <div className="flex items-center gap-6">
                                                 <span className="font-semibold text-heritage-900 tabular-nums">
-                                                    ${event.amountRaised.toLocaleString()}
+                                                    {event.amountRaised === null ? 'Pending' : `$${event.amountRaised.toLocaleString()}`}
                                                 </span>
                                                 <span className="text-stone-400 text-xs tabular-nums">
-                                                    {event.guests} guests
+                                                    {event.guests === null ? '' : `${event.guests} guests`}
                                                 </span>
                                             </div>
                                         </div>

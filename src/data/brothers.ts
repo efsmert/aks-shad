@@ -71,7 +71,7 @@ export const brothers: Brother[] = [
     createBrother(29, "Mohammad Yaseen", "Classes", "Active", "International Business Management", 2028, "New Hyde Park, NY / Bangladesh", "F25", ["Social Programming (Head)"], "Third"),
     createBrother(30, "Oscar Chen", "Classes", "Active", "Business Administration", 2027, "Winchester, MA", "F24", [], "Fourth"),
     createBrother(31, "Perry Yung", "Classes", "Active", "Finance and Accounting", 2027, "West Greenwich, RI", "F24", [], "Fourth"),
-    createBrother(33, "Philippe Jansen-Kollerie", "Co-op", "Inactive", "Mechanical Engineering", 2028, "Coppet", "F24", [], "Third"),
+    createBrother(33, "Philippe Jansen-Kollerie", "Classes", "Active", "Mechanical Engineering", 2028, "Coppet", "F24", [], "Third"),
     createBrother(34, "Ryan Marshall", "Classes", "Active", "Computer Science", 2029, "Scarborough, ME", "F25", ["Webmaster"], "Second"),
     createBrother(35, "Sami Areski", "Not Sure", "Active", "Computer Science", 2028, "Kingston, MA", "F24", ["Webmaster (Head)"], "Third"),
     createBrother(36, "Sawyer Carlson", "Classes", "Active", "Mechanical Engineering", 2028, "Monroe, CT", "F25", [], "Second"),
@@ -81,7 +81,7 @@ export const brothers: Brother[] = [
     createBrother(39, "Simon Fleischer", "Classes", "Active", "Business Administration", 2027, "Ossining, NY", "F22", [], "Fifth"),
     createBrother(40, "Stephen Huang", "Classes", "Active", "Industrial Engineering and Business Administration", 2028, "Woodcliff Lake, NJ", "F24", ["Dance Dad"], "Third"),
     createBrother(71, "Tanay Das", "Classes", "Active", "Nursing", 2028, "Stoughton", "S26", [], "Third"),
-    createBrother(41, "Thaddeus (Teddy) Curry", "Classes", "Active", "Explore", 2029, "San Francisco, CA", "F25", ["Brotherhood Engagement (Head)"], "Second"),
+    createBrother(41, "Thaddeus (Teddy) Curry", "Classes", "Active", "Business Management and Financial Technology (FinTech)", 2029, "San Francisco, CA", "F25", ["Brotherhood Engagement (Head)"], "Second"),
     createBrother(55, "Willis Donaghy", "Co-op", "Active", "Economics and Business Administration", 2027, "Lake Oswego, OR", "F24", [], "Fourth"),
     createBrother(44, "Zac Meyer", "Co-op", "Active", "Business Administration", 2026, "Seattle", "F23", [], "Fifth"),
     createBrother(46, "Zachary Cohen", "Co-op", "Active", "Business Administration and Political Science", 2027, "New York City", "S24", ["Formal (Head)"], "Fourth"),
@@ -239,6 +239,10 @@ const brotherPhotoVersions: Record<string, string> = JSON.parse(
 
 // All portrait consumers share the same content version, including the modal.
 export const getBrotherPhotoPath = (slug: string): string => {
+    // These portraits were identified as the wrong people; never reuse a cached photo.
+    if (slug === 'blake-curl' || slug === 'diego-froehner') {
+        return '/brothers/portrait-unavailable.svg';
+    }
     const version = brotherPhotoVersions[slug];
     return `/brothers/${slug}.png${version ? `?v=${version}` : ''}`;
 };

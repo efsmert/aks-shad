@@ -3,6 +3,14 @@ import { PhilanthropyEvent } from '@/types';
 // Fish Fest events - our signature philanthropy in memory of Matt Fishman
 export const fishFestEvents = [
     {
+        id: 'ff4',
+        name: 'Fish Fest IV',
+        season: 'Results coming soon',
+        amountRaised: null,
+        guests: null,
+        description: 'Fundraising and attendance results will be shared once confirmed.',
+    },
+    {
         id: 'ff1',
         name: 'Fish Fest I (Boiler Room)',
         season: 'Spring 2024',
@@ -99,19 +107,5 @@ export const fishFestStats = {
     scholarshipYearsFunded: 12,
 };
 
-export const upcomingEvents: PhilanthropyEvent[] = [
-    {
-        id: '7',
-        title: 'Fish Fest IV',
-        date: '2026-04-25',
-        description: 'Our spring charity concert continuing the Fish Fest tradition. Stay tuned for lineup announcements!',
-        image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
-    },
-    {
-        id: '8',
-        title: 'Community Servings Spring Event',
-        date: '2026-03-15',
-        description: 'Join us for our spring volunteer day with Community Servings, preparing meals for those in need.',
-        image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=400&fit=crop',
-    },
-];
+// Publish only confirmed future events. Previous spring listings have expired.
+export const upcomingEvents: PhilanthropyEvent[] = [];

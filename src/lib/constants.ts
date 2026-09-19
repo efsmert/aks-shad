@@ -125,12 +125,7 @@ export const RUSH_FAQS: FAQ[] = [
     {
         id: '3',
         question: 'What are the costs associated with membership?',
-        answer: 'Dues vary by semester and cover social events, chapter operations, and national fees. We offer payment plans and financial assistance to ensure cost is never a barrier to membership. Contact our treasurer for specific details.',
-    },
-    {
-        id: '4',
-        question: 'Do I need to live in the chapter house?',
-        answer: 'Living in the house is optional but encouraged. Many brothers live in the house during their sophomore and junior years. It\'s a great way to build stronger bonds and make the most of your fraternity experience.',
+        answer: 'Alpha Kappa Sigma is a local fraternity. Dues vary by semester and support chapter operations and activities. Contact our treasurer for current dues and to discuss payment options.',
     },
     {
         id: '5',

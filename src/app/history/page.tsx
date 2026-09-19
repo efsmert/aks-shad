@@ -13,11 +13,6 @@ const timelineEvents = [
         description: 'Alpha Kappa Sigma was founded at Northeastern University by seven visionary students who believed in the power of brotherhood and the advancement of kindred sympathy.',
     },
     {
-        year: 1925,
-        title: 'First Chapter House',
-        description: 'The fraternity acquired its first official chapter house near the Northeastern campus, providing a home for brothers and a center for fraternity activities.',
-    },
-    {
         year: 1945,
         title: 'Post-War Growth',
         description: 'Following World War II, Alpha Kappa Sigma experienced significant growth as returning veterans joined the brotherhood, bringing diverse experiences and perspectives.',
