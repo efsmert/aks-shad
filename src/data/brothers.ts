@@ -57,7 +57,7 @@ export const brothers: Brother[] = [
     createBrother(15, "Gavin Sarno", "Not Sure", "Active", "Mechanical Engineering", 2027, "Whippany, NJ", "F24", [], "Fourth"),
     createBrother(17, "Griffin Fromm", "Co-op", "Active", "Business Administration and Psychology (Finance Concentration)", 2029, "Bethesda, MD", "F25", [], "Third"),
     createBrother(20, "Jaesuh Lee", "Co-op", "Active", "Mechanical Engineering", 2028, "Newton, MA", "F24", [], "Fourth"),
-    createBrother(21, "Jake Wade", "Co-op", "Active", "Biology", 2027, "Glen Mills, PA", "F23", ["Pledgemaster"], "Fourth"),
+    createBrother(21, "Jake Wade", "Co-op", "Active", "Biology", 2027, "Glen Mills, PA", "F23", ["New Member Educator"], "Fourth"),
     createBrother(22, "James Hughes", "Classes", "Active", "Civil Engineering", 2027, "Oradell, NJ", "F24", ["Dance Dad (Head)", "Philanthropy (Head)"], "Fourth"),
     createBrother(65, "Jason Rivilis", "Classes", "Active", "Mechanical Engineering", 2029, "Somers, Westchester", "S26", [], "Second"),
     createBrother(66, "Jory Leach", "Classes", "Active", "Economics and International Business", 2029, "Walnut Creek, CA", "S26", ["Dance Dad"], "Second"),

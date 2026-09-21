@@ -4,7 +4,7 @@ import { badgeMotion } from '@/lib/badge-motion';
 import { useBadgeVisibility } from './use-badge-visibility';
 
 const executivePositions = new Set([
-    'vice president', 'secretary', 'treasurer', 'pledgemaster',
+    'vice president', 'secretary', 'treasurer', 'pledgemaster', 'new member educator',
     'risk manager', 'grand marshall', 'grand marshal',
 ]);
 
