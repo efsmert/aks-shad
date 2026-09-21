@@ -465,15 +465,16 @@ input, textarea, [role="combobox"] { transition: border-color .2s, box-shadow .2
 }
 @media (max-width: 767px) {
   .site-header { padding: 10px 24px !important; }
-  .home-hero { padding-top: 125px; }
+  .home-hero { padding-top: 88px; }
   .hero-monogram { top: -45px; }
   .hero-monogram span { font-size: 48vw; transform: none; }
-  .hero-composition { grid-template-columns: 1fr; gap: 42px; }
+  .hero-composition { grid-template-columns: 1fr; gap: 24px; }
   .hero-title { font-size: clamp(3.2rem,10.7vw,5.7rem); }
   .hero-description { font-size: 14px; }
   .eyebrow { font-size: 8px; letter-spacing: .13em; margin-bottom: 24px; }
-  .hero-emblem { max-width: 360px; margin: 0 auto; }
-  .crest-stage { width: 86%; }
+  /* Lead with the full crest, below the fixed navigation, even on short phones. */
+  .hero-emblem { order: -1; width: min(100%, 360px, 44svh); margin: 0 auto; }
+  .home-hero .crest-stage { width: 100%; }
   .hero-stats { grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 38px; padding: 22px 0; }
   .hero-stats > div:nth-child(3) { border: 0; }
   .hero-stats > div > span { font-size: 25px; }
