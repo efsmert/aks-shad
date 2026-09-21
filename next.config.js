@@ -6,9 +6,9 @@ import { readdirSync, readFileSync } from 'node:fs';
 const photoDirectory = new URL('./public/brothers/', import.meta.url);
 const brotherPhotoVersions = Object.fromEntries(
     readdirSync(photoDirectory, { withFileTypes: true })
-        .filter(entry => entry.isFile() && entry.name.endsWith('.png'))
+        .filter(entry => entry.isFile() && entry.name.endsWith('.webp'))
         .map(entry => [
-            entry.name.slice(0, -4),
+            entry.name.slice(0, -5),
             createHash('sha256')
                 .update(readFileSync(new URL(entry.name, photoDirectory)))
                 .digest('hex')
@@ -22,9 +22,10 @@ const nextConfig = {
         NEXT_PUBLIC_BROTHER_PHOTO_VERSIONS: JSON.stringify(brotherPhotoVersions),
     },
     images: {
+        qualities: [65, 75, 100],
         localPatterns: [
             { pathname: '/**', search: '' },
-            { pathname: '/brothers/*.png' },
+            { pathname: '/brothers/*.webp' },
         ],
         remotePatterns: [
             {

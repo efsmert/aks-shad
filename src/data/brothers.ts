@@ -244,5 +244,5 @@ export const getBrotherPhotoPath = (slug: string): string => {
         return '/brothers/portrait-unavailable.svg';
     }
     const version = brotherPhotoVersions[slug];
-    return `/brothers/${slug}.png${version ? `?v=${version}` : ''}`;
+    return `/brothers/${slug}.webp${version ? `?v=${version}` : ''}`;
 };
