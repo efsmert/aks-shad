@@ -70,7 +70,7 @@ export const brothers: Brother[] = [
     createBrother(28, "Max Klayman", "Co-op", "Active", "International Business, Finance, and Journalism", 2027, "Mendham, NJ", "S24", ["President", "Social Media (Head)"], "Fourth"),
     createBrother(29, "Mohammad Yaseen", "Classes", "Active", "International Business Management", 2028, "New Hyde Park, NY / Bangladesh", "F25", ["Social Programming (Head)"], "Third"),
     createBrother(30, "Oscar Chen", "Classes", "Active", "Business Administration", 2027, "Winchester, MA", "F24", [], "Fourth"),
-    createBrother(31, "Perry Yung", "Classes", "Active", "Finance and Accounting", 2027, "West Greenwich, RI", "F24", [], "Fourth"),
+    createBrother(31, "Perry Yung", "Classes", "Active", "Finance and Accounting", 2027, "West Greenwich, RI", "F24", ["Rush Chair (Head)"], "Fourth"),
     createBrother(33, "Philippe Jansen-Kollerie", "Classes", "Active", "Mechanical Engineering", 2028, "Coppet", "F24", [], "Third"),
     createBrother(34, "Ryan Marshall", "Classes", "Active", "Computer Science", 2029, "Scarborough, ME", "F25", ["Webmaster"], "Second"),
     createBrother(35, "Sami Areski", "Not Sure", "Active", "Computer Science", 2028, "Kingston, MA", "F24", ["Webmaster (Head)"], "Third"),
@@ -168,6 +168,7 @@ const ROLE_PRIORITY: Record<string, number> = {
     'Dance': 22,
     'French Chair (Head of Heads)': 23,
     'Intramural': 24,
+    'Rush Chair': 25,
 };
 
 // Get the highest priority role for a brother (lowest number)
