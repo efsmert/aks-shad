@@ -14,6 +14,7 @@ import { StudioSpeedControl } from './StudioSpeedControl';
 import { MATERIAL_PRESETS, prepareStudioMaterials } from './studio-materials';
 import { CREST_SILHOUETTE } from './crest-silhouette';
 import { recordStudioLoop } from './record-studio-loop';
+import { captureStudioStill } from './capture-studio-still';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function Crest3D({ studio = false, variant = 'crest', onRecordingChange }: { studio?: boolean; variant?: 'crest' | 'letters'; onRecordingChange?: (recording: boolean) => void }) {
@@ -22,6 +23,8 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
     const [background, setBackground] = useState('#000000');
     const backgroundRef = useRef('#000000');
     const [recording, setRecording] = useState(false);
+    const [savingStill, setSavingStill] = useState(false);
+    const stillAction = useRef<(() => Promise<void>) | null>(null);
     const [recordProgress, setRecordProgress] = useState(0);
     const [recordMessage, setRecordMessage] = useState('');
     const recordingRef = useRef(false);
@@ -47,6 +50,8 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
         if (!host) return;
         const hero = studio ? null : host.closest<HTMLElement>('.home-hero');
         let disposed = false;
+        const beams = hero?.querySelector<HTMLElement>('.hero-light-beams');
+        let lastBeamColorTime = -Infinity;
         let renderer: THREE.WebGLRenderer;
         try {
             renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
@@ -120,7 +125,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             controls.enableZoom = false;
         }
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        let frame = 0, lastFrame = 0, phase = -0.6, visible = true, loaded = false;
+        let frame = 0, lastFrame = 0, frameDeadline = 0, phase = -0.6, visible = true, loaded = false;
         let targetNight = document.documentElement.classList.contains('dark') ? 1 : 0;
         let night = targetNight;
         let studioSeconds = 0;
@@ -190,25 +195,32 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             // The decorative beams use the very same blended light colors and
             // clock as the metal, including during rapid theme reversals.
             const fanSpread = 1 - THREE.MathUtils.smoothstep(introTime, 1.42, introDuration);
-            hero?.style.setProperty('--beam-key-angle', `${-42 * fanSpread -4 + Math.sin(sweep * 0.73) * mix(1.5, 5, night)}deg`);
-            hero?.style.setProperty('--beam-teal-angle', `${8 * fanSpread + Math.sin(sweep * 1.07 + 1.8) * mix(1, 4, night)}deg`);
-            hero?.style.setProperty('--beam-violet-angle', `${42 * fanSpread + 3 + Math.cos(sweep * 0.59 + 0.6) * mix(1.5, 5, night)}deg`);
-            hero?.style.setProperty('--beam-key-strength', `${0.75 + 0.2 * Math.sin(sweep * 0.81)}`);
-            hero?.style.setProperty('--beam-teal-strength', `${0.7 + 0.25 * Math.sin(sweep * 1.11 + 2)}`);
-            hero?.style.setProperty('--beam-violet-strength', `${0.7 + 0.2 * Math.cos(sweep * 0.67 + 0.8)}`);
+            beams?.style.setProperty('--beam-key-angle', `${-42 * fanSpread -4 + Math.sin(sweep * 0.73) * mix(1.5, 5, night)}deg`);
+            beams?.style.setProperty('--beam-teal-angle', `${8 * fanSpread + Math.sin(sweep * 1.07 + 1.8) * mix(1, 4, night)}deg`);
+            beams?.style.setProperty('--beam-violet-angle', `${42 * fanSpread + 3 + Math.cos(sweep * 0.59 + 0.6) * mix(1.5, 5, night)}deg`);
+            beams?.style.setProperty('--beam-key-strength', `${0.75 + 0.2 * Math.sin(sweep * 0.81)}`);
+            beams?.style.setProperty('--beam-teal-strength', `${0.7 + 0.25 * Math.sin(sweep * 1.11 + 2)}`);
+            beams?.style.setProperty('--beam-violet-strength', `${0.7 + 0.2 * Math.cos(sweep * 0.67 + 0.8)}`);
             // Deeper daylight tints read as refracted color on ivory. At night,
             // these converge exactly to the existing luminous light palette.
             rayKey.copy(palette.honeyRay).lerp(palette.roseRay, chroma * 0.3).lerp(key.color, night);
             rayTeal.copy(palette.seaRay).lerp(teal.color, night);
             rayRose.copy(palette.roseRay).lerp(palette.honeyRay, pearlCatch * 0.2).lerp(violet.color, night);
             rayFeed.copy(palette.dayFeed).lerp(palette.white, night);
-            hero?.style.setProperty('--beam-strength', `${mix(0.3 + 0.04 * Math.sin(sweep + 0.5) ** 2, 0.19 + 0.07 * Math.sin(sweep + 0.5) ** 2, night)}`);
-            hero?.style.setProperty('--beam-key', rayKey.getStyle());
-            hero?.style.setProperty('--beam-teal', rayTeal.getStyle());
-            hero?.style.setProperty('--beam-violet', rayRose.getStyle());
-            hero?.style.setProperty('--beam-feed-color', rayFeed.getStyle());
-            hero?.style.setProperty('--day-light-drift', `${Math.sin(sweep * 0.51) * 24}px`);
-            hero?.style.setProperty('--crest-night-mix', night.toFixed(4));
+            beams?.style.setProperty('--beam-strength', `${mix(0.3 + 0.04 * Math.sin(sweep + 0.5) ** 2, 0.19 + 0.07 * Math.sin(sweep + 0.5) ** 2, night)}`);
+            // Slow color changes need fewer repaints than motion. Refresh the
+            // cached beam colors at 10 Hz, including during the entrance.
+            const beamColorTime = performance.now();
+            if (beamColorTime - lastBeamColorTime >= 100) {
+                beams?.style.setProperty('--beam-key', rayKey.getStyle());
+                beams?.style.setProperty('--beam-teal', rayTeal.getStyle());
+                beams?.style.setProperty('--beam-violet', rayRose.getStyle());
+                beams?.style.setProperty('--beam-feed-color', rayFeed.getStyle());
+                lastBeamColorTime = beamColorTime;
+            }
+            beams?.style.setProperty('--day-light-drift', `${Math.sin(sweep * 0.51) * 24}px`);
+            const nightMix = night.toFixed(4);
+            if (hero && hero.style.getPropertyValue('--crest-night-mix') !== nightMix) hero.style.setProperty('--crest-night-mix', nightMix);
             if (hero) {
                 const settle = THREE.MathUtils.smoothstep(introTime, 0.9, introDuration);
                 const ambientReveal = THREE.MathUtils.smoothstep(introTime, 1.3, introDuration);
@@ -231,9 +243,8 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                 }
                 const incoming = THREE.MathUtils.smoothstep(introTime, 1.02, 1.62);
                 const outgoing = THREE.MathUtils.smoothstep(introTime, 1.28, 1.65);
-                hero.style.setProperty('--feed-reveal', `${incoming}`);
-                hero.style.setProperty('--feed-front', `${incoming * 130}%`);
-                hero.style.setProperty('--fan-reveal', `${outgoing}`);
+                beams?.style.setProperty('--feed-reveal', `${incoming}`);
+                beams?.style.setProperty('--fan-reveal', `${outgoing}`);
                 hero.dataset.crestIntro = introTime >= introDuration ? 'complete' : 'revealing';
             }
             if (studio) renderer.setClearColor(backgroundRef.current, 1);
@@ -271,7 +282,12 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
         };
         const animate = (now: number) => {
             if (disposed || recordingRef.current) return;
-            if (now - lastFrame >= (introTime < introDuration ? 1000 / 60 - 1 : 1000 / 30)) {
+            const interval = introTime < introDuration ? 1000 / 60 : 1000 / 30;
+            if (!lastFrame || now >= frameDeadline - 1) {
+                // Keep the fractional deadline instead of discarding timing
+                // remainder, which can accidentally turn 30 fps into 20 fps.
+                frameDeadline = !lastFrame || now - frameDeadline > interval
+                    ? now + interval : frameDeadline + interval;
                 const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.1) : 0;
                 introTime = reducedMotion.matches ? introDuration : Math.min(introDuration, introTime + dt);
                 night = THREE.MathUtils.damp(night, targetNight, 2.6, dt);
@@ -292,11 +308,41 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
         };
         const resume = () => {
             cancelAnimationFrame(frame);
-            lastFrame = 0;
+            lastFrame = 0; frameDeadline = 0;
             if (disposed || recordingRef.current || !loaded || !visible || document.hidden) return;
             if (reducedMotion.matches) introTime = introDuration;
             render();
             if (!reducedMotion.matches || night !== targetNight) frame = requestAnimationFrame(animate);
+        };
+        stillAction.current = async () => {
+            if (!loaded || disposed || recordingRef.current) return;
+            recordingRef.current = true;
+            setSavingStill(true);
+            recordingChangeRef.current?.(true);
+            setRecordMessage('Saving the current scene as an 8K PNG…');
+            cancelAnimationFrame(frame);
+            if (controls) controls.enabled = false;
+            try {
+                const blob = await captureStudioStill(renderer, scene, camera);
+                if (disposed) return;
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `aks-${variant}-${lightingRef.current}-${materialRef.current}-${Date.now()}.png`;
+                link.click();
+                window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+                setRecordMessage('PNG saved · 8192 × 8192 · current scene, including your background.');
+            } catch (error) {
+                if (!disposed) setRecordMessage(error instanceof Error ? error.message : 'PNG export failed. Please try again.');
+            } finally {
+                recordingRef.current = false;
+                recordingChangeRef.current?.(false);
+                if (!disposed) {
+                    setSavingStill(false);
+                    if (controls) controls.enabled = true;
+                    resize(); resume();
+                }
+            }
         };
         recordAction.current = async () => {
             if (!loaded || recordingRef.current) return;
@@ -396,6 +442,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             disposed = true;
             abortRecording.current?.abort();
             recordAction.current = null;
+            stillAction.current = null;
             host.removeEventListener('crest-background', onBackground);
             cancelAnimationFrame(frame);
             sizeObserver.disconnect();
@@ -414,7 +461,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             shadow?.remove();
             hero?.removeAttribute('data-beams-ready');
             hero?.removeAttribute('data-crest-intro');
-            ['--feed-reveal', '--feed-front', '--fan-reveal', '--beam-x', '--beam-y', '--beam-key-angle', '--beam-teal-angle', '--beam-violet-angle', '--beam-key-strength', '--beam-teal-strength', '--beam-violet-strength', '--beam-strength', '--beam-key', '--beam-teal', '--beam-violet', '--beam-feed-color', '--day-light-drift', '--crest-night-mix'].forEach(property => hero?.style.removeProperty(property));
+            ['--feed-reveal', '--feed-front', '--fan-reveal', '--beam-x', '--beam-y', '--beam-key-angle', '--beam-teal-angle', '--beam-violet-angle', '--beam-key-strength', '--beam-teal-strength', '--beam-violet-strength', '--beam-strength', '--beam-key', '--beam-teal', '--beam-violet', '--beam-feed-color', '--day-light-drift', '--crest-night-mix'].forEach(property => { hero?.style.removeProperty(property); beams?.style.removeProperty(property); });
         };
     }, [studio, variant, modelPath]);
 
@@ -433,7 +480,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             </div>
             {studio && <div className="crest-studio-controls">
                 <p>Drag the emblem to explore its depth and reflections.</p>
-                <fieldset disabled={recording} className="studio-edit-controls">
+                <fieldset disabled={recording || savingStill} className="studio-edit-controls">
                 <Tabs defaultValue="lighting" className="studio-settings">
                     <TabsList aria-label="Crest settings">
                         <TabsTrigger value="lighting">Lighting</TabsTrigger>
@@ -477,7 +524,8 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                 </fieldset>
                 <div className="studio-record-controls">
                     <p>Square MP4 · 1080 × 1080 · one complete {(studioLoopDuration(lighting) / lightingSpeed).toFixed(1)}s loop{spinning ? ' + one full turn' : ''}</p>
-                    <button type="button" disabled={!ready || failed || recording} onClick={() => void recordAction.current?.()}>Record one loop · MP4</button>
+                    <button type="button" disabled={!ready || failed || recording || savingStill} onClick={() => void recordAction.current?.()}>Record one loop · MP4</button>
+                    <button type="button" disabled={!ready || failed || recording || savingStill} onClick={() => void stillAction.current?.()}>{savingStill ? 'Saving PNG…' : 'Save current frame · 8K PNG'}</button>
                     {recording && <button type="button" onClick={() => abortRecording.current?.abort()}>Cancel recording</button>}
                     {recording && <progress aria-label="Recording progress" value={recordProgress} max={1} />}
                     <p role="status">{recording ? `Recording ${Math.round(recordProgress * 100)}% — finishes automatically. Keep this tab visible.` : recordMessage}</p>

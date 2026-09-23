@@ -16,39 +16,19 @@ const reveal = {
 export function Hero() {
     // Start fetching with the page, rather than waiting for the 3D effect to mount.
     preload('/models/aks-lion-relief-gold-smooth.glb', { as: 'fetch', crossOrigin: 'anonymous' });
+    for (const beam of ['feed', 'key', 'teal', 'violet']) preload(`/effects/beam-${beam}.png`, { as: 'image' });
     const activeCount = brothers.filter(brother => brother.status === 'Active').length;
 
     return (
         <section className="home-hero">
             <div className="hero-light-beams" aria-hidden="true">
                 <div className="hero-day-caustics" />
-                <svg className="hero-light-feed" viewBox="0 0 1000 120" preserveAspectRatio="none" fill="none">
-                    <defs>
-                        <linearGradient id="crest-feed-color" x1="0" y1="60" x2="1000" y2="60" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="var(--beam-feed-color, white)" stopOpacity=".95" />
-                            <stop offset=".45" stopColor="var(--beam-feed-color, white)" stopOpacity=".7" />
-                            <stop offset="1" stopColor="var(--beam-feed-color, white)" stopOpacity=".3" />
-                        </linearGradient>
-                        <filter id="crest-feed-soften" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
-                    </defs>
-                    <g filter="url(#crest-feed-soften)" fill="url(#crest-feed-color)">
-                        <path d="M0 60 L1000 18 L1000 102 Z" />
-                        <path d="M0 60 L1000 47 L1000 73 Z" opacity=".35" />
-                    </g>
-                </svg>
-                <svg className="hero-light-fan" viewBox="0 0 1200 400" fill="none">
-                    <defs>
-                        <linearGradient id="crest-ray-gold"><stop stopColor="var(--beam-key, #f4d699)" /><stop offset=".3" stopColor="var(--beam-violet, #e5a69a)" stopOpacity=".6" /><stop offset=".7" stopColor="var(--beam-teal, #32dc9b)" stopOpacity=".2" /><stop offset="1" stopColor="var(--beam-key, #f4d699)" stopOpacity="0" /></linearGradient>
-                        <linearGradient id="crest-ray-teal"><stop stopColor="var(--beam-teal, #32dc9b)" /><stop offset=".35" stopColor="var(--beam-key, #f4d699)" stopOpacity=".55" /><stop offset=".75" stopColor="var(--beam-violet, #e5a69a)" stopOpacity=".15" /><stop offset="1" stopColor="var(--beam-teal, #32dc9b)" stopOpacity="0" /></linearGradient>
-                        <linearGradient id="crest-ray-violet"><stop stopColor="var(--beam-violet, #e5a69a)" /><stop offset=".3" stopColor="var(--beam-teal, #32dc9b)" stopOpacity=".5" /><stop offset=".7" stopColor="var(--beam-key, #f4d699)" stopOpacity=".18" /><stop offset="1" stopColor="var(--beam-violet, #e5a69a)" stopOpacity="0" /></linearGradient>
-                        <filter id="crest-ray-soften" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
-                    </defs>
-                    <g filter="url(#crest-ray-soften)">
-                        <path className="crest-ray crest-ray--key" d="M0 200 L1200 55 L1200 105 Z" fill="url(#crest-ray-gold)" />
-                        <path className="crest-ray crest-ray--teal" d="M0 200 L1200 160 L1200 215 Z" fill="url(#crest-ray-teal)" />
-                        <path className="crest-ray crest-ray--violet" d="M0 200 L1200 290 L1200 350 Z" fill="url(#crest-ray-violet)" />
-                    </g>
-                </svg>
+                <div className="hero-light-feed"><div className="hero-light-feed-texture" /></div>
+                <div className="hero-light-fan">
+                    <div className="crest-ray crest-ray--key" />
+                    <div className="crest-ray crest-ray--teal" />
+                    <div className="crest-ray crest-ray--violet" />
+                </div>
             </div>
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="hero-composition">
