@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import "./valentine.css";
+import "./halloween.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MotionPreferences } from "@/components/layout/MotionPreferences";
 import { LIGHT_MODE_ENABLED } from "@/lib/theme";
+import { seasonalThemeScript } from "@/lib/seasonal-theme";
+import { SeasonalTheme } from "@/components/layout/SeasonalTheme";
 
 const fraunces = Fraunces({
   variable: "--font-display",
@@ -77,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeScript + seasonalThemeScript }} />
       </head>
       <body
         className={`${fraunces.variable} ${plusJakarta.variable} font-body antialiased`}
@@ -87,6 +91,7 @@ export default function RootLayout({
           <Header />
           <main id="main-content">{children}</main>
           <Footer />
+          <SeasonalTheme />
         </MotionPreferences>
       </body>
     </html>

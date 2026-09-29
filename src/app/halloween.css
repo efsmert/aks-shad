@@ -1,0 +1,101 @@
+/* All Hallows' Eve — smoked copper, aged bone, and cold crypt light. */
+:root[data-season='halloween'] {
+  --color-bg: #100e0d;
+  --color-bg-elevated: #211b18;
+  --color-bg-inset: #191513;
+  --color-surface: #1d1917;
+  --color-surface-hover: #30251f;
+  --color-primary: #f0e4d2;
+  --color-primary-mid: #d0bfaa;
+  --color-primary-soft: #534232;
+  --color-accent: #dd975e;
+  --color-accent-soft: #3d271c;
+  --color-accent-muted: #bb8458;
+  --color-text: #eaded1;
+  --color-text-secondary: #bcae9e;
+  --color-text-muted: #a69788;
+  --color-border: #413329;
+  --color-border-subtle: #2b241f;
+  --panel-shadow: 0 18px 60px -30px #000c;
+}
+[data-season='halloween'] ::selection { background: #dd975e; color: #21140d; }
+[data-season='halloween'] .action-primary { background: #d99864 !important; border-color: #dfa373; color: #24160e !important; }
+[data-season='halloween'] .action-primary:hover { background: #efb783 !important; box-shadow: 0 5px 25px #f6751b20; }
+[data-season='halloween'] .action-secondary:hover { border-color: #977350; }
+[data-season='halloween'] .bg-heritage-900 { background-color: #231a16; }
+[data-season='halloween'] .bg-heritage-800 { background-color: #34261f; }
+[data-season='halloween'] .bg-gold-600, [data-season='halloween'] .bg-gold-500,
+[data-season='halloween'] .bg-gold-400, [data-season='halloween'] .bg-green-accent { background-color: var(--color-accent); }
+[data-season='halloween'] .bg-gold-600.text-heritage-900 { color: #24160e; }
+[data-season='halloween'] .text-gold-400, [data-season='halloween'] .text-gold-500,
+[data-season='halloween'] .text-green-accent { color: var(--color-accent); }
+[data-season='halloween'] .text-heritage-300, [data-season='halloween'] .text-heritage-400 { color: #bcae9e; }
+[data-season='halloween'] .text-heritage-200 { color: #c6b7a2; }
+[data-season='halloween'] .border-gold-500, [data-season='halloween'] .border-gold-600 { border-color: var(--color-accent); }
+[data-season='halloween'] .ring-gold-200, [data-season='halloween'] .ring-gold-400,
+[data-season='halloween'] .ring-gold-500 { --tw-ring-color: var(--color-accent); }
+[data-season='halloween'] .group:hover .group-hover\:text-gold-700,
+[data-season='halloween'] .hover\:text-gold-700:hover { color: #efb783; }
+[data-season='halloween'] .hover\:bg-heritage-800:hover { background-color: #463027; }
+[data-season='halloween'] .border-heritage-700, [data-season='halloween'] .border-heritage-800 { border-color: #46372b; }
+[data-season='halloween'] .values-section { background: #221a16; }
+[data-season='halloween'] .values-section p { color: #c4b6a5; }
+[data-season='halloween'] .values-section .value-item > div > span { color: #b58c65; }
+[data-season='halloween'] .site-footer { background: #151211; border-color: #3b2e25; }
+[data-season='halloween'] .site-footer h4 { color: #d1a379; }
+[data-season='halloween'] .site-footer .text-heritage-300,
+[data-season='halloween'] .site-footer .text-heritage-400 { color: #b6a898; }
+[data-season='halloween'] .page-hero.bg-heritage-900 .text-heritage-300 { color: #c4b6a5; }
+[data-season='halloween'] .hero-title em { color: #dc9a69; }
+[data-season='halloween'] .hero-principle { color: #c0cbb2; letter-spacing: .09em; }
+[data-season='halloween'] .hero-monogram span { -webkit-text-stroke-color: #d2ac7620; }
+[data-season='halloween'] .brother-badge { --a: #536453; --b: #919983; --base: #222b24; --edge: #75816c; --ink: #eeedda; }
+[data-season='halloween'] .brother-badge--president { --a: #bd7844; --b: #e4b581; --base: #502e1a; --edge: #f1bd82; --ink: #fff0cf; }
+[data-season='halloween'] .brother-badge--executive { --a: #927454; --b: #c9a77b; --base: #3e2c20; --edge: #bc986b; --ink: #f8e8cc; }
+[data-season='halloween'] .brother-badge--head { --a: #858580; --b: #bcbcaf; --base: #363a36; --edge: #a5ab9f; --ink: #eeeee0; }
+[data-season='halloween'] .brother-badge--status,
+[data-season='halloween'] .brother-badge--muted { --a: #685d51; --b: #998a76; --base: #2e2721; --edge: #877462; --ink: #eadfce; }
+
+.halloween-only, .halloween-decor, .season-preview-skull { display: none; }
+[data-season='halloween'] .halloween-only { display: inline; }
+[data-season='halloween'] .season-classic-only { display: none; }
+[data-season='halloween'] .season-preview-heart { display: none; }
+[data-season='halloween'] .season-preview-skull { display: block; }
+/* Keep atmosphere behind real content, including the roster's opaque portraits. */
+[data-season='halloween'] body { isolation: isolate; }
+[data-season='halloween'] .directory-page { isolation: auto; }
+[data-season='halloween'] .directory-fog { z-index: -2; }
+[data-season='halloween'] .halloween-decor { display: block; position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+/* Only load the image in this theme; a single optimized asset is shared by both skulls. */
+[data-season='halloween'] .halloween-skull {
+  position: absolute; background: url('/seasonal/halloween-skull.webp') center / contain no-repeat;
+  width: clamp(160px,20vw,330px); aspect-ratio: 1; opacity: .3; mix-blend-mode: screen;
+  animation: crypt-breath 14s ease-in-out infinite alternate;
+}
+.halloween-skull--left { left: -60px; bottom: -55px; transform: rotate(18deg) scaleX(-1); }
+.halloween-skull--right { right: -42px; top: 90px; transform: rotate(-17deg); animation-delay: -9s !important; }
+.halloween-web { position: absolute; top: 0; right: 0; width: clamp(110px,16vw,245px); transform: rotate(90deg); color: #d6c9ad; opacity: .14; }
+.halloween-ember {
+  position: absolute; bottom: -8px; left: var(--ember-x); width: 2px; height: 3px; border-radius: 50%;
+  background: #df8844; box-shadow: 0 0 5px #fd79235c; opacity: 0;
+  animation: ember-rise var(--ember-time) var(--ember-delay) linear infinite;
+}
+.halloween-ember:nth-child(odd) { width: 1px; height: 2px; background: #c9b693; }
+@keyframes crypt-breath { from { opacity: .2; } to { opacity: .44; } }
+@keyframes ember-rise {
+  0% { transform: translate3d(0,0,0); opacity: 0; }
+  15%,55% { opacity: .45; }
+  100% { transform: translate3d(var(--ember-drift),-85svh,0); opacity: 0; }
+}
+[data-season-motion='paused'] .halloween-decor * { animation-play-state: paused; }
+@media (max-width: 767px) {
+  [data-season='halloween'] .halloween-skull { width: 180px; }
+  .halloween-skull--left { left: -100px; bottom: -25px; }
+  .halloween-skull--right { right: -103px; top: 120px; }
+  .halloween-web { width: 120px; opacity: .1; }
+  .halloween-ember:nth-child(n+8) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-season='halloween'] .halloween-skull { animation: none; opacity: .27; }
+  .halloween-ember { display: none; }
+}

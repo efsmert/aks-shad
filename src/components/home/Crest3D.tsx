@@ -128,6 +128,10 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
         let frame = 0, lastFrame = 0, frameDeadline = 0, phase = -0.6, visible = true, loaded = false;
         let targetNight = document.documentElement.classList.contains('dark') ? 1 : 0;
         let night = targetNight;
+        let targetValentine = document.documentElement.dataset.season === 'valentine' ? 1 : 0;
+        let valentine = targetValentine;
+        let targetHalloween = document.documentElement.dataset.season === 'halloween' ? 1 : 0;
+        let halloween = targetHalloween;
         let studioSeconds = 0;
         // Intro briefly uses display-rate updates, then returns to the economical 30 fps loop.
         const introDuration = 1.95;
@@ -141,8 +145,14 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             dayFill: new THREE.Color('#fff0d5'), nightFill: new THREE.Color('#f4eee3'),
             honeyRay: new THREE.Color('#bb873c'), seaRay: new THREE.Color('#438e7c'), roseRay: new THREE.Color('#c18073'),
             dayFeed: new THREE.Color('#c6a163'), white: new THREE.Color('#ffffff'),
+            blush: new THREE.Color('#ffafcc'), cherry: new THREE.Color('#f03d75'),
+            rose: new THREE.Color('#ff698f'), pinkPearl: new THREE.Color('#ffe8f2'),
+            ember: new THREE.Color('#ff741c'), candle: new THREE.Color('#ffd1a0'),
+            spectral: new THREE.Color('#8dcc9b'), crypt: new THREE.Color('#847598'), bone: new THREE.Color('#e9e2d1'),
         };
         const nightKey = new THREE.Color(), nightTeal = new THREE.Color(), nightViolet = new THREE.Color();
+        const seasonalKey = new THREE.Color(), seasonalRim = new THREE.Color(), seasonalFill = new THREE.Color(), introColor = new THREE.Color();
+        const hauntedKey = new THREE.Color(), hauntedRim = new THREE.Color();
         const rayKey = new THREE.Color(), rayTeal = new THREE.Color(), rayRose = new THREE.Color(), rayFeed = new THREE.Color();
         const render = () => {
             const preset = lightingRef.current;
@@ -160,12 +170,36 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             violet.color.copy(palette.peach).lerp(nightViolet, night);
             fill.color.copy(palette.dayFill).lerp(palette.nightFill, night);
             feed.color.copy(palette.sun).lerp(palette.white, night);
+            // Reuse the existing softboxes and clock; the seasonal skin adds no render loop.
+            seasonalKey.copy(palette.blush).lerp(palette.pinkPearl, chroma * 0.45);
+            seasonalRim.copy(palette.cherry).lerp(palette.rose, 0.5 + 0.5 * Math.sin(sweep * 0.71));
+            seasonalFill.copy(palette.rose).lerp(palette.pinkPearl, pearlCatch * 0.8);
+            key.color.lerp(seasonalKey, valentine);
+            teal.color.lerp(seasonalRim, valentine);
+            violet.color.lerp(seasonalFill, valentine);
+            fill.color.lerp(palette.pinkPearl, valentine);
+            feed.color.lerp(palette.pinkPearl, valentine);
+            hauntedKey.copy(palette.ember).lerp(palette.candle, chroma * 0.5);
+            hauntedRim.copy(palette.crypt).lerp(palette.bone, pearlCatch * 0.65);
+            key.color.lerp(hauntedKey, halloween);
+            teal.color.lerp(palette.spectral, halloween);
+            violet.color.lerp(hauntedRim, halloween);
+            fill.color.lerp(palette.bone, halloween);
+            feed.color.lerp(palette.candle, halloween);
             feed.intensity = mix(2.1, 3.2, night) * (0.9 + 0.1 * Math.sin(sweep * 2.3));
             feed.visible = !studio && showcase;
             key.intensity = mix(8.5 + Math.sin(sweep * 1.3), 6 + Math.sin(sweep * 1.3) * 0.8, night);
             teal.intensity = mix(4.6 + Math.sin(sweep * 0.83) * 0.6, 7 + Math.sin(sweep * 0.83) * 1.2, night);
             violet.intensity = mix(4.8 + Math.cos(sweep * 1.17) * 0.7, 6.5 + Math.cos(sweep * 1.17) * 1.2, night);
             fill.intensity = mix(2.2, 0.65, night);
+            // Candle-like changes stay slow and shallow: no flashes or extra frame work.
+            const candleBreath = 0.84 + 0.08 * Math.sin(sweep * 3.3) + 0.04 * Math.sin(sweep * 7.1);
+            if (showcase) {
+                key.intensity *= mix(1, candleBreath, halloween);
+                teal.intensity *= mix(1, 0.65, halloween);
+                violet.intensity *= mix(1, 0.7, halloween);
+                fill.intensity *= mix(1, 0.6, halloween);
+            }
             key.width = mix(1.6, 1.4, night);
             key.height = mix(5, 4.5, night);
             teal.width = 1.4; teal.height = 4;
@@ -206,7 +240,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             rayKey.copy(palette.honeyRay).lerp(palette.roseRay, chroma * 0.3).lerp(key.color, night);
             rayTeal.copy(palette.seaRay).lerp(teal.color, night);
             rayRose.copy(palette.roseRay).lerp(palette.honeyRay, pearlCatch * 0.2).lerp(violet.color, night);
-            rayFeed.copy(palette.dayFeed).lerp(palette.white, night);
+            rayFeed.copy(palette.dayFeed).lerp(palette.white, night).lerp(palette.pinkPearl, valentine).lerp(palette.candle, halloween);
             beams?.style.setProperty('--beam-strength', `${mix(0.3 + 0.04 * Math.sin(sweep + 0.5) ** 2, 0.19 + 0.07 * Math.sin(sweep + 0.5) ** 2, night)}`);
             // Slow color changes need fewer repaints than motion. Refresh the
             // cached beam colors at 10 Hz, including during the entrance.
@@ -232,7 +266,9 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                     introPosition.set(mix(-4.5, 4.5, sweepProgress), mix(2.4, -1, sweepProgress), 3.2);
                     key.position.lerp(introPosition, 1 - settle);
                     key.lookAt(0, 0, 0);
-                    key.color.lerp(palette.emerald, 1 - settle);
+                    introColor.copy(palette.emerald).lerp(palette.rose, valentine).lerp(palette.ember, halloween);
+                    key.color.lerp(introColor, 1 - settle);
+
                     key.width = mix(0.65, key.width, settle);
                     key.intensity = mix(13 * reveal, key.intensity, settle);
                     fill.intensity *= ambientReveal;
@@ -292,6 +328,10 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                 introTime = reducedMotion.matches ? introDuration : Math.min(introDuration, introTime + dt);
                 night = THREE.MathUtils.damp(night, targetNight, 2.6, dt);
                 if (Math.abs(night - targetNight) < 0.001) night = targetNight;
+                valentine = THREE.MathUtils.damp(valentine, targetValentine, 2.6, dt);
+                if (Math.abs(valentine - targetValentine) < 0.001) valentine = targetValentine;
+                halloween = THREE.MathUtils.damp(halloween, targetHalloween, 2.6, dt);
+                if (Math.abs(halloween - targetHalloween) < 0.001) halloween = targetHalloween;
                 if (!reducedMotion.matches && !(studio && lightingPausedRef.current)) {
                     // Scale elapsed time, so adjusting speed never jumps the light's position.
                     const lightingDt = dt * (studio ? lightingSpeedRef.current : 1);
@@ -304,7 +344,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
                 }
                 render();
             }
-            if (!reducedMotion.matches || night !== targetNight) frame = requestAnimationFrame(animate);
+            if (!reducedMotion.matches || night !== targetNight || valentine !== targetValentine || halloween !== targetHalloween) frame = requestAnimationFrame(animate);
         };
         const resume = () => {
             cancelAnimationFrame(frame);
@@ -312,7 +352,7 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
             if (disposed || recordingRef.current || !loaded || !visible || document.hidden) return;
             if (reducedMotion.matches) introTime = introDuration;
             render();
-            if (!reducedMotion.matches || night !== targetNight) frame = requestAnimationFrame(animate);
+            if (!reducedMotion.matches || night !== targetNight || valentine !== targetValentine || halloween !== targetHalloween) frame = requestAnimationFrame(animate);
         };
         stillAction.current = async () => {
             if (!loaded || disposed || recordingRef.current) return;
@@ -395,11 +435,15 @@ export default function Crest3D({ studio = false, variant = 'crest', onRecording
         host.addEventListener('crest-background', onBackground);
         const themeObserver = new MutationObserver(() => {
             const nextNight = document.documentElement.classList.contains('dark') ? 1 : 0;
-            if (nextNight === targetNight) return;
+            const nextValentine = document.documentElement.dataset.season === 'valentine' ? 1 : 0;
+            const nextHalloween = document.documentElement.dataset.season === 'halloween' ? 1 : 0;
+            if (nextNight === targetNight && nextValentine === targetValentine && nextHalloween === targetHalloween) return;
             targetNight = nextNight;
+            targetValentine = nextValentine;
+            targetHalloween = nextHalloween;
             resume();
         });
-        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-season'] });
         const onLost = () => { loaded = false; cancelAnimationFrame(frame); setReady(false); setFailed(true); hero?.removeAttribute('data-beams-ready'); };
         const onPreset = () => { studioSeconds = 0; if (loaded) render(); };
         const disposeModel = (object: THREE.Object3D) => object.traverse(child => {

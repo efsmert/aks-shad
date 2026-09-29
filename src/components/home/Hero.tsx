@@ -34,9 +34,9 @@ export function Hero() {
                 <div className="hero-composition">
                     <div className="hero-monogram" aria-hidden="true"><span>ΑΚΣ</span></div>
                     <motion.div {...reveal} className="hero-copy">
-                        <p className="eyebrow"><span /> Northeastern University · Est. 1919</p>
+                        <p className="eyebrow"><span aria-hidden="true" /><span className="eyebrow-copy">Northeastern University · Est. 1919<span className="valentine-only"> · Valentine’s Day</span><span className="halloween-only"> · All Hallows’ Eve</span></span></p>
                         <h1 className="hero-title">Alpha Kappa<br /><em>Sigma.</em></h1>
-                        <p className="hero-principle">Advancement of Kindred Sympathy</p>
+                        <p className="hero-principle"><span className="season-classic-only">Advancement of Kindred Sympathy</span><span className="valentine-only">Kindred at heart</span><span className="halloween-only">Brotherhood never dies.</span></p>
                         <p className="hero-description">A century of shared history. A lifetime of belonging.
                             Building lifelong bonds, developing leaders, and finding our place—together.</p>
                         <div className="flex flex-wrap gap-3 mt-8">

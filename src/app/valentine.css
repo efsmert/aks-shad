@@ -1,0 +1,93 @@
+/* A date-driven, removable skin. The normal palette stays in globals.css. */
+:root[data-season='valentine'] {
+  --color-bg: #190c13;
+  --color-bg-elevated: #2b1721;
+  --color-bg-inset: #211019;
+  --color-surface: #28151f;
+  --color-surface-hover: #3d2130;
+  --color-primary: #fff0ee;
+  --color-primary-mid: #e9c5ce;
+  --color-primary-soft: #5d3547;
+  --color-accent: #f1a6b8;
+  --color-accent-soft: #482333;
+  --color-accent-muted: #cf899c;
+  --color-text: #f7e9ed;
+  --color-text-secondary: #c8abb7;
+  --color-text-muted: #b797a5;
+  --color-border: #52313f;
+  --color-border-subtle: #361e2a;
+  --panel-shadow: 0 18px 60px -30px #0c0209b3;
+}
+[data-season='valentine'] ::selection { background: #f1a6b8; color: #2d101e; }
+[data-season='valentine'] .action-primary {
+  background: #edabc0 !important; border-color: #edabc0; color: #381326 !important;
+}
+[data-season='valentine'] .action-primary:hover { background: #f8c8d6 !important; box-shadow: 0 8px 24px #e279a01c; }
+[data-season='valentine'] .bg-heritage-900 { background-color: #301421; }
+[data-season='valentine'] .bg-heritage-800 { background-color: #432033; }
+[data-season='valentine'] .bg-gold-600, [data-season='valentine'] .bg-gold-500,
+[data-season='valentine'] .bg-gold-400, [data-season='valentine'] .bg-green-accent { background-color: var(--color-accent); }
+[data-season='valentine'] .bg-gold-600.text-heritage-900 { color: #381326; }
+[data-season='valentine'] .text-gold-400, [data-season='valentine'] .text-gold-500 { color: #f1a6b8; }
+[data-season='valentine'] .text-heritage-300, [data-season='valentine'] .text-heritage-400 { color: #d5b4c1; }
+[data-season='valentine'] .text-heritage-200 { color: #d9b9c7; }
+[data-season='valentine'] .text-green-accent { color: var(--color-accent); }
+[data-season='valentine'] .border-gold-500, [data-season='valentine'] .border-gold-600 { border-color: var(--color-accent); }
+[data-season='valentine'] .ring-gold-200, [data-season='valentine'] .ring-gold-400,
+[data-season='valentine'] .ring-gold-500 { --tw-ring-color: var(--color-accent); }
+[data-season='valentine'] .group:hover .group-hover\:text-gold-700 { color: var(--color-accent); }
+[data-season='valentine'] .hover\:text-gold-700:hover { color: #ffd4e0; }
+[data-season='valentine'] .hover\:bg-heritage-800:hover { background-color: #54263e; }
+[data-season='valentine'] .border-heritage-700, [data-season='valentine'] .border-heritage-800 { border-color: #593344; }
+[data-season='valentine'] .values-section { background: #321522; }
+[data-season='valentine'] .values-section p { color: #dbc0ca; }
+[data-season='valentine'] .values-section .value-item > div > span { color: #d997ab; }
+[data-season='valentine'] .site-footer { background: #200f19; border-color: #482938; }
+[data-season='valentine'] .site-footer h4 { color: #efb3c4; }
+[data-season='valentine'] .site-footer .text-heritage-300,
+[data-season='valentine'] .site-footer .text-heritage-400 { color: #c8abb7; }
+[data-season='valentine'] .page-hero.bg-heritage-900 .text-heritage-300 { color: #dbc0ca; }
+[data-season='valentine'] .brother-badge { --a: #94536e; --b: #c993a1; --base: #471e33; --edge: #b97892; --ink: #fff0f3; }
+[data-season='valentine'] .brother-badge--president { --a: #c98d78; --b: #f1c3ac; --base: #683227; --edge: #ffdac3; --ink: #fff5df; }
+[data-season='valentine'] .brother-badge--executive { --a: #ac787e; --b: #d2a29b; --base: #563035; --edge: #d7a69d; --ink: #fff0e6; }
+[data-season='valentine'] .brother-badge--head { --a: #9c8c9f; --b: #d9c7d3; --base: #4a3748; --edge: #c6adbf; --ink: #fff1fa; }
+[data-season='valentine'] .brother-badge--status,
+[data-season='valentine'] .brother-badge--muted { --a: #72606d; --b: #ad919f; --base: #3c2b37; --edge: #9b7c8d; --ink: #f9e9ef; }
+
+.valentine-only { display: none; }
+[data-season='valentine'] .valentine-only { display: inline; }
+[data-season='valentine'] .season-classic-only { display: none; }
+.valentine-decor { display: none; }
+[data-season='valentine'] .valentine-decor { display: block; position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 4; }
+.valentine-sprig { position: absolute; width: clamp(130px,18vw,280px); color: #da92a8; opacity: .23; }
+.valentine-sprig--left { bottom: -35px; left: -65px; transform: rotate(12deg); }
+.valentine-sprig--right { top: 85px; right: -75px; transform: rotate(190deg); opacity: .18; }
+.valentine-petal-track {
+  position: absolute; top: -30px; left: var(--petal-x); opacity: 0;
+  animation: petal-fall var(--petal-time) var(--petal-delay) linear infinite;
+}
+.valentine-petal { color: #dc7c9e; animation: petal-turn 9s ease-in-out infinite alternate; }
+.valentine-petal-track:nth-child(odd) .valentine-petal { color: #f5b5c5; animation-delay: -4s; }
+@keyframes petal-fall {
+  0% { opacity: 0; transform: translate3d(0,-30px,0); }
+  12%, 78% { opacity: .26; }
+  100% { opacity: 0; transform: translate3d(var(--petal-drift),calc(100svh + 50px),0); }
+}
+@keyframes petal-turn { from { transform: rotate(-30deg) scaleX(.7); } to { transform: rotate(85deg) scaleX(1); } }
+.season-preview-control { display: none; }
+[data-season-preview] .season-preview-control {
+  position: fixed; bottom: max(16px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  z-index: 45; display: flex; align-items: center; gap: 9px; white-space: nowrap;
+  padding: 8px 10px 8px 13px; background: var(--color-bg-elevated); border: 1px solid var(--color-border);
+  border-radius: 100px; color: var(--color-text-secondary); font-size: 11px; box-shadow: 0 4px 24px #0003;
+}
+.season-preview-control > svg { color: var(--color-accent); }
+.season-preview-control button { display: flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 30px; background: var(--color-surface-hover); color: var(--color-primary); }
+.season-preview-control button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+[data-season-motion='paused'] .valentine-decor * { animation-play-state: paused; }
+@media (max-width: 767px) {
+  .valentine-sprig--left { width: 155px; left: -70px; opacity: .18; }
+  .valentine-sprig--right { width: 170px; right: -85px; }
+  .valentine-petal-track:nth-child(n+7) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .valentine-petal-track { display: none; } .valentine-petal { animation: none; } }

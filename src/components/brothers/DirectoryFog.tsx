@@ -147,7 +147,7 @@ export function DirectoryFog() {
             cancelAnimationFrame(frame);
         };
         const themeObserver = new MutationObserver(updateTheme);
-        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style', 'data-season'] });
         const sizeObserver = new ResizeObserver(draw);
         sizeObserver.observe(canvas);
         canvas.addEventListener('webglcontextlost', onContextLost);
