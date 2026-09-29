@@ -76,7 +76,7 @@ export const familyTreeData: FamilyMember[] = [
     
     // F23
     { name: 'Jake Wade', bigName: 'Anthony Min', brotherId: '21', pledgeClass: 'F23', graduationYear: 2027 },
-    { name: 'Zac Meyer', bigName: 'Xavier Galanes', brotherId: '44', pledgeClass: 'F23', graduationYear: 2026 },
+    { name: 'Zac Meyer', bigName: 'Xavier Galanes', brotherId: '44', pledgeClass: 'F23', graduationYear: 2027 },
     
     // S24
     { name: 'Conor Brennan', bigName: 'Jake Wade', brotherId: '10', pledgeClass: 'S24', graduationYear: 2027 },
