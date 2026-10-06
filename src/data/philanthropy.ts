@@ -1,5 +1,14 @@
 import { PhilanthropyEvent } from '@/types';
 
+// Event details: https://racecancer.org/matt
+// Official flyer announced in the chapter Slack on October 6, 2026.
+export const fishman5K = {
+    title: '2nd Annual Fishman 5K',
+    date: '2026-10-25',
+    image: '/events/fishman-5k-2026.jpg',
+    registrationUrl: 'https://racecancer.org/matt',
+};
+
 // Fish Fest events - our signature philanthropy in memory of Matt Fishman
 export const fishFestEvents = [
     {
@@ -108,4 +117,14 @@ export const fishFestStats = {
 };
 
 // Publish only confirmed future events. Previous spring listings have expired.
-export const upcomingEvents: PhilanthropyEvent[] = [];
+export const upcomingEvents: PhilanthropyEvent[] = [
+    {
+        id: 'fishman-5k-2026',
+        title: fishman5K.title,
+        date: fishman5K.date,
+        description: 'Run or walk along the Charles River at Herter Park in support of the Matt Fishman Scholarship. October 25 at 2:30 p.m.; friends and family welcome.',
+        image: fishman5K.image,
+        imageFit: 'contain',
+        href: '#fishman-5k',
+    },
+];

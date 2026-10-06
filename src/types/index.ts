@@ -32,6 +32,8 @@ export interface PhilanthropyEvent {
     description: string;
     image: string;
     hoursVolunteered?: number;
+    imageFit?: 'cover' | 'contain';
+    href?: string;
 }
 
 export interface FAQ {

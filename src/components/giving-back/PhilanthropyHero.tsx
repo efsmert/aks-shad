@@ -32,8 +32,8 @@ export function PhilanthropyHero() {
                         className="text-heritage-300 text-xl leading-relaxed mb-4 max-w-xl"
                     >
                         Through <span className="text-gold-400 font-semibold">Fish Fest</span>,
-                        our Boiler Room-inspired charity concerts, we honor the memory of our
-                        brother Matt Fishman.
+                        our charity concerts, and the <span className="text-gold-400 font-semibold">Fishman 5K</span>,
+                        we honor the memory of our brother Matt Fishman.
                     </motion.p>
 
                     <motion.p
