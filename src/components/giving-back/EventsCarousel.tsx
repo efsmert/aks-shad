@@ -8,6 +8,7 @@ import { CHAPTER_INFO } from '@/lib/constants';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { PhilanthropyEvent } from '@/types';
 
 export function EventsCarousel() {
     const ref = useRef<HTMLDivElement>(null);
@@ -84,14 +85,7 @@ export function EventsCarousel() {
 }
 
 interface EventCardProps {
-    event: {
-        id: string;
-        title: string;
-        date: string;
-        description: string;
-        image: string;
-        hoursVolunteered?: number;
-    };
+    event: PhilanthropyEvent;
 }
 
 function EventCard({ event }: EventCardProps) {
@@ -103,12 +97,12 @@ function EventCard({ event }: EventCardProps) {
 
     return (
         <div className="group">
-            <div className="relative aspect-[3/2] overflow-hidden rounded-sm mb-4">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-sm mb-4 bg-stone-100">
                 <Image
                     src={event.image}
                     alt={event.title}
                     fill
-                    className="object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.03]"
+                    className={event.imageFit === 'contain' ? 'object-contain' : 'object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.03]'}
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
             </div>
@@ -124,6 +118,11 @@ function EventCard({ event }: EventCardProps) {
             <p className="text-stone-600 text-sm leading-relaxed">
                 {event.description}
             </p>
+            {event.href && (
+                <a href={event.href} className="inline-block mt-4 text-gold-600 text-sm underline underline-offset-4 hover:text-gold-700">
+                    Event details & registration
+                </a>
+            )}
         </div>
     );
 }

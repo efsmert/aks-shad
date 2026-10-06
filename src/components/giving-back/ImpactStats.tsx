@@ -10,7 +10,7 @@ export function ImpactStats() {
                 <div>
                     <p className="text-gold-600 text-xs uppercase tracking-wider mb-3">Community service</p>
                     <h2 className="font-display text-2xl text-heritage-900 mb-3">More ways to get involved</h2>
-                    <p className="text-stone-600 text-sm leading-relaxed max-w-lg">New volunteer opportunities and service updates will be posted here as details are finalized. Explore our past highlights and partner organizations below.</p>
+                    <p className="text-stone-600 text-sm leading-relaxed max-w-lg">Join us for the Fishman 5K, explore our past service highlights, and learn about the partner organizations helping us make a difference.</p>
                 </div>
             </div>
         </section>
