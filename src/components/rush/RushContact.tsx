@@ -6,8 +6,8 @@ export function RushContact() {
         <section id="rush-contact" className="scroll-mt-28 py-24 lg:py-32 px-6 lg:px-8">
             <div className="max-w-2xl mx-auto">
                 <SectionHeading
-                    title="Interested in rushing?"
-                    subtitle="Text Perry Yung, our Recruitment Chair, to introduce yourself or ask about rush. You can also message the chapter on Instagram for the latest updates."
+                    title="Let’s stay in touch"
+                    subtitle="Missed this season or thinking about rushing in the future? Text Perry Yung, our Rush Chair, to introduce yourself or ask a question. Follow the chapter on Instagram for future rush announcements."
                 />
                 <div className="flex flex-col sm:flex-row gap-4">
                     <a

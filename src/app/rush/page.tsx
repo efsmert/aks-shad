@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import { RushHero } from '@/components/rush/RushHero';
 import { WhyJoin } from '@/components/rush/WhyJoin';
-import { Timeline } from '@/components/rush/Timeline';
 import { RushFAQ } from '@/components/rush/RushFAQ';
 import { RushContact } from '@/components/rush/RushContact';
 
 export const metadata: Metadata = {
     title: 'Rush ΑΚΣ | Alpha Kappa Sigma',
-    description: 'Rush Alpha Kappa Sigma at Northeastern University. Join events, meet brothers, and start your journey.',
+    description: 'Fall 2026 rush has concluded. Meet Alpha Kappa Sigma at Northeastern University and stay in touch for future rush announcements.',
 };
 
 export default function RushPage() {
@@ -15,7 +14,6 @@ export default function RushPage() {
         <div className="min-h-screen">
             <RushHero />
             <WhyJoin />
-            <Timeline />
             <RushFAQ />
             <RushContact />
         </div>
