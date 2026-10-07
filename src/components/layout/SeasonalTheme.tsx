@@ -2,7 +2,7 @@
 
 import { useEffect, type CSSProperties } from 'react';
 import { usePathname } from 'next/navigation';
-import { Heart, Skull, X } from 'lucide-react';
+import { Heart, X } from 'lucide-react';
 import { applySeasonalTheme } from '@/lib/seasonal-theme';
 
 function RoseSprig({ className }: { className: string }) {
@@ -69,25 +69,8 @@ export function SeasonalTheme() {
                 </div>
             ))}
         </div>
-        <div className="halloween-decor" aria-hidden="true">
-            <div className="halloween-skull halloween-skull--left" />
-            <div className="halloween-skull halloween-skull--right" />
-            <svg className="halloween-web" viewBox="0 0 260 260" fill="none">
-                <g stroke="currentColor" strokeWidth=".7">
-                    <path d="M0 0L260 0M0 0L242 97M0 0L186 186M0 0L97 242M0 0L0 260" />
-                    <path d="M56 0Q44 12 51 20Q35 22 39 39Q22 35 20 51Q12 44 0 56M108 0Q88 19 100 40Q68 45 76 76Q45 68 40 100Q19 88 0 108M163 0Q131 27 151 60Q104 63 115 115Q63 104 60 151Q27 131 0 163M222 0Q180 37 206 82Q142 85 157 157Q85 142 82 206Q37 180 0 222" />
-                </g>
-            </svg>
-            {Array.from({ length: 7 }, (_, i) => (
-                <i key={i} className="halloween-ember" style={{
-                    '--ember-x': `${9 + i * 14}%`, '--ember-time': `${18 + (i % 3) * 5}s`,
-                    '--ember-delay': `${-i * 4.3}s`, '--ember-drift': `${i % 2 ? -46 : 65}px`,
-                } as CSSProperties} />
-            ))}
-        </div>
         <div className="season-preview-control" role="region" aria-label="Seasonal theme preview">
             <Heart className="season-preview-heart" size={13} aria-hidden="true" />
-            <Skull className="season-preview-skull" size={14} aria-hidden="true" />
             <span>Seasonal preview</span>
             <button type="button" onClick={exitPreview}>Exit preview <X size={12} aria-hidden="true" /></button>
         </div>

@@ -17,7 +17,7 @@ export function applySeasonalTheme() {
         timeZone: 'America/New_York', month: '2-digit', day: '2-digit',
     }).formatToParts(new Date());
     const day = `${parts.find(part => part.type === 'month')?.value}-${parts.find(part => part.type === 'day')?.value}`;
-    root.dataset.season = preview ?? (day === '02-14' ? 'valentine' : day === '10-31' ? 'halloween' : 'classic');
+    root.dataset.season = preview ?? (day === '02-14' ? 'valentine' : day.startsWith('10-') ? 'halloween' : 'classic');
     if (preview) root.dataset.seasonPreview = preview;
     else delete root.dataset.seasonPreview;
 }
